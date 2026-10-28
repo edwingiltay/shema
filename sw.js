@@ -1,7 +1,7 @@
 // Service worker voor Shema op een eigen adres (GitHub Pages, 28 okt 2026): de app opent ook zonder verbinding.
 // Alle paden relatief, zodat het werkt in /shema/ en op een eigen domein. Pagina eerst van het net, anders uit de cache;
 // lettertypen van Google uit de cache, op de achtergrond ververst.
-const CACHE = 'shema-1';
+const CACHE = 'shema-2';
 const VAST = ['index.html', 'manifest.json', 'icon-192.png', 'icon-512.png', 'icon-180.png'];
 const BASIS = self.registration.scope;
 self.addEventListener('install', e => { e.waitUntil(caches.open(CACHE).then(c => c.addAll(VAST)).then(() => self.skipWaiting())); });
@@ -23,7 +23,8 @@ self.addEventListener('fetch', e => {
   // de pagina zelf heet 'index.html' in de cache, of ze nu als …/shema/ of als …/shema/index.html wordt opgevraagd
   const pagina = u.pathname.endsWith('/') || u.pathname.endsWith('/index.html');
   const sleutel = pagina ? 'index.html' : r;
-  e.respondWith(fetch(r).then(a => {
+  // no-cache: altijd bij de server navragen (met ETag, dus goedkoop), anders geeft de browsercache tot 10 minuten de oude versie (28 okt 2026)
+  e.respondWith(fetch(r, {cache: 'no-cache'}).then(a => {
     if (a.ok) { const k = a.clone(); caches.open(CACHE).then(c => c.put(sleutel, k)); }
     return a;
   }).catch(() => caches.match(sleutel, {ignoreSearch: true})));
