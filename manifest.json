@@ -1,9 +1,9 @@
 {
  "id": "./",
- "name": "Shema: Hebrew by ear",
+ "name": "Shema: Hebreeuws op gehoor",
  "short_name": "Shema",
- "description": "Learn Hebrew and Jewish terms by ear, in writing or from meaning, in English or Dutch.",
- "lang": "en",
+ "description": "Hebreeuwse en Joodse begrippen leren op gehoor, op schrift of van betekenis, in het Nederlands of het Engels.",
+ "lang": "nl",
  "start_url": "./",
  "scope": "./",
  "display": "standalone",
