@@ -296,7 +296,10 @@ function tellers() {
 }
 // vijf niveaus (Edwin, 29 okt 2026; 'alle begrippen' en de werkwoorden zijn vervallen, 400 werd 300):
 // basisbegrippen (n = 1), gevorderde begrippen (de rest), feestdagen en maanden, 300 en 900 Torawoorden
-// van betekenis: geen kaarten waarvan de betekenis na het maskeren leeg is (namen, sjekel); dat filter zit in lijst()
+// van betekenis: kaarten waarvan de betekenis na het maskeren leeg is (namen, sjekel, sjabbat) komen toch, met de gewone naam
+// als vraag: het deel tussen haakjes als dat er is (Aharon (Aäron) -> Aäron), anders de hele betekenis (Edwin, 29 okt 2026;
+// daarvoor vielen ze weg en telde '300 meest voorkomende Torawoorden' er in deze stand 290)
+const naamVraag = w => (w.bet.match(/\(([^)]+)\)$/) || [, w.bet])[1];
 const Wn = () => lijst($('niveau').value);
 const gemeld = w => stand[w.id] && stand[w.id].m;
 const moeilijk = w => stand[w.id] && stand[w.id].d;
@@ -432,7 +435,7 @@ function bouwKaart(w, terug) {
   } else { $('zelf-blok').hidden = false; $('keuzes').hidden = true; }
   const jaar = !!huidig.jaar, schrift = !jaar && vorm === 'schrift', betekenis = jaar || vorm === 'betekenis', stil = schrift || betekenis;
   $('vraag').hidden = !schrift; if (schrift) $('vraag').textContent = huidig.heb;
-  $('vraag-nl').hidden = !betekenis; if (betekenis) $('vraag-nl').textContent = huidig.vraag;
+  $('vraag-nl').hidden = !betekenis; if (betekenis) $('vraag-nl').textContent = huidig.leeg ? naamVraag(huidig) : huidig.vraag;
   // op schrift en van betekenis komt de afspeelknop pas bij het antwoord: dan onder de keuzes, zodat die niet verspringen (Edwin, 28 okt 2026)
   if (stil) $('keuzes').after($('luister')); else $('vraag-nl').after($('luister'));
   $('speel').style.visibility = stil ? 'hidden' : '';   // pijlen blijven staan; luidspreker pas bij het antwoord (28 okt 2026)
@@ -567,8 +570,7 @@ $('wis').addEventListener('click', () => {
 });
 // beginscherm met een tegel per niveau en oefenscherm met de kaart bovenaan (28 okt 2026)
 function lijst(v) {
-  const L = v === 'jaar' ? J : v === 'tora' ? T : v === 'tora300' ? T.filter(w => w.f <= 300) : W.filter(w => (v === 'basis') === !!w.n);
-  return vorm === 'betekenis' ? L.filter(w => !w.leeg) : L;
+  return v === 'jaar' ? J : v === 'tora' ? T : v === 'tora300' ? T.filter(w => w.f <= 300) : W.filter(w => (v === 'basis') === !!w.n);
 }
 function tekenThuis() {
   const t = $('tegels'); t.innerHTML = '';
