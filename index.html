@@ -108,6 +108,8 @@ h1 .logo{font-size:64px;line-height:1.15;font-weight:500;color:var(--techelet)}
 h1 .naam{font-family:var(--tekst);font-size:22px;font-weight:700;color:var(--fg)}
 .uitleg{text-align:center;margin:6px auto 0}
 .knop.groot{padding:13px 16px;font-size:17px;border-radius:12px}
+/* deelknop (Edwin, 30 okt 2026) */
+.knop.deel{border-color:var(--techelet);color:var(--techelet);font-weight:600}
 .kopje{font-size:15px;font-weight:600;color:var(--zacht);margin:4px 0 -6px}
 .tegels{display:grid;gap:10px}
 .tegel{font:inherit;text-align:left;border:1px solid var(--lijn);background:var(--bg);color:var(--fg);border-radius:12px;padding:11px 14px;cursor:pointer;display:grid;grid-template-columns:1fr auto;gap:6px 12px;align-items:baseline}
@@ -115,6 +117,7 @@ h1 .naam{font-family:var(--tekst);font-size:22px;font-weight:700;color:var(--fg)
 .tegel-naam{display:block;font-weight:600}
 .tegel-naam::first-letter{text-transform:uppercase}
 .tegel-tal{color:var(--zacht);font-size:14px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.tegel-herhaal{grid-column:1/-1;color:var(--techelet);font-size:14px;font-weight:600;margin-top:-2px}   /* herhalen op afstand (30 okt 2026) */
 .tegel-balk{grid-column:1/-1;height:5px;border-radius:3px;background:var(--vlak);overflow:hidden}
 .tegel-balk span{display:block;height:100%;background:var(--goed)}
 .hoe{padding-top:2px}   /* blauwe streep erboven in plaats van de grijze lijn (Edwin, 30 okt 2026) */
@@ -147,7 +150,8 @@ h1 .naam{font-family:var(--tekst);font-size:22px;font-weight:700;color:var(--fg)
 .laadbalk span{display:block;height:100%;width:0;background:var(--techelet);transition:width .2s}
 .laadmeter p{margin:0}
 .meer summary{cursor:pointer;color:var(--techelet);font-size:14.5px}
-.meer[open] summary{margin-bottom:10px}.meer .tellers{margin-top:10px}</style>
+.meer[open] summary{margin-bottom:10px}.meer .tellers{margin-top:10px}
+#wis-niveau{margin-top:12px;font-size:14.5px}</style>
 </head>
 <body>
 <div class="kolom">
@@ -160,11 +164,12 @@ h1 .naam{font-family:var(--tekst);font-size:22px;font-weight:700;color:var(--fg)
     <button class="knop hoofd groot" id="verder">Verder</button>
     <h2 class="kopje" id="x-kies">Kies wat je wilt oefenen</h2>
     <div class="tegels" id="tegels"></div>
+    <button class="knop deel" id="deel">Deel de app</button>
     <div class="streep" aria-hidden="true"></div>
     <details class="hoe"><summary id="x-hoe">Zo werkt het</summary>
     <div class="voet">
       <p id="x-voet1"><b>Uitspraak:</b> Israëlisch Hebreeuws, computerstem Carmit (Enhanced en gewoon). Elke opname is met spraakherkenning teruggeschreven en op medeklinkers en klinkers vergeleken met het Hebreeuws en de transliteratie. Een streepje boven een letter, zoals in <span lang="he" class="hebr-klein">מֶ֫לֶךְ</span>, betekent dat de klemtoon op die lettergreep valt en niet op de laatste.</p>
-      <p><span id="x-voet2"><b>Voortgang:</b> Wat je goed had, komt niet meer terug; wat je fout had, komt terug tot je het goed hebt. Wil je een woord later nog eens oefenen, ook als je het goed had, zet het op je lijst met moeilijke woorden en kies later ‘mijn moeilijke woorden’. Op gehoor, op schrift en van betekenis houden elk hun eigen voortgang bij; je lijst met moeilijke woorden geldt voor alle drie. Je voortgang wordt in deze browser bewaard, op dit apparaat.</span> <button id="wis">Voortgang wissen</button></p>
+      <p><span id="x-voet2"><b>Voortgang:</b> Wat je goed had, komt terug om te herhalen: na een dag, dan na drie dagen, een week en drie weken; wat je fout had, komt terug tot je het goed hebt. Wil je een woord later nog eens oefenen, ook als je het goed had, zet het op je lijst met moeilijke woorden en kies later ‘mijn moeilijke woorden’. Op gehoor, op schrift en van betekenis houden elk hun eigen voortgang bij; je lijst met moeilijke woorden geldt voor alle drie. Je voortgang wordt in deze browser bewaard, op dit apparaat.</span> <button id="wis">Voortgang wissen</button></p>
       <p id="x-voet3"><b>Niveaus:</b> Basisbegrippen zijn zo’n 300 woorden voor wie net begint (sjabbat, feestdagen, gebeden, levenscyclus, kasjroet); gevorderde begrippen zijn de overige. ‘Feestdagen en maanden’ overhoort de data van de feestdagen en wat erbij hoort, de volgorde van de maanden en in welke maanden van de Gregoriaanse kalender ze vallen.</p>
       <p id="x-voet4">Voor ‘1000 Torawoorden’ is een selectie gemaakt van de grondwoorden die het vaakst voorkomen in de vijf boeken van Mosjee, geteld in de Westminster Leningrad Codex (Open Scriptures Hebrew Bible). De Godsnaam klinkt zoals hij wordt uitgesproken: Adonai. ‘300 Torawoorden’ zijn de driehonderd die daarvan het vaakst voorkomen; wat je daar goed hebt, telt ook mee bij de duizend. De afkorting HN in de uitleg staat voor de uitleg van rebbe Hannah Nathans.</p>
       <p id="x-voet5"><b>Toetsen:</b> pijl rechts = volgende, pijl links = vorige, spatie = luisteren, enter = antwoord of volgende, 1–4 = keuze. Op een telefoon veeg je over de kaart: naar links voor de volgende, naar rechts voor de vorige.</p>
@@ -224,9 +229,11 @@ h1 .naam{font-family:var(--tekst);font-size:22px;font-weight:700;color:var(--fg)
       <div class="tellers">
         <span id="x-tel1">Deze ronde: <b id="t-goed">0</b> goed, <b id="t-fout">0</b> fout</span>
         <span id="x-tel4">Nog niet gehad: <b id="t-nieuw">0</b></span>
+        <span id="x-tel6">Te herhalen: <b id="t-herhaal">0</b></span>
         <span id="x-tel5">Moeilijk: <b id="t-moeilijk">0</b></span>
         <span id="opslag" hidden>Voortgang: op dit apparaat</span>
       </div>
+      <button class="knop" id="wis-niveau">Wis de voortgang van dit niveau</button>
     </details>
   </section>
   <div class="feest" id="feest" hidden role="dialog" aria-modal="true" aria-labelledby="feest-kop">
@@ -235,13 +242,14 @@ h1 .naam{font-family:var(--tekst);font-size:22px;font-weight:700;color:var(--fg)
       <p class="feest-kop" id="feest-kop">Mazal tov!</p>
       <p class="feest-tekst" id="feest-tekst"></p>
       <button class="knop hoofd groot" id="feest-thuis">Naar het begin</button>
+      <button class="knop deel" id="feest-deel">Deel dit</button>
       <button class="knop" id="feest-verder">Blijf oefenen</button>
     </div>
   </div>
 </div>
 
 <script>
-const TEKST = [["x-naam", "Hebreeuws op gehoor", "Hebrew by ear"], ["naar-thuis", "‹ Begin", "‹ Home"], ["s-fon", "Fonetisch Hebreeuws", "Phonetic Hebrew"], ["x-kies", "Kies wat je wilt oefenen", "Choose what to practise"], ["x-hoe", "Zo werkt het", "How it works"], ["feest-thuis", "Naar het begin", "Back to the start"], ["feest-verder", "Blijf oefenen", "Keep practising"], ["x-meer", "Meer opties", "More options"], ["laad-opnieuw", "Opnieuw proberen", "Try again"], ["x-copy", "© Edwin Giltay (Joodse naam: <span style='-webkit-hyphens:none;hyphens:none'>Elijahu<\/span>, <span lang=\"he\" class=\"hebr-klein\">אֵלִיָּהוּ<\/span>)<br>Den Haag, 28 oktober 2026", "© Edwin Giltay (Jewish name: <span style='-webkit-hyphens:none;hyphens:none'>Eliyahu<\/span>, <span lang=\"he\" class=\"hebr-klein\">אֵלִיָּהוּ<\/span>)<br>The Hague, 28 October 2026"], ["x-uitleg", "Leer Joodse begrippen, de feestdagen en maanden van het Joodse jaar en de meest voorkomende woorden uit de Tora. Op gehoor luister je zonder het woord te zien; op schrift zie je het Hebreeuws en hoor je het pas bij het antwoord; van betekenis lees je de betekenis en zoek je het Hebreeuwse woord.", "Learn Jewish terms, the festivals and months of the Jewish year and the most frequent words of the Torah. By ear, you listen without seeing the word; in writing, you see the Hebrew and only hear it with the answer; from meaning, you read the meaning and find the Hebrew word."], ["v-gehoor", "Op gehoor", "By ear"], ["v-schrift", "Op schrift", "In writing"], ["v-betekenis", "Van betekenis", "From meaning"], ["m-zelf", "Zelf beoordelen", "Self-assessment"], ["m-keuze", "Meerkeuze", "Multiple choice"], ["x-niveau", "Niveau", "Level"], ["x-oefen", "Oefen", "Practise"], ["x-tel1", "Deze ronde: <b id=\"t-goed\">0<\/b> goed, <b id=\"t-fout\">0<\/b> fout", "This round: <b id=\"t-goed\">0<\/b> right, <b id=\"t-fout\">0<\/b> wrong"], ["x-tel2", "Goed gehad: <b id=\"t-gekend\">0<\/b> van <b id=\"t-totaal\">0<\/b> <span id=\"t-niveau\"><\/span>", "Got right: <b id=\"t-gekend\">0<\/b> of <b id=\"t-totaal\">0<\/b> <span id=\"t-niveau\"><\/span>"], ["x-tel3", "Nog fout: <b id=\"t-fout-open\">0<\/b>", "Still wrong: <b id=\"t-fout-open\">0<\/b>"], ["x-tel4", "Nog niet gehad: <b id=\"t-nieuw\">0<\/b>", "Not yet seen: <b id=\"t-nieuw\">0<\/b>"], ["x-tel5", "Moeilijk: <b id=\"t-moeilijk\">0<\/b>", "Difficult: <b id=\"t-moeilijk\">0<\/b>"], ["toon", "Toon antwoord", "Show answer"], ["wist-niet", "Wist ik niet", "Didn’t know it"], ["wist-wel", "Wist ik", "Knew it"], ["volgende", "Volgende", "Next"], ["x-voet1", "<b>Uitspraak:<\/b> Israëlisch Hebreeuws, computerstem Carmit (Enhanced en gewoon). Elke opname is met spraakherkenning teruggeschreven en op medeklinkers en klinkers vergeleken met het Hebreeuws en de transliteratie. Een streepje boven een letter, zoals in <span lang=\"he\" class=\"hebr-klein\">מֶ֫לֶךְ<\/span>, betekent dat de klemtoon op die lettergreep valt en niet op de laatste.", "<b>Pronunciation:<\/b> Israeli Hebrew, computer voice Carmit (Enhanced and standard). Each recording was transcribed by speech recognition and compared with the Hebrew and the transliteration for consonants and vowels. A small stroke above a letter, as in <span lang=\"he\" class=\"hebr-klein\">מֶ֫לֶךְ<\/span>, means that the stress falls on that syllable and not on the last one."], ["x-voet2", "<b>Voortgang:<\/b> Wat je goed had, komt niet meer terug; wat je fout had, komt terug tot je het goed hebt. Wil je een woord later nog eens oefenen, ook als je het goed had, zet het op je lijst met moeilijke woorden en kies later ‘mijn moeilijke woorden’. Op gehoor, op schrift en van betekenis houden elk hun eigen voortgang bij; je lijst met moeilijke woorden geldt voor alle drie. Je voortgang wordt in deze browser bewaard, op dit apparaat.", "<b>Progress:<\/b> What you got right will not come up again; what you got wrong comes back until you get it right. If you want to practise a word again later, even if you got it right, put it on your list of difficult words and later choose ‘my difficult words’. By ear, in writing and from meaning each keep their own progress; your list of difficult words applies to all three. Your progress is saved in this browser, on this device."], ["x-voet3", "<b>Niveaus:<\/b> Basisbegrippen zijn zo’n 300 woorden voor wie net begint (sjabbat, feestdagen, gebeden, levenscyclus, kasjroet); gevorderde begrippen zijn de overige. ‘Feestdagen en maanden’ overhoort de data van de feestdagen en wat erbij hoort, de volgorde van de maanden en in welke maanden van de Gregoriaanse kalender ze vallen.", "<b>Levels:<\/b> Basic terms are some 300 words for beginners (Shabbat, festivals, prayers, life cycle, kashrut); advanced terms are all the others. ‘Festivals and months’ tests the dates of the festivals and what goes with them, the order of the months and in which months of the Gregorian calendar they fall."], ["x-voet4", "Voor ‘1000 Torawoorden’ is een selectie gemaakt van de grondwoorden die het vaakst voorkomen in de vijf boeken van Mosjee, geteld in de Westminster Leningrad Codex (Open Scriptures Hebrew Bible). De Godsnaam klinkt zoals hij wordt uitgesproken: Adonai. ‘300 Torawoorden’ zijn de driehonderd die daarvan het vaakst voorkomen; wat je daar goed hebt, telt ook mee bij de duizend. De afkorting HN in de uitleg staat voor de uitleg van rebbe Hannah Nathans.", "For ‘1000 Torah words’ a selection has been made of the root words that occur most often in the five books of Moses, counted in the Westminster Leningrad Codex (Open Scriptures Hebrew Bible). The divine Name is heard as it is pronounced: Adonai. ‘300 Torah words’ are the three hundred of these that occur most often; what you get right there also counts towards the thousand. The abbreviation HN in the explanations stands for the explanation of rebbe Hannah Nathans."], ["x-voet7", "<b>Fouten:<\/b> Zie je een fout in deze app, meld die dan via <a href=\"mailto:edwingiltay@gmail.com\">edwingiltay@gmail.com<\/a>.", "<b>Errors:<\/b> If you spot a mistake in this app, please report it to <a href=\"mailto:edwingiltay@gmail.com\">edwingiltay@gmail.com<\/a>."], ["x-voet5", "<b>Toetsen:<\/b> pijl rechts = volgende, pijl links = vorige, spatie = luisteren, enter = antwoord of volgende, 1–4 = keuze. Op een telefoon veeg je over de kaart: naar links voor de volgende, naar rechts voor de vorige.", "<b>Keys:<\/b> right arrow = next, left arrow = previous, space = listen, enter = answer or next, 1–4 = choice. On a phone, swipe the card: left for the next one, right for the previous one."]], OPTIES = [["niveau", "basis", "basisbegrippen", "basic terms"], ["niveau", "gevorderd", "gevorderde begrippen", "advanced terms"], ["niveau", "jaar", "feestdagen en maanden", "festivals and months"], ["niveau", "tora300", "300 Torawoorden", "300 Torah words"], ["niveau", "tora", "1000 Torawoorden", "1000 Torah words"], ["selectie", "open", "wat ik nog niet goed had", "what I have not got right yet"], ["selectie", "fout", "alleen wat ik fout had", "only what I got wrong"], ["selectie", "moeilijk", "mijn moeilijke woorden", "my difficult words"]], ARIA = [["#vormgroep", "Raden op", "Guess by"], ["#modusgroep", "Manier van raden", "Way of guessing"], [".kaart", "Oefenkaart", "Practice card"], ["#speel", "Luister naar het woord", "Listen to the word"], ["#naar-vorige", "Vorig woord", "Previous word"], ["#naar-volgende", "Volgend woord", "Next word"], ["#schriftrij .schakel", "Schrift", "Script"]];
+const TEKST = [["x-naam", "Hebreeuws op gehoor", "Hebrew by ear"], ["naar-thuis", "‹ Begin", "‹ Home"], ["s-fon", "Fonetisch Hebreeuws", "Phonetic Hebrew"], ["x-kies", "Kies wat je wilt oefenen", "Choose what to practise"], ["x-hoe", "Zo werkt het", "How it works"], ["feest-thuis", "Naar het begin", "Back to the start"], ["feest-verder", "Blijf oefenen", "Keep practising"], ["x-meer", "Meer opties", "More options"], ["laad-opnieuw", "Opnieuw proberen", "Try again"], ["deel", "Deel de app", "Share the app"], ["feest-deel", "Deel dit", "Share this"], ["x-copy", "© Edwin Giltay (Joodse naam: <span style='-webkit-hyphens:none;hyphens:none'>Elijahu<\/span>, <span lang=\"he\" class=\"hebr-klein\">אֵלִיָּהוּ<\/span>)<br>Den Haag, 28 oktober 2026", "© Edwin Giltay (Jewish name: <span style='-webkit-hyphens:none;hyphens:none'>Eliyahu<\/span>, <span lang=\"he\" class=\"hebr-klein\">אֵלִיָּהוּ<\/span>)<br>The Hague, 28 October 2026"], ["x-uitleg", "Leer Joodse begrippen, de feestdagen en maanden van het Joodse jaar en de meest voorkomende woorden uit de Tora. Op gehoor luister je zonder het woord te zien; op schrift zie je het Hebreeuws en hoor je het pas bij het antwoord; van betekenis lees je de betekenis en zoek je het Hebreeuwse woord.", "Learn Jewish terms, the festivals and months of the Jewish year and the most frequent words of the Torah. By ear, you listen without seeing the word; in writing, you see the Hebrew and only hear it with the answer; from meaning, you read the meaning and find the Hebrew word."], ["v-gehoor", "Op gehoor", "By ear"], ["v-schrift", "Op schrift", "In writing"], ["v-betekenis", "Van betekenis", "From meaning"], ["m-zelf", "Zelf beoordelen", "Self-assessment"], ["m-keuze", "Meerkeuze", "Multiple choice"], ["x-niveau", "Niveau", "Level"], ["x-oefen", "Oefen", "Practise"], ["x-tel1", "Deze ronde: <b id=\"t-goed\">0<\/b> goed, <b id=\"t-fout\">0<\/b> fout", "This round: <b id=\"t-goed\">0<\/b> right, <b id=\"t-fout\">0<\/b> wrong"], ["x-tel2", "Goed gehad: <b id=\"t-gekend\">0<\/b> van <b id=\"t-totaal\">0<\/b> <span id=\"t-niveau\"><\/span>", "Got right: <b id=\"t-gekend\">0<\/b> of <b id=\"t-totaal\">0<\/b> <span id=\"t-niveau\"><\/span>"], ["x-tel3", "Nog fout: <b id=\"t-fout-open\">0<\/b>", "Still wrong: <b id=\"t-fout-open\">0<\/b>"], ["x-tel4", "Nog niet gehad: <b id=\"t-nieuw\">0<\/b>", "Not yet seen: <b id=\"t-nieuw\">0<\/b>"], ["x-tel5", "Moeilijk: <b id=\"t-moeilijk\">0<\/b>", "Difficult: <b id=\"t-moeilijk\">0<\/b>"], ["x-tel6", "Te herhalen: <b id=\"t-herhaal\">0<\/b>", "To review: <b id=\"t-herhaal\">0<\/b>"], ["wis-niveau", "Wis de voortgang van dit niveau", "Clear the progress of this level"], ["toon", "Toon antwoord", "Show answer"], ["wist-niet", "Wist ik niet", "Didn’t know it"], ["wist-wel", "Wist ik", "Knew it"], ["volgende", "Volgende", "Next"], ["x-voet1", "<b>Uitspraak:<\/b> Israëlisch Hebreeuws, computerstem Carmit (Enhanced en gewoon). Elke opname is met spraakherkenning teruggeschreven en op medeklinkers en klinkers vergeleken met het Hebreeuws en de transliteratie. Een streepje boven een letter, zoals in <span lang=\"he\" class=\"hebr-klein\">מֶ֫לֶךְ<\/span>, betekent dat de klemtoon op die lettergreep valt en niet op de laatste.", "<b>Pronunciation:<\/b> Israeli Hebrew, computer voice Carmit (Enhanced and standard). Each recording was transcribed by speech recognition and compared with the Hebrew and the transliteration for consonants and vowels. A small stroke above a letter, as in <span lang=\"he\" class=\"hebr-klein\">מֶ֫לֶךְ<\/span>, means that the stress falls on that syllable and not on the last one."], ["x-voet2", "<b>Voortgang:<\/b> Wat je goed had, komt terug om te herhalen: na een dag, dan na drie dagen, een week en drie weken; wat je fout had, komt terug tot je het goed hebt. Wil je een woord later nog eens oefenen, ook als je het goed had, zet het op je lijst met moeilijke woorden en kies later ‘mijn moeilijke woorden’. Op gehoor, op schrift en van betekenis houden elk hun eigen voortgang bij; je lijst met moeilijke woorden geldt voor alle drie. Je voortgang wordt in deze browser bewaard, op dit apparaat.", "<b>Progress:<\/b> What you got right comes back for review: after a day, then after three days, a week and three weeks; what you got wrong comes back until you get it right. If you want to practise a word again later, even if you got it right, put it on your list of difficult words and later choose ‘my difficult words’. By ear, in writing and from meaning each keep their own progress; your list of difficult words applies to all three. Your progress is saved in this browser, on this device."], ["x-voet3", "<b>Niveaus:<\/b> Basisbegrippen zijn zo’n 300 woorden voor wie net begint (sjabbat, feestdagen, gebeden, levenscyclus, kasjroet); gevorderde begrippen zijn de overige. ‘Feestdagen en maanden’ overhoort de data van de feestdagen en wat erbij hoort, de volgorde van de maanden en in welke maanden van de Gregoriaanse kalender ze vallen.", "<b>Levels:<\/b> Basic terms are some 300 words for beginners (Shabbat, festivals, prayers, life cycle, kashrut); advanced terms are all the others. ‘Festivals and months’ tests the dates of the festivals and what goes with them, the order of the months and in which months of the Gregorian calendar they fall."], ["x-voet4", "Voor ‘1000 Torawoorden’ is een selectie gemaakt van de grondwoorden die het vaakst voorkomen in de vijf boeken van Mosjee, geteld in de Westminster Leningrad Codex (Open Scriptures Hebrew Bible). De Godsnaam klinkt zoals hij wordt uitgesproken: Adonai. ‘300 Torawoorden’ zijn de driehonderd die daarvan het vaakst voorkomen; wat je daar goed hebt, telt ook mee bij de duizend. De afkorting HN in de uitleg staat voor de uitleg van rebbe Hannah Nathans.", "For ‘1000 Torah words’ a selection has been made of the root words that occur most often in the five books of Moses, counted in the Westminster Leningrad Codex (Open Scriptures Hebrew Bible). The divine Name is heard as it is pronounced: Adonai. ‘300 Torah words’ are the three hundred of these that occur most often; what you get right there also counts towards the thousand. The abbreviation HN in the explanations stands for the explanation of rebbe Hannah Nathans."], ["x-voet7", "<b>Fouten:<\/b> Zie je een fout in deze app, meld die dan via <a href=\"mailto:edwingiltay@gmail.com\">edwingiltay@gmail.com<\/a>.", "<b>Errors:<\/b> If you spot a mistake in this app, please report it to <a href=\"mailto:edwingiltay@gmail.com\">edwingiltay@gmail.com<\/a>."], ["x-voet5", "<b>Toetsen:<\/b> pijl rechts = volgende, pijl links = vorige, spatie = luisteren, enter = antwoord of volgende, 1–4 = keuze. Op een telefoon veeg je over de kaart: naar links voor de volgende, naar rechts voor de vorige.", "<b>Keys:<\/b> right arrow = next, left arrow = previous, space = listen, enter = answer or next, 1–4 = choice. On a phone, swipe the card: left for the next one, right for the previous one."]], OPTIES = [["niveau", "basis", "basisbegrippen", "basic terms"], ["niveau", "gevorderd", "gevorderde begrippen", "advanced terms"], ["niveau", "jaar", "feestdagen en maanden", "festivals and months"], ["niveau", "tora300", "300 Torawoorden", "300 Torah words"], ["niveau", "tora", "1000 Torawoorden", "1000 Torah words"], ["selectie", "open", "wat ik nog niet goed had", "what I have not got right yet"], ["selectie", "fout", "alleen wat ik fout had", "only what I got wrong"], ["selectie", "moeilijk", "mijn moeilijke woorden", "my difficult words"]], ARIA = [["#vormgroep", "Raden op", "Guess by"], ["#modusgroep", "Manier van raden", "Way of guessing"], [".kaart", "Oefenkaart", "Practice card"], ["#speel", "Luister naar het woord", "Listen to the word"], ["#naar-vorige", "Vorig woord", "Previous word"], ["#naar-volgende", "Volgend woord", "Next word"], ["#schriftrij .schakel", "Schrift", "Script"]];
 function zetTeksten(t) {
   TEKST.forEach(([id, nl, en]) => { const el = document.getElementById(id); if (el) el.innerHTML = t === 'en' ? en : nl; });
   OPTIES.forEach(([sel, v, nl, en]) => { const o = document.querySelector('#' + sel + ' option[value="' + v + '"]'); if (o) o.textContent = t === 'en' ? en : nl; });
@@ -305,12 +313,18 @@ const bak = w => (stand[sl(w)] && stand[sl(w)].b) || 0;   // 0 = nieuw/onbekend 
 const klaar = w => bak(w) >= 1;
 const foutOpen = w => !klaar(w) && stand[sl(w)] && stand[sl(w)].f > 0;
 const nieuwW = w => !(stand[sl(w)] && (stand[sl(w)].g || stand[sl(w)].f));
+// herhalen op afstand (Edwin, 30 okt 2026): elk goed antwoord zet een woord een vakje hoger (1 … 4) en het komt pas terug na
+// 1, 3, 7 of 21 dagen; een fout zet het terug op 0. 'Goed gehad' blijft goed gehad, ook als het woord te herhalen is.
+const DAG = 864e5, WACHT = [0, 1, 3, 7, 21];
+const teHerhalen = w => klaar(w) && Date.now() >= (stand[sl(w)].t || 0) + WACHT[bak(w)] * DAG;
+// naam van wat je oefent: "5 van 329 basisbegrippen", "5 van 300 Torawoorden" (zonder het getal), bij feestdagen "kalendervragen"
+const soortNaam = v => v === 'jaar' ? LT('kalendervragen', 'calendar questions') : $('niveau').querySelector('option[value="' + v + '"]').textContent.replace(/^\d+ /, '');
 function tellers() {
   $('t-goed').textContent = ronde.goed; $('t-fout').textContent = ronde.fout;
   const L = Wn();
   $('t-gekend').textContent = L.filter(klaar).length; $('t-totaal').textContent = L.length;
-  // "5 van 329 basisbegrippen" (Edwin, 30 okt 2026); "5 van 300 Torawoorden" zonder het getal uit de naam, bij feestdagen "kalendervragen"
-  $('t-niveau').textContent = $('niveau').value === 'jaar' ? LT('kalendervragen', 'calendar questions') : $('niveau').selectedOptions[0].textContent.replace(/^\d+ /, '');
+  $('t-niveau').textContent = soortNaam($('niveau').value);   // Edwin, 30 okt 2026
+  $('t-herhaal').textContent = L.filter(w => teHerhalen(w) && !gemeld(w)).length;
   $('t-fout-open').textContent = L.filter(w => foutOpen(w) && !gemeld(w)).length; $('t-nieuw').textContent = L.filter(nieuwW).length;
   $('t-moeilijk').textContent = L.filter(w => moeilijk(w) && !gemeld(w)).length;
 }
@@ -328,7 +342,9 @@ function kies() {
   const L = Wn();
   let pool = L.filter(w => !gemeld(w));
   const sel = $('selectie').value;
-  if (sel === 'open') pool = pool.filter(w => !klaar(w));
+  // wat je nog niet goed had: eerst wat te herhalen is, dan pas nieuwe en foute woorden
+  let herhaling = false;
+  if (sel === 'open') { const h = pool.filter(teHerhalen); herhaling = h.length > 0; pool = herhaling ? h : pool.filter(w => !klaar(w)); }
   if (sel === 'fout') pool = pool.filter(foutOpen);
   if (sel === 'moeilijk') pool = pool.filter(moeilijk);
   if (!pool.length) {
@@ -344,6 +360,7 @@ function kies() {
   if (rest.length) pool = rest;
   else if (pool.length === 1) melding(sel === 'moeilijk' ? LT('Er staat maar één woord op je lijst met moeilijke woorden; het komt steeds terug.', 'There is only one word on your list of difficult words; it keeps coming back.') : LT('Dit is het enige woord dat je nog niet goed had; het komt terug tot je het goed hebt.', 'This is the only word you have not got right yet; it comes back until you get it right.'));
   else if (pool.length > 1) { melding(sel === 'moeilijk' ? LT('Je hebt alle woorden van je lijst met moeilijke woorden gehad; ze komen opnieuw.', 'You have had all the words on your list of difficult words; they come round again.') : LT('Je hebt al deze woorden net gehad; ze komen opnieuw.', 'You have just had all these words; they come round again.')); pool = pool.filter(w => w.id !== vorige[vorige.length - 1]); }
+  if (herhaling) melding(LT('Ter herhaling: dit had je eerder goed.', 'For review: you got this right before.'));
   const gew = pool.map(w => foutOpen(w) ? 3 : nieuwW(w) ? 1 : Math.pow(2, 4 - bak(w)) / 4);
   let r = Math.random() * gew.reduce((a, b) => a + b, 0);
   for (let i = 0; i < pool.length; i++) { r -= gew[i]; if (r <= 0) return pool[i]; }
@@ -604,16 +621,20 @@ function lijst(v) {
 function tekenThuis() {
   const t = $('tegels'); t.innerHTML = '';
   [...$('niveau').options].forEach(o => {
-    const lw = lijst(o.value), k = lw.filter(klaar).length;
+    const lw = lijst(o.value), k = lw.filter(klaar).length, h = lw.filter(w => teHerhalen(w) && !gemeld(w)).length;
     const b = document.createElement('button'); b.className = 'tegel';
-    b.innerHTML = '<span class="tegel-naam"></span><span class="tegel-tal"></span><span class="tegel-balk"><span></span></span>';
-    b.children[0].textContent = o.textContent;
-    b.children[1].textContent = LT('%1 van %2 goed', '%1 of %2 right').replace('%1', k).replace('%2', lw.length);
-    b.children[2].firstChild.style.width = (lw.length ? 100 * k / lw.length : 0) + '%';
+    b.innerHTML = '<span class="tegel-naam"></span><span class="tegel-tal"></span><span class="tegel-herhaal" hidden></span><span class="tegel-balk"><span></span></span>';
+    b.querySelector('.tegel-naam').textContent = o.textContent;
+    b.querySelector('.tegel-tal').textContent = LT('%1 van %2 goed', '%1 of %2 right').replace('%1', k).replace('%2', lw.length);
+    if (h) { b.querySelector('.tegel-herhaal').hidden = false; b.querySelector('.tegel-herhaal').textContent = LT('%1 te herhalen', '%1 to review').replace('%1', h); }
+    b.querySelector('.tegel-balk span').style.width = (lw.length ? 100 * k / lw.length : 0) + '%';
     b.addEventListener('click', () => kiesNiveau(o.value));
     t.appendChild(b);
   });
-  $('verder').textContent = (Object.keys(stand).length ? LT('Verder: %1', 'Continue: %1') : LT('Begin: %1', 'Start: %1')).replace('%1', $('niveau').selectedOptions[0].textContent);
+  // beginknop: wat er vandaag te herhalen is, anders Begin of Verder (herhalen op afstand, 30 okt 2026)
+  const v = $('niveau').value, h = lijst(v).filter(w => teHerhalen(w) && !gemeld(w)).length;
+  $('verder').textContent = h ? LT('Herhaal: %1 %2', 'Review: %1 %2').replace('%1', h).replace('%2', soortNaam(v))
+    : (Object.keys(stand).length ? LT('Verder: %1', 'Continue: %1') : LT('Begin: %1', 'Start: %1')).replace('%1', $('niveau').selectedOptions[0].textContent);
 }
 function schermTekst() { oefenOpties(); opdracht(); if (!$('oefen').hidden) $('niveau-naam').textContent = $('niveau').selectedOptions[0].textContent; tekenThuis(); }
 function toonScherm(s, start) {
@@ -671,7 +692,25 @@ function kiesNiveau(v) {
     else if (vorm === 'gehoor' && huidig && !huidig.jaar && $('antwoord').hidden) speel();
   });
 }
-$('verder').addEventListener('click', () => kiesNiveau($('niveau').value));
+$('verder').addEventListener('click', () => {
+  // herhalen gaat via 'wat ik nog niet goed had', daar komen de te herhalen woorden eerst
+  if (lijst($('niveau').value).some(w => teHerhalen(w) && !gemeld(w)) && $('selectie').value !== 'open') { $('selectie').value = 'open'; bewaar(); }
+  kiesNiveau($('niveau').value);
+});
+// voortgang van één niveau wissen (Edwin, 30 okt 2026): alle drie de manieren van raden; moeilijke woorden blijven op de lijst
+let wisNiveauVraag = false;
+$('wis-niveau').addEventListener('click', () => {
+  const knop = $('wis-niveau');
+  if (!wisNiveauVraag) { wisNiveauVraag = true; knop.textContent = LT('Zeker weten? Tik nog eens.', 'Are you sure? Tap again.'); setTimeout(() => { if (wisNiveauVraag) { wisNiveauVraag = false; knop.textContent = LT('Wis de voortgang van dit niveau', 'Clear the progress of this level'); } }, 4000); return; }
+  wisNiveauVraag = false;
+  lijst($('niveau').value).forEach(w => (w.jaar ? [w.id] : [String(w.id), 's' + w.id, 'b' + w.id]).forEach(k => {
+    const s = stand[k]; if (!s) return;
+    if (s.d || s.m) { const n = {b: 0, g: 0, f: 0, t: Date.now()}; if (s.d) n.d = s.d; if (s.m) n.m = s.m; stand[k] = n; } else delete stand[k];
+  }));
+  ronde = {goed: 0, fout: 0}; vorige = []; geschiedenis = []; positie = -1; bewaar(); tellers(); opslaanLater(true);
+  knop.textContent = LT('Voortgang van dit niveau gewist', 'Progress of this level cleared'); setTimeout(() => { knop.textContent = LT('Wis de voortgang van dit niveau', 'Clear the progress of this level'); }, 3000);
+  nieuweKaart();
+});
 // viering (Edwin, 28 okt 2026): alle woorden van dit niveau goed; een kort klezmermotief en een kort tekstje.
 // Freygish (ahava rabba) op D met de overmatige secunde es-fis, als een klarinet (blokgolf door een laagdoorlaatfilter);
 // geen bestaand lied. Edwin koos dit boven een sjofar (te beladen voor een beloning).
@@ -701,6 +740,16 @@ function feest() {
   try { klezmer(); } catch (e) {}
 }
 $('feest-thuis').addEventListener('click', () => { $('feest').hidden = true; toonScherm('thuis'); });
+// deelknop (Edwin, 30 okt 2026): op een telefoon het deelmenu van het toestel (WhatsApp, mail …), anders naar het klembord;
+// altijd het GitHub-adres, ook in de versie op claude.ai
+const ADRES = 'https://edwingiltay.github.io/shema/';
+function deel(tekst, knop) {
+  if (navigator.share) { navigator.share({text: tekst, url: ADRES}).catch(() => {}); return; }
+  const oud = knop.textContent, zeg = t => { knop.textContent = t; setTimeout(() => { knop.textContent = oud; }, 3000); };
+  (navigator.clipboard ? navigator.clipboard.writeText(tekst + ' ' + ADRES) : Promise.reject()).then(() => zeg(LT('Gekopieerd: plak het in een bericht.', 'Copied: paste it into a message.')), () => zeg(ADRES));
+}
+$('deel').addEventListener('click', () => deel(LT('Ik oefen Hebreeuws met Shema, een gratis app met Joodse begrippen, de feestdagen en maanden en woorden uit de Tora.', 'I practise Hebrew with Shema, a free app with Jewish terms, the festivals and months and words from the Torah.'), $('deel')));
+$('feest-deel').addEventListener('click', () => deel(LT('Ik heb alle %1 %2 goed in Shema, een gratis app om Hebreeuws te oefenen.', 'I got all %1 %2 right in Shema, a free app for practising Hebrew.').replace('%1', $('t-totaal').textContent).replace('%2', $('t-niveau').textContent), $('feest-deel')));
 $('feest-verder').addEventListener('click', () => { $('feest').hidden = true; });
 $('naar-thuis').addEventListener('click', () => { if (history.state && history.state.shema === 'oefen') history.back(); else toonScherm('thuis'); });
 window.addEventListener('popstate', () => { if (!$('oefen').hidden) toonScherm('thuis'); });
