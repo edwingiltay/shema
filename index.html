@@ -117,7 +117,7 @@ h1 .naam{font-family:var(--tekst);font-size:22px;font-weight:700;color:var(--fg)
 .tegel-tal{color:var(--zacht);font-size:14px;font-variant-numeric:tabular-nums;white-space:nowrap}
 .tegel-balk{grid-column:1/-1;height:5px;border-radius:3px;background:var(--vlak);overflow:hidden}
 .tegel-balk span{display:block;height:100%;background:var(--goed)}
-.hoe{border-top:1px solid var(--lijn);padding-top:10px}
+.hoe{padding-top:2px}   /* blauwe streep erboven in plaats van de grijze lijn (Edwin, 30 okt 2026) */
 .hoe summary{cursor:pointer;color:var(--techelet);font-weight:600;font-size:15px;margin-bottom:8px}
 #oefen label[for="niveau"]{display:none}
 /* viering: alle woorden van een niveau goed (28 okt 2026) */
@@ -160,6 +160,7 @@ h1 .naam{font-family:var(--tekst);font-size:22px;font-weight:700;color:var(--fg)
     <button class="knop hoofd groot" id="verder">Verder</button>
     <h2 class="kopje" id="x-kies">Kies wat je wilt oefenen</h2>
     <div class="tegels" id="tegels"></div>
+    <div class="streep" aria-hidden="true"></div>
     <details class="hoe"><summary id="x-hoe">Zo werkt het</summary>
     <div class="voet">
       <p id="x-voet1"><b>Uitspraak:</b> Israëlisch Hebreeuws, computerstem Carmit (Enhanced en gewoon). Elke opname is met spraakherkenning teruggeschreven en op medeklinkers en klinkers vergeleken met het Hebreeuws en de transliteratie. Een streepje boven een letter, zoals in <span lang="he" class="hebr-klein">מֶ֫לֶךְ</span>, betekent dat de klemtoon op die lettergreep valt en niet op de laatste.</p>
