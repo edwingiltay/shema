@@ -117,7 +117,7 @@ h1 .naam{font-family:var(--tekst);font-size:22px;font-weight:700;color:var(--fg)
 .knop.deel{border-color:var(--techelet);color:var(--techelet);font-weight:600}
 .deelrij{margin:0;text-align:left;font-size:15.5px;color:var(--zacht);line-height:1.55}   /* was 14,5 px en 1.8; zelfde grootte als .voet, iets dichter op elkaar (Edwin, 30 okt 2026) */
 .deelrij a{color:var(--techelet);text-decoration:none;font-weight:600;white-space:nowrap}
-.deelrij .url{color:var(--techelet);user-select:all;-webkit-user-select:all}   /* LinkedIn weg, adres om te kopiëren (Edwin, 30 okt 2026) */
+.deelrij .url{color:var(--techelet);user-select:all;-webkit-user-select:all;cursor:pointer}   /* LinkedIn weg, adres om te kopiëren (Edwin, 30 okt 2026); een tik kopieert het (30 okt 2026) */
 .kopje{font-size:15px;font-weight:600;color:var(--zacht);margin:4px 0 -6px}
 .tegels{display:grid;gap:10px}
 .tegel{font:inherit;text-align:left;border:1px solid var(--lijn);background:var(--bg);color:var(--fg);border-radius:12px;padding:11px 14px;cursor:pointer;display:grid;grid-template-columns:1fr auto;gap:6px 12px;align-items:baseline}
@@ -185,7 +185,7 @@ h1 .naam{font-family:var(--tekst);font-size:22px;font-weight:700;color:var(--fg)
       <p id="x-voet7"><b>Fouten:</b> Zie je een fout in deze app of wil je contact met me opnemen, mail me dan via <a href="mailto:edwingiltay@gmail.com">edwingiltay@gmail.com</a>.</p>
     </div>
     </details>
-    <p class="deelrij"><span id="x-deel">Deel de app:</span> <a id="d-mail" target="_blank" rel="noopener">E-mail</a> · <a id="d-wa" target="_blank" rel="noopener">WhatsApp</a> · <a id="d-fb" target="_blank" rel="noopener">Facebook</a> · <a id="d-x" target="_blank" rel="noopener">X</a><br><span id="x-url">Of kopieer de link:</span> <span class="url">https://edwingiltay.github.io/shema/</span></p>
+    <p class="deelrij"><span id="x-deel">Deel de app:</span> <a id="d-mail" target="_blank" rel="noopener">E-mail</a> · <a id="d-wa" target="_blank" rel="noopener">WhatsApp</a> · <a id="d-fb" target="_blank" rel="noopener">Facebook</a> · <a id="d-x" target="_blank" rel="noopener">X</a><br><span id="x-url">Of kopieer de link:</span> <span class="url" id="url" role="button" tabindex="0">https://edwingiltay.github.io/shema/</span></p>
     <p class="copyright" id="x-copy">© Edwin Giltay (Joodse naam: <span style='-webkit-hyphens:none;hyphens:none'>Elijahu</span>, <span lang="he" class="hebr-klein">אֵלִיָּהוּ</span>)<br>Den Haag, 28 oktober 2026 · versie 0.8</p>
   </section>
   <section class="scherm" id="oefen" hidden>
@@ -770,6 +770,15 @@ function deelLinks() {
   $('d-x').href = 'https://x.com/intent/post?text=' + e(t) + '&url=' + a;
 }
 deelLinks();
+// een tik op het adres zet het op het klembord (Edwin, 30 okt 2026); lukt dat niet, dan via selectie en het oude kopieercommando
+function kopieerAdres() {
+  const el = $('url'), zeg = t => { el.textContent = t; setTimeout(() => { el.textContent = ADRES; }, 3000); };
+  const oud = () => { try { const r = document.createRange(); r.selectNodeContents(el); const s = getSelection(); s.removeAllRanges(); s.addRange(r);
+    if (document.execCommand('copy')) { s.removeAllRanges(); zeg(LT('Gekopieerd: plak het in een bericht.', 'Copied: paste it into a message.')); } } catch (e) {} };
+  (navigator.clipboard ? navigator.clipboard.writeText(ADRES) : Promise.reject()).then(() => zeg(LT('Gekopieerd: plak het in een bericht.', 'Copied: paste it into a message.')), oud);
+}
+$('url').addEventListener('click', kopieerAdres);
+$('url').addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); kopieerAdres(); } });
 $('feest-deel').addEventListener('click', () => deel(LT('Ik heb alle %1 %2 goed in Shema, een gratis app om Hebreeuws te oefenen.', 'I got all %1 %2 right in Shema, a free app for practising Hebrew.').replace('%1', $('t-totaal').textContent).replace('%2', $('t-niveau').textContent), $('feest-deel')));
 $('feest-verder').addEventListener('click', () => { $('feest').hidden = true; });
 $('naar-thuis').addEventListener('click', () => { if (history.state && history.state.shema === 'oefen') history.back(); else toonScherm('thuis'); });
