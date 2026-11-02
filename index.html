@@ -743,7 +743,8 @@ function tekenMeldingen() {
 function bewaarMeldingen() { try { localStorage.setItem('shema-meldingen', JSON.stringify(meldingen)); } catch (e) {} tekenMeldingen(); }
 function meldKnop() {
   const aan = !!(huidig && meldingen[huidig.id]);
-  $('meld').hidden = !heeftKlank(huidig); $('meld-blok').hidden = true; $('meld').setAttribute('aria-pressed', aan); $('meld-weg').hidden = !aan;
+  $('meld').hidden = !(huidig && klankSleutel(huidig) != null); $('meld-blok').hidden = true;   // niet op heeftKlank: de eerste kaart wordt gebouwd vóór de opnames binnen zijn
+  $('meld').setAttribute('aria-pressed', aan); $('meld-weg').hidden = !aan;
   $('meld').textContent = aan ? LT('Uitspraak gemeld (tik om te wijzigen)', 'Pronunciation reported (tap to change)') : LT('Uitspraak klopt niet', 'Pronunciation is wrong');
   $('meld-tekst').placeholder = LT('Wat klopt er niet aan de uitspraak?', 'What is wrong with the pronunciation?');
 }
