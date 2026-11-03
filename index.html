@@ -234,7 +234,7 @@ label.keus select{font-size:var(--t-tekst);height:44px;border:6px solid transpar
 .paneel-kop{display:flex;justify-content:space-between;align-items:center;min-height:36px}
 .paneel h2{font-size:var(--t-groot);margin:0}.paneel .terug{font-weight:600;padding:4px 0 4px 8px}
 .paneel .schakel{align-self:flex-start}.paneel .tellers{flex-direction:column}
-.paneel .balk{row-gap:14px}.paneel label.keus[for="selectie"]{padding-left:3px}   /* gelijke afstand tussen de eerste drie regels; Oefen 3 px in (Edwin, 3 nov 2026) */
+.paneel .tellers:not(:has(> :not([hidden]))){display:none}.paneel #modusgroep{margin-top:-4px}.paneel label.keus[for="selectie"]{padding-left:3px}   /* eerste drie regels 10 px uit elkaar, zoals in .balk; Oefen 3 px in (Edwin, 3 nov 2026) */
 /* alle tekst in het paneel even groot (Edwin, 3 nov 2026) */
 .paneel h2,.paneel .schakel button,.paneel .knop,.paneel #wis-niveau,.paneel .tellers,.paneel label.keus,.paneel .terug{font-size:var(--t-tekst)}
 .paneel .schakel button{padding-left:9px;padding-right:9px}
@@ -322,11 +322,10 @@ label.keus select{font-size:var(--t-tekst);height:44px;border:6px solid transpar
       </div>
     <div class="tellers" aria-live="polite">
       <span id="x-tel2">Goed gehad: <b id="t-gekend">0</b> van <b id="t-totaal">0</b> <span id="t-niveau"></span></span>
-      <span id="x-tel3">Nog fout: <b id="t-fout-open">0</b></span>
-      <span id="x-tel4">Nog niet gehad: <b id="t-nieuw">0</b></span>
+      <span><span id="x-tel3">Nog fout: <b id="t-fout-open">0</b></span> · <span id="x-tel4">Nog niet gehad: <b id="t-nieuw">0</b></span></span>
+      <span id="x-tel5">Moeilijk: <b id="t-moeilijk">0</b></span>
     </div>
       <div class="tellers">
-        <span id="x-tel5">Moeilijk: <b id="t-moeilijk">0</b></span>
         <span id="opslag" hidden>Voortgang: op dit apparaat</span>
       </div>
       <button class="knop moeilijk" id="meld" aria-pressed="false" hidden>Uitspraak klopt niet</button>
