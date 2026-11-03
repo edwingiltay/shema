@@ -646,12 +646,28 @@ function schrijf() {
   const jaar = !!huidig.jaar, schrift = !jaar && vorm === 'schrift';
   $('vraag').classList.toggle('fon', fon); $('vraag').lang = fon ? '' : 'he';
   if (schrift) { if (fon) { $('vraag').textContent = zonderBijnaam(huidig, 'tr'); $('vraag').classList.remove('nk'); } else zetHebr($('vraag'), zonderBijnaam(huidig, 'heb')); }
+  if (jaar) [...$('keuzes').children].forEach(jaarKeuze);
   if (!jaar && vorm === 'betekenis') [...$('keuzes').children].forEach(b => {
     const o = PER_ID[b.dataset.id], t = b.children[1];
     t.className = fon ? 'tr-optie' : 'hebr-optie'; t.lang = fon ? '' : 'he'; t.textContent = zonderBijnaam(o, fon ? 'tr' : 'heb'); if (!fon) zetHebr(t, t.textContent);
   });
   $('a-hebr').hidden = schrift || fon;
   $('a-translit').hidden = schrift && fon;   // op schrift staat de transliteratie dan al in de vraag
+}
+// feestdagen en maanden: bij אב de keuzes in het Hebreeuws (Edwin, 3 nov 2026); de gregoriaanse maanden blijven in de gekozen taal
+const hebGetal = n => { const e = ['', 'א', 'ב', 'ג', 'ד', 'ה', 'ו', 'ז', 'ח', 'ט'], t = ['', 'י', 'כ', 'ל'], s = n === 15 ? 'טו' : n === 16 ? 'טז' : t[Math.floor(n / 10)] + e[n % 10]; return s.length > 1 ? s.slice(0, -1) + '״' + s.slice(-1) : s + '׳'; };
+function hebDatum(o) {
+  const s = nlVan(o, 'antwoord'), b = bereikVan(s), M = i => MAANDEN[i][0];
+  if (/^eind/.test(s)) return 'סוֹף ' + M(b[0]);
+  if (b[0] === b[2] && b[1] === b[3]) return hebGetal(b[1]) + ' ' + M(b[0]);
+  if (b[0] === b[2]) return hebGetal(b[1]) + '–' + hebGetal(b[3]) + ' ' + M(b[0]);
+  return hebGetal(b[1]) + ' ' + M(b[0]) + ' – ' + hebGetal(b[3]) + ' ' + M(b[2]);
+}
+function jaarKeuze(b) {
+  const o = PER_ID[b.dataset.id], t = b.children[1], s = huidig.soort;
+  if (!o || !t) return;
+  if (schr === 'fon' || s === 'seizoen') { t.className = ''; t.lang = ''; t.textContent = o.antwoord; return; }
+  t.className = 'hebr-optie'; t.lang = 'he'; zetHebr(t, s === 'datum' ? hebDatum(o) : o.heb);
 }
 function zetSchrift(s) {
   schr = s; try { localStorage.setItem('shema-schrift', s); } catch (e) {}
