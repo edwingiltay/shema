@@ -117,7 +117,7 @@ label.keus select{-webkit-appearance:none;appearance:none;box-sizing:border-box;
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 /* beginscherm en oefenscherm (28 okt 2026) */
 .taalrij{margin-left:auto;margin-right:auto}.niveau-kop:has(.niveau-naam:empty){display:none}
-.taalrij .schakel button{min-width:44px;padding-left:0;padding-right:0}@media (max-width:350px){.taalrij .schakel button{min-width:39px}}
+.taalrij .schakel button{min-width:44px;padding-left:0;padding-right:0;font-size:var(--t-tekst);line-height:calc(var(--t-klein) * 1.45)} /* taalcodes groter, vakjes even groot (Edwin, 3 nov 2026) */@media (max-width:350px){.taalrij .schakel button{min-width:39px}}
 .bovenbalk{display:flex;align-items:center;gap:6px 10px;min-height:36px}
 .terug{font:inherit;font-size:var(--t-tekst);border:0;background:none;color:var(--techelet);padding:4px 8px 4px 0;cursor:pointer;white-space:nowrap}
 .niveau-kop{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;line-height:1.2}
