@@ -258,9 +258,10 @@ label.keus select{font-size:var(--t-tekst);height:44px;border:6px solid transpar
 /* jaarwiel (Edwin, 3 nov 2026): Joodse maanden binnen, gregoriaanse buiten, feestdagen als stippen */
 .wiel{display:block}.wiel svg{display:block;width:100%;height:auto;overflow:visible}
 .wiel text{font-family:var(--tekst)}.wiel .wh{font-family:var(--hebr)}.wiel .seg{cursor:pointer}
-.tegel-wiel{grid-template-rows:auto auto;align-items:center}
+.tegel-wiel{grid-template-rows:auto auto;align-items:center;row-gap:0}   /* even hoog als de andere tegels: naam + 13 px, zoals naam + 6 px + balk 7 px (Edwin, 3 nov 2026) */
+.tegel-wiel .tegel-tal{line-height:13px}
 .tegel-wiel .tegel-naam{grid-column:1;grid-row:1}.tegel-wiel .tegel-tal{grid-column:1;grid-row:2}
-.tegel-wiel .wiel{grid-column:2;grid-row:1/3;width:40px}   /* kleiner (Edwin, 3 nov 2026; was 52px) */
+.tegel-wiel .wiel{grid-column:2;grid-row:1/3;width:40px;margin-block:-2px}   /* kleiner (Edwin, 3 nov 2026; was 52px) */
 .wiel.midden{width:min(520px,100%);margin:4px auto 6px}   /* groter op de oefenpagina (Edwin, 3 nov 2026; was 250 px, toen 360) */
 .wiel.groot{width:min(520px,100%);margin:-8px auto 0}   /* dichter op de tekst erboven (Edwin, 3 nov 2026) */
 .wiel-vandaag{margin:2px 0 0;text-align:center;font-size:var(--t-klein);font-weight:600;color:var(--techelet)}
