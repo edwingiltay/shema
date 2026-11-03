@@ -234,7 +234,7 @@ label.keus select{font-size:var(--t-tekst);height:44px;border:6px solid transpar
 .paneel-kop{display:flex;justify-content:space-between;align-items:center;min-height:36px}
 .paneel h2{font-size:var(--t-groot);margin:0}.paneel .terug{font-weight:600;padding:4px 0 4px 8px}
 .paneel .schakel{align-self:flex-start}.paneel .tellers{flex-direction:column}
-.paneel .tellers:not(:has(> :not([hidden]))){display:none}.paneel .balk{row-gap:7px}.paneel #modusgroep,.paneel #nikoedgroep{margin-top:-7px}.paneel label.keus[for="selectie"]{padding-left:3px}   /* de vier optierijen 7 px uit elkaar (Edwin, 3 nov 2026); Oefen 3 px in (Edwin, 3 nov 2026) */
+.paneel .tellers:not(:has(> :not([hidden]))){display:none}.paneel .balk{row-gap:7px}.paneel #modusgroep,.paneel #nikoedgroep{margin-top:-7px}.paneel label.keus[for="selectie"]{padding-left:3px;margin-block:-6px}   /* de vier optierijen zichtbaar 7 px uit elkaar (Edwin, 3 nov 2026; de keuzelijst heeft een doorzichtige rand van 6 px voor het tikvlak, vandaar margin-block −6px); Oefen 3 px in (Edwin, 3 nov 2026) */
 /* alle tekst in het paneel even groot (Edwin, 3 nov 2026) */
 .paneel h2,.paneel .schakel button,.paneel .knop,.paneel #wis-niveau,.paneel .tellers,.paneel label.keus,.paneel .terug{font-size:var(--t-tekst)}
 .paneel .schakel button{padding-left:9px;padding-right:9px}
@@ -261,10 +261,10 @@ label.keus select{font-size:var(--t-tekst);height:44px;border:6px solid transpar
 .tegel-wiel{grid-template-rows:auto auto;align-items:center}
 .tegel-wiel .tegel-naam{grid-column:1;grid-row:1}.tegel-wiel .tegel-tal{grid-column:1;grid-row:2}
 .tegel-wiel .wiel{grid-column:2;grid-row:1/3;width:52px}
-.wiel.midden{width:min(360px,100%);margin:4px auto 6px}   /* groter op de oefenpagina (Edwin, 3 nov 2026; was 250 px) */
-.wiel.groot{width:min(360px,100%);margin:0 auto}
+.wiel.midden{width:min(520px,100%);margin:4px auto 6px}   /* groter op de oefenpagina (Edwin, 3 nov 2026; was 250 px, toen 360) */
+.wiel.groot{width:min(520px,100%);margin:-8px auto 0}   /* dichter op de tekst erboven (Edwin, 3 nov 2026) */
 .wiel-vandaag{margin:2px 0 0;text-align:center;font-size:var(--t-klein);font-weight:600;color:var(--techelet)}
-.wiel-uitleg{text-align:center;font-size:var(--t-klein);color:var(--zacht);margin:2px 0 .9em}</style>
+.wiel-uitleg{text-align:center;font-size:var(--t-klein);color:var(--zacht);margin:2px 0 8px}</style>
 </head>
 <body>
 <div class="kolom">
@@ -918,8 +918,8 @@ function tekenWiel(doel, opt) {
   el('path', {d: 'M' + tx + ' ' + ty + 'L' + b1x + ' ' + b1y + 'L' + b2x + ' ' + b2y + 'Z', fill: 'var(--techelet)'}, svg);
   const zon = zonsondergang(nu), regels = [new Intl.DateTimeFormat(taal, {day: 'numeric', month: 'short'}).format(nu)], jd = joodseDatum(zon && nu >= zon ? new Date(nu.getFullYear(), nu.getMonth(), nu.getDate() + 1, 12) : nu);
   if (jd) regels.push(jd[1] + ' ' + maandNaam(jd[0]) + jd[2]);
-  const vandaagJ = jd;   // ook als streepje in de Joodse maandring, zie hieronder
   // de datum zelf als regel onder het wiel, zodat het wiel groot kan en de tekst nergens buiten beeld valt (Edwin, 3 nov 2026)
+  const vandaag = [jd ? MAANDEN[jd[0]][0] : '', new Intl.DateTimeFormat(taal, {day: 'numeric', month: 'long'}).format(nu), regels[1] || ''];   // voor een tik op het driehoekje
   const vd = document.createElement('p'); vd.className = 'wiel-vandaag'; vd.textContent = '▲ ' + regels.join(' · '); doel.appendChild(vd);
   const midden = [];
   function toon(a, b, c) {
@@ -935,7 +935,6 @@ function tekenWiel(doel, opt) {
     else { t.textContent = nik(m[0]); t.setAttribute('class', 'wh'); }
     p.addEventListener('click', () => toon(m[0], maandNaam(i), gregMaanden(i)));   // ook op de oefenpagina aan te tikken (Edwin, 3 nov 2026)
   });
-  if (vandaagJ) { const ah = dagHoek(vandaagJ[0], vandaagJ[1]), [x1, y1] = xy(77, ah), [x2, y2] = xy(86, ah); el('line', {x1: x1, y1: y1, x2: x2, y2: y2, stroke: 'var(--techelet)', 'stroke-width': 2.4, 'stroke-linecap': 'round', 'pointer-events': 'none'}, svg); }   // vandaag in de Joodse kalender (Edwin, 3 nov 2026)
   // feestdagen als stippen; dicht op elkaar (tisjrei) afwisselend op een binnenste ring, zodat elke stip te raken is (Edwin, 3 nov 2026)
   const stippen = [];
   WIEL_FEESTEN.forEach(id => { const f = PER_ID['jf-' + id]; if (!f) return; const [m, dag] = datumVan(nlVan(f, 'antwoord')); if (m >= 0) stippen.push({f: f, m: m, dag: dag, a: dagHoek(m, dag)}); });
@@ -958,6 +957,8 @@ function tekenWiel(doel, opt) {
   });
   toon.apply(null, opt.tekst || ['', '', '']);
   const bk = svg.getBBox ? svg.getBBox() : null; if (bk && bk.width) svg.setAttribute('viewBox', [bk.x - 2, bk.y - 2, bk.width + 4, bk.height + 4].join(' '));   // strak om wat er getekend is: geen lege rand boven en onder
+  // het driehoekje is aan te tikken: dan staat vandaag in beide kalenders in het midden (Edwin, 3 nov 2026); na het bijsnijden, zodat het tikvlak het wiel niet kleiner maakt
+  { const [hx, hy] = xy(105, av); el('circle', {cx: hx, cy: hy, r: 9, fill: 'transparent', class: 'seg'}, svg).addEventListener('click', () => toon.apply(null, vandaag)); }
 }
 function wielNaAntwoord(w) {
   const [m, dag] = maandVan(w); if (m < 0) { $('a-wiel').hidden = true; return; }
