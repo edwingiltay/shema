@@ -273,6 +273,7 @@ label.keus select{font-size:var(--t-tekst);height:44px;border:6px solid transpar
 #toon,#wist-wel,#wist-niet{font-size:16.5px}
 .paneel h2,.paneel .schakel button,.paneel .knop,.paneel #wis-niveau,.paneel .tellers,.paneel label.keus,.paneel label.keus select,.paneel .terug,.paneel .meld-blok textarea{font-size:16.5px}
 #feest-deel,#feest-verder{font-size:16.5px}
+.melding:not([hidden]) + #a-hebr[hidden] + .translit{margin-top:-4px;margin-bottom:4px}   /* zonder Hebreeuws: evenveel ruimte boven en onder de transliteratie, gemeten van grondlijn tot letter en van grondlijn tot knop (Edwin, 3 nov 2026) */
 #s-he{line-height:1.45}   /* overal regelafstand 1,35 in plaats van 1,45, behalve bij אב (Edwin, 3 nov 2026); de knoppen hierboven blijven 35,2 px */
 #meld,#wis-niveau,.voet button.knop{padding-top:calc((35.2px - 2px - 1.35em) / 2);padding-bottom:calc((35.2px - 2px - 1.35em) / 2)}   /* 35,2 px hoog, zoals de voortgangsknoppen (Edwin, 3 nov 2026); het aanraakvlak blijft 44 px */</style>
 </head>
@@ -668,7 +669,7 @@ function schrijf() {
     const o = PER_ID[b.dataset.id], t = b.children[1];
     t.className = fon ? 'tr-optie' : 'hebr-optie'; t.lang = fon ? '' : 'he'; t.textContent = zonderBijnaam(o, fon ? 'tr' : 'heb'); if (!fon) zetHebr(t, t.textContent);
   });
-  $('a-hebr').hidden = schrift || fon;
+  $('a-hebr').hidden = schrift || fon || (!jaar && vorm === 'betekenis' && modus === 'keuze');   // van betekenis met meerkeuze: het Hebreeuws staat al in de keuzes, de transliteratie volstaat (Edwin, 3 nov 2026)
   $('a-translit').hidden = schrift && fon;   // op schrift staat de transliteratie dan al in de vraag
 }
 // feestdagen en maanden: bij אב de keuzes in het Hebreeuws (Edwin, 3 nov 2026); de gregoriaanse maanden blijven in de gekozen taal
