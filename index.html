@@ -454,11 +454,11 @@ function zetTaal(t, start) {
   kaartTaal(t);
   // op GitHub staan de vertaalde kaarten per taal in talen/<taal>.json (Edwin, 3 nov 2026): tot dat bestand binnen is, de Engelse kaarten
   const d = t === 'nl' || t === 'en' ? null : talen()[t];
-  if (d && !d.k) laadTaal(t).then(() => { if (taal !== t) return; kaartTaal(t); if (geschiedenis[positie]) terugblik(geschiedenis[positie]); schermTekst(); }).catch(() => {});
+  if (d && !d.k) laadTaal(t).then(() => { if (taal !== t) return; kaartTaal(t); stilOpbouwen = true; try { if (geschiedenis[positie]) terugblik(geschiedenis[positie]); } finally { stilOpbouwen = false; } schermTekst(); }).catch(() => {});
   zetTeksten(t);
   $('wis').textContent = LT('Voortgang wissen', 'Clear progress');
   zetOpslag(opslagNl);
-  if (!start) { melding(''); tellers(); if (geschiedenis[positie]) terugblik(geschiedenis[positie]); }
+  if (!start) { melding(''); tellers(); stilOpbouwen = true; try { if (geschiedenis[positie]) terugblik(geschiedenis[positie]); } finally { stilOpbouwen = false; } }   // stil: geen woord bij een taalwissel
   schermTekst();
 }
 document.querySelectorAll('.taalrij button').forEach(b => b.addEventListener('click', () => zetTaal(b.id.slice(5))));
@@ -552,7 +552,7 @@ function buffer(w) {
   return buffers[w.id];
 }
 const speler = new Audio(); speler.preload = 'auto';
-let bron = null, afspeelMelding = false;   // alleen een afspeelfout wist speel() zelf weer
+let bron = null, afspeelMelding = false, stilOpbouwen = false;   // stilOpbouwen: een kaart opnieuw opbouwen zonder geluid (taalwissel, Edwin 4 nov 2026)   // alleen een afspeelfout wist speel() zelf weer
 // speelstand: de luidspreker toont dat het woord klinkt (stap 3 ontwerprapport, 3 nov 2026)
 const speelStand = aan => $('speel').classList.toggle('speelt', aan);
 speler.addEventListener('playing', () => speelStand(true));
@@ -577,7 +577,7 @@ function speelWoord(w) {
 }
 const TEMPO = 0.75;   // altijd langzaam (Edwin, 25 okt 2026; 0,6 bij de ElevenLabs-stem, op zijn verzoek 0,75 sinds 1 nov 2026); knop "Snel tempo" weg (26 okt)
 function speel(snelheid) {
-  if (!huidig || !heeftKlank(huidig)) return;
+  if (!huidig || !heeftKlank(huidig) || stilOpbouwen || $('oefen').hidden) return;   // nooit geluid buiten het oefenscherm (Edwin, 4 nov 2026: ‘bij een taalwissel hoor ik soms een woord’)
   snelheid = snelheid || TEMPO; const w = huidig; if (afspeelMelding) { melding(''); afspeelMelding = false; }
   const eerst = snelheid === 1 ? viaWebAudio : viaAudio, dan = snelheid === 1 ? viaAudio : viaWebAudio;
   let fout1 = '';
@@ -714,7 +714,8 @@ function schrijf() {
     const o = PER_ID[b.dataset.id], t = b.children[1];
     t.className = fon ? 'tr-optie' : 'hebr-optie'; t.lang = fon ? '' : 'he'; t.textContent = zonderBijnaam(o, fon ? 'tr' : 'heb'); if (!fon) zetHebr(t, t.textContent);
   });
-  $('a-hebr').hidden = schrift || fon || (!jaar && vorm === 'betekenis' && modus === 'keuze');   // van betekenis met meerkeuze: het Hebreeuws staat al in de keuzes, de transliteratie volstaat (Edwin, 3 nov 2026)
+  $('a-hebr').hidden = schrift || fon || (!jaar && vorm === 'betekenis' && modus === 'keuze')
+    || (jaar && modus === 'keuze' && huidig.soort !== 'datum' && huidig.soort !== 'seizoen');   // Het Joodse jaar met אב: het Hebreeuwse antwoord staat al in de groene keuze (Edwin, 4 nov 2026)   // van betekenis met meerkeuze: het Hebreeuws staat al in de keuzes, de transliteratie volstaat (Edwin, 3 nov 2026)
   $('a-translit').hidden = schrift && fon;   // op schrift staat de transliteratie dan al in de vraag
 }
 // feestdagen en maanden: bij אב de keuzes in het Hebreeuws (Edwin, 3 nov 2026); de gregoriaanse maanden blijven in de gekozen taal
