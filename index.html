@@ -167,8 +167,7 @@ h1 .naam{font-family:var(--tekst);font-size:var(--t-kop);font-weight:700;color:v
 .keuzes button .tr-optie{font-style:italic;flex:1}
 /* na het antwoord: tik op een keuze voor de betekenis of het woord erbij, in een ballon die niets laat verspringen (Edwin, 28 okt 2026) */
 .keuzes button{position:relative}.keuzes.af button{cursor:help}
-.tip{position:absolute;left:10px;right:10px;top:calc(100% + 6px);z-index:5;background:var(--techelet);color:#fff;border-radius:var(--r);padding:8px 11px;font-size:var(--t-tekst);line-height:1.35;font-style:normal;text-align:left;direction:ltr;box-shadow:0 4px 14px rgba(0,0,0,.18)}
-.tip::before{content:"";position:absolute;top:-6px;left:22px;border:6px solid transparent;border-top:0;border-bottom-color:var(--techelet)}
+.tip{flex:0 0 100%;box-sizing:border-box;padding:4px 0 2px 17px;color:var(--zacht);font-size:var(--t-klein);line-height:1.35;font-style:normal;text-align:left;direction:ltr}
 .tip .hebr-klein{font-size:1.3em}
 /* opdracht boven op de kaart, laadmeter voor de opnames en een rustiger onderkant (Edwin, 30 okt 2026) */
 .opdracht{margin:0;color:var(--zacht);font-size:var(--t-tekst);line-height:1.4;text-align:center}
@@ -177,9 +176,7 @@ h1 .naam{font-family:var(--tekst);font-size:var(--t-kop);font-weight:700;color:v
 .laadbalk{height:6px;border-radius:999px;background:var(--vlak);overflow:hidden;margin:12px auto;max-width:260px}
 .laadbalk span{display:block;height:100%;width:0;background:var(--techelet);transition:width .2s}
 .laadmeter p{margin:0}
-.meer summary{cursor:pointer;color:var(--techelet);font-size:var(--t-klein)}
-.meer[open] summary{margin-bottom:10px}.meer .tellers{margin-top:10px}
-#wis-niveau{margin-top:12px;font-size:var(--t-klein)}
+#wis-niveau{font-size:var(--t-klein)}
 /* uitspraakmelding met aantekening, tijdelijk (Edwin, 1 nov 2026) */
 .meld-blok{display:flex;flex-direction:column;gap:8px;margin-top:4px}
 .meld-blok textarea{font:inherit;font-size:var(--t-tekst);width:100%;box-sizing:border-box;border:1px solid var(--lijn);border-radius:var(--r);padding:8px 10px;resize:vertical}
@@ -189,24 +186,64 @@ button,summary,a,.url{-webkit-tap-highlight-color:transparent}
 .schakel button:first-child{border-radius:999px 0 0 999px}.schakel button:last-child{border-radius:0 999px 999px 0}
 .keuzes button .nr{position:relative}
 .keuzes button.goed .nr,.keuzes button.fout .nr{color:transparent}   /* het teken staat op de plek van het nummer, dus de tekst verspringt niet */
-.keuzes button.goed .nr::before,.keuzes button.fout .nr::before{content:"";position:absolute;left:50%;top:calc(50% - 2px);width:18px;height:18px;transform:translate(-50%,-50%);background:no-repeat center/contain}
+.keuzes button.goed .nr::before,.keuzes button.fout .nr::before{content:"";position:absolute;left:50%;top:calc(50% - 1.5px);width:18px;height:18px;transform:translate(-50%,-50%);background:no-repeat center/contain}
 .keuzes button.goed .nr::before{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M4 10.5l4 4 8-9' fill='none' stroke='%231d7a46' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")}
-.keuzes button.fout .nr::before{top:calc(50% - 1.5px);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M5 5l10 10M15 5L5 15' fill='none' stroke='%23b3261e' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E")}
+.keuzes button.fout .nr::before{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M5 5l10 10M15 5L5 15' fill='none' stroke='%23b3261e' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E")}
 .antwoord .hebr,.translit,.hebr.vraag.fon{text-align:center}
 .keuzes button:active:not(.goed):not(.fout),.schakel button:active:not([aria-pressed="true"]),.knop:active:not(.hoofd),.terug:active{background:var(--vlak)}
 .knop.hoofd:active{background:#163d70;border-color:#163d70}
 .tegel-balk,.laadbalk{background:var(--lijn)}
 /* tikgebied minimaal 44 px; de knoppen ogen even groot als voorheen. Elk ::after-vlak heeft een position:relative-anker nodig */
-.terug,.knop,.inst-weg,.voet button,.voet a,.deelrij a,.deelrij .url,.hoe summary,.meer summary{position:relative}
-.terug::after,.schakel button::after,.knop::after,.inst-weg::after,.voet button::after,.voet a::after,.deelrij a::after,.deelrij .url::after,.hoe summary::after,.meer summary::after{content:"";position:absolute;left:0;right:0;top:50%;height:44px;transform:translateY(-50%)}
+.terug,.knop,.inst-weg,.voet button,.voet a,.deelrij a,.deelrij .url,.hoe summary{position:relative}
+.terug::after,.schakel button::after,.knop::after,.inst-weg::after,.voet button::after,.voet a::after,.deelrij a::after,.deelrij .url::after,.hoe summary::after{content:"";position:absolute;left:0;right:0;top:50%;height:44px;transform:translateY(-50%)}
 .inst-weg::after{left:-7px;right:-7px}.deelrij a::after{left:-6px;right:-6px}#d-x::after{left:-18px;right:-18px}
-.meer[open] summary{margin-bottom:20px}#meld{margin-top:8px}
 /* keuzelijst: 16 px, anders zoomt Safari in; 44 px hoog, waarvan de buitenste 6 px rondom doorzichtig zijn */
 label.keus select{font-size:var(--t-tekst);height:44px;border:6px solid transparent;background-clip:padding-box;box-shadow:inset 0 0 0 1px var(--lijn);margin-left:-6px}
 @media (max-width:600px){.kaart{border:0;border-radius:0;padding:0}.vraag{font-size:var(--h-groot)}.antwoord .hebr{font-size:var(--h-mid);line-height:1.25}.keuzes button{min-height:44px}.keuzes button>span:not(.tip){margin-block:auto}}
 /* nummers 1-4 en de alinea Toetsen horen bij een toetsenbord; de kolom van de nummers blijft, daar komt het vinkje of kruisje */
 .alleen-aanraak{display:none}
-@media (pointer:coarse){.keuzes button .nr{color:transparent}.alleen-toetsen{display:none}.alleen-aanraak{display:block}}</style>
+@media (pointer:coarse){.keuzes button .nr{color:transparent}.alleen-toetsen{display:none}.alleen-aanraak{display:block}}
+
+/* stap 3 ontwerprapport (Edwin, 3 nov 2026): vaste balk onderaan, compacte keuzes na het antwoord, één paneel, uitklapregels, speelstand */
+#oefen{padding-bottom:calc(48px + env(safe-area-inset-bottom,0px))}
+.luister{position:fixed;left:0;right:0;bottom:0;z-index:4;background:var(--bg);border-top:1px solid var(--lijn);justify-content:space-between;padding:8px max(24px,env(safe-area-inset-right,0px)) calc(8px + env(safe-area-inset-bottom,0px)) max(24px,env(safe-area-inset-left,0px))}
+@media (min-width:660px){.luister{padding-left:calc(50% - 276px);padding-right:calc(50% - 276px)}}
+.speel{width:60px;height:60px;box-shadow:none}.speel svg{width:30px;height:30px}.pijl{width:52px;height:52px}
+.speel.speelt{background:var(--techelet-licht);animation:speelt 1.2s ease-out infinite}
+@keyframes speelt{from{box-shadow:0 0 0 0 rgba(29,79,145,.35)}to{box-shadow:0 0 0 12px rgba(29,79,145,0)}}
+.kaart.laadt~.luister,.kaart.laadt~.oefen-regel{display:none}
+.antwoord:not([hidden]){animation:antwoordin .18s ease-out}
+@keyframes antwoordin{from{opacity:.6;transform:translateY(4px)}to{opacity:1;transform:none}}
+.keuzes{grid-template-columns:minmax(0,1fr)}.keuzes button{min-width:0}
+.keuzes button>span:nth-of-type(2){flex:1 1 0;min-width:0}
+.keuzes button.open{flex-wrap:wrap}
+@media (max-width:600px){
+.keuzes.af button{min-height:0;padding:6px 11px}
+.keuzes.af button:not(.open)>span:nth-of-type(2){white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.keuzes.af button::after{content:"";position:absolute;left:0;right:0;top:-5px;bottom:-5px}
+.keuzes.af .hebr-optie{font-size:var(--t-kop);padding-block:2px}
+}
+.oefen-regel{font:inherit;font-size:var(--t-tekst);width:100%;min-height:48px;display:flex;justify-content:space-between;align-items:center;gap:12px;background:none;border:0;border-top:1px solid var(--lijn);padding:0;color:var(--zacht);text-align:left;cursor:pointer}
+.oefen-regel>span:first-child{min-width:0;font-size:var(--t-klein);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.oefen-regel .meer-label{color:var(--techelet);white-space:nowrap}
+.paneel-achter{position:fixed;inset:0;z-index:8;background:rgba(17,20,24,.45);display:flex;align-items:flex-end;justify-content:center}
+.paneel{box-sizing:border-box;width:100%;max-width:600px;max-height:85vh;max-height:85dvh;overflow-y:auto;overscroll-behavior:contain;background:var(--bg);border-radius:var(--r-groot) var(--r-groot) 0 0;padding:12px max(16px,env(safe-area-inset-right,0px)) calc(20px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));display:flex;flex-direction:column;gap:14px;animation:paneelin .2s ease-out}
+@keyframes paneelin{from{transform:translateY(24px);opacity:.5}to{transform:none;opacity:1}}
+.paneel-kop{display:flex;justify-content:space-between;align-items:center;min-height:36px}
+.paneel h2{font-size:var(--t-groot);margin:0}.paneel .terug{font-weight:600;padding:4px 0 4px 8px}
+.paneel .schakel{align-self:flex-start}.paneel .tellers{flex-direction:column}
+.knop.gevaar{color:var(--fout);border-color:var(--fout)}
+.voet details{border-bottom:1px solid var(--lijn)}
+.voet summary{display:flex;align-items:center;gap:8px;min-height:44px;margin:0;color:var(--fg);list-style:none}
+.voet summary::-webkit-details-marker{display:none}
+.voet summary::before{content:"›";color:var(--techelet);font-size:var(--t-groot);line-height:1;transition:transform .15s}
+.voet details[open]>summary::before{transform:rotate(90deg)}
+.voet details>p,.voet details>.voortgang-knoppen{margin:2px 0 12px}
+.voet>p{margin-top:12px}
+.voortgang-knoppen{display:flex;flex-direction:column;gap:8px}
+.voet button.knop{font-size:var(--t-tekst);color:var(--techelet);background:var(--bg);border:1px solid var(--lijn);border-radius:var(--r);padding:9px 14px;text-decoration:none}
+.voet button.knop.gevaar{color:var(--fout);border-color:var(--fout);margin-top:8px}
+@media (prefers-reduced-motion:reduce){.voet summary::before{transition:none}}</style>
 </head>
 <body>
 <div class="kolom">
@@ -227,13 +264,12 @@ label.keus select{font-size:var(--t-tekst);height:44px;border:6px solid transpar
     <div class="streep" aria-hidden="true"></div>
     <details class="hoe"><summary id="x-hoe">Zo werkt het</summary>
     <div class="voet">
-      <p id="x-voet3"><b>Niveaus:</b> Basisbegrippen zijn zo’n 400 woorden (sjabbat, gebeden, levenscyclus etc.). Gevorderde begrippen zijn de overige. ‘Feestdagen en maanden’ overhoort de data van de feestdagen en wat erbij hoort, de volgorde van de maanden en in welke maanden van de gregoriaanse kalender ze vallen.</p>
-      <p><span id="x-voet2"><b>Voortgang:</b> Wat u fout had, komt terug tot u het goed heeft. Wilt u een woord later nog eens oefenen, ook als u het goed had, zet het dan op uw lijst met moeilijke woorden. Die vindt u onder ‘mijn moeilijke woorden’ in het menu onderaan de oefenpagina. Op gehoor, op schrift en van betekenis houden elk hun eigen voortgang bij. Uw voortgang wordt op uw telefoon of computer bewaard, zodat u later verder kunt gaan waar u gebleven was. U kunt ook een reservekopie van uw voortgang bewaren en die op een ander apparaat terugzetten:</span> <button id="bewaar-kopie">Voortgang bewaren</button> · <button id="zet-terug">Voortgang terugzetten</button> · <button id="wis">Voortgang wissen</button><input type="file" id="kopie-bestand" accept=".json,.txt,application/json,text/plain" hidden></p>
-      <p id="x-voet1"><b>Uitspraak:</b> De woorden in deze app zijn ingesproken door een computerstem van ElevenLabs. Hoort u een fout, dan kunt u onder ‘Meer opties’ op ‘Uitspraak klopt niet’ tikken, opschrijven wat er niet klopt en uw melding mailen. Een streepje boven een letter, zoals in <span lang="he" class="hebr-klein">מֶ֫לֶךְ</span>, betekent dat de klemtoon op die lettergreep valt en niet op de laatste.</p>
-      <p class="alleen-toetsen" id="x-voet5"><b>Toetsen:</b> pijl rechts = volgend woord, pijl links = vorig woord, spatie = luisteren, enter = antwoord tonen of volgende, 1–4 = keuze. Op een telefoon kunt u over de kaart swipen: naar links voor de volgende, naar rechts voor de vorige.</p>
-      <p class="alleen-aanraak" id="x-voet6"><b>Swipen:</b> U kunt over de kaart swipen: naar links voor de volgende, naar rechts voor de vorige.</p>
-      <p id="x-voet0"><b>Waarom deze app:</b> Het Jodendom is een intellectuele godsdienst. Naast gebed en goede daden draait het om leren. Zo is de Joodse wijsheid beter toegankelijk voor wie de Hebreeuwse uitdrukkingen en denkbeelden begrijpt. Dat betekent simpelweg ook: de begrippen uit het hoofd leren. Voor mijn gioer, mijn halachische overgang tot het Jodendom, maakte ik een uitputtende lijst van 1000 begrippen met hun betekenissen. Mezelf van papier overhoren bleek onhandig, en de woorden bleven niet altijd hangen. Zo ontstond het idee voor deze app.</p>
-      <p id="x-voet8">Nu de app online staat, kan iedereen ermee lernen. Het Sjema draagt dit ook op: „prent ze in” (<span lang="he" class="hebr-klein">וְשִׁנַּנְתָּם</span>) in Devariem 6:7. Naar ik hoop, proeft wie leert ook iets van de spirituele diepgang achter de woorden.</p>
+      <details><summary id="x-k1">Niveaus</summary><p id="x-voet3">Basisbegrippen zijn zo’n 400 woorden (sjabbat, gebeden, levenscyclus etc.). Gevorderde begrippen zijn de overige. ‘Feestdagen en maanden’ overhoort de data van de feestdagen en wat erbij hoort, de volgorde van de maanden en in welke maanden van de gregoriaanse kalender ze vallen.</p></details>
+      <details><summary id="x-k2">Voortgang</summary><p id="x-voet2">Wat u fout had, komt terug tot u het goed heeft. Wilt u een woord later nog eens oefenen, ook als u het goed had, zet het dan op uw lijst met moeilijke woorden. Die vindt u onder ‘mijn moeilijke woorden’ bij ‘Meer opties’ onderaan de oefenpagina. Op gehoor, op schrift en van betekenis houden elk hun eigen voortgang bij. Uw voortgang wordt op uw telefoon of computer bewaard, zodat u later verder kunt gaan waar u gebleven was. U kunt ook een reservekopie van uw voortgang bewaren en die op een ander apparaat terugzetten:</p>
+        <div class="voortgang-knoppen"><button class="knop" id="bewaar-kopie">Voortgang bewaren</button><button class="knop" id="zet-terug">Voortgang terugzetten</button><button class="knop gevaar" id="wis">Voortgang wissen</button><input type="file" id="kopie-bestand" accept=".json,.txt,application/json,text/plain" hidden></div></details>
+      <details><summary id="x-k3">Uitspraak</summary><p id="x-voet1">De woorden in deze app zijn ingesproken door een computerstem van ElevenLabs. Hoort u een fout, dan kunt u onder ‘Meer opties’ op ‘Uitspraak klopt niet’ tikken, opschrijven wat er niet klopt en uw melding mailen. Een streepje boven een letter, zoals in <span lang="he" class="hebr-klein">מֶ֫לֶךְ</span>, betekent dat de klemtoon op die lettergreep valt en niet op de laatste.</p></details>
+      <details><summary id="x-k4">Bediening</summary><p class="alleen-toetsen" id="x-voet5"><b>Toetsen:</b> pijl rechts = volgend woord, pijl links = vorig woord, spatie = luisteren, enter = antwoord tonen of volgende, 1–4 = keuze. Op een telefoon kunt u over de kaart swipen: naar links voor de volgende, naar rechts voor de vorige.</p><p class="alleen-aanraak" id="x-voet6"><b>Swipen:</b> U kunt over de kaart swipen: naar links voor de volgende, naar rechts voor de vorige.</p></details>
+      <details><summary id="x-k5">Waarom deze app</summary><p id="x-voet0">Het Jodendom is een intellectuele godsdienst. Naast gebed en goede daden draait het om leren. Zo is de Joodse wijsheid beter toegankelijk voor wie de Hebreeuwse uitdrukkingen en denkbeelden begrijpt. Dat betekent simpelweg ook: de begrippen uit het hoofd leren. Voor mijn gioer, mijn halachische overgang tot het Jodendom, maakte ik een uitputtende lijst van 1000 begrippen met hun betekenissen. Mezelf van papier overhoren bleek onhandig, en de woorden bleven niet altijd hangen. Zo ontstond het idee voor deze app.</p><p id="x-voet8">Nu de app online staat, kan iedereen ermee lernen. Het Sjema draagt dit ook op: „prent ze in” (<span lang="he" class="hebr-klein">וְשִׁנַּנְתָּם</span>) in Devariem 6:7. Naar ik hoop, proeft wie leert ook iets van de spirituele diepgang achter de woorden.</p></details>
       <p id="x-voet7"><b>Contact:</b> Wilt u contact met mij opnemen, mail mij dan via <a href="mailto:edwingiltay@gmail.com">edwingiltay@gmail.com</a>.</p>
     </div>
     </details>
@@ -246,13 +282,6 @@ label.keus select{font-size:var(--t-tekst);height:44px;border:6px solid transpar
       <p class="opdracht" id="opdracht"></p>
       <div class="hebr vraag" id="vraag" lang="he" hidden></div>
       <p class="vraag-nl" id="vraag-nl" hidden></p>
-      <div class="luister" id="luister">
-        <button class="pijl" id="naar-vorige" aria-label="Vorig woord"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
-        <button class="speel" id="speel" aria-label="Luister naar het woord">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3.5 9.2v5.6h3.8l4.9 4.2V5L7.3 9.2z"/><path d="M15.6 8.6a4.8 4.8 0 0 1 0 6.8M18.4 5.8a8.8 8.8 0 0 1 0 12.4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-        </button>
-        <button class="pijl" id="naar-volgende" aria-label="Volgend woord"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
-      </div>
       <p class="laden" id="laden" hidden></p>
       <div class="keuzes" id="keuzes" hidden></div>
       <div id="zelf-blok"><button class="knop hoofd" id="toon" style="width:100%">Toon antwoord</button></div>
@@ -270,7 +299,18 @@ label.keus select{font-size:var(--t-tekst);height:44px;border:6px solid transpar
       </div>
       <div class="laadmeter" id="laadmeter" aria-live="polite"><p id="laad-tekst"></p><div class="laadbalk"><span id="laad-balk"></span></div><button class="knop" id="laad-opnieuw" hidden>Opnieuw proberen</button></div>
     </section>
-    <div class="streep" aria-hidden="true"></div>
+    <button class="oefen-regel" id="oefen-regel" aria-haspopup="dialog"><span id="regel-keuze"></span><span class="meer-label"><span id="x-meer">Meer opties</span> ›</span></button>
+    <div class="luister" id="luister">
+        <button class="pijl" id="naar-vorige" aria-label="Vorig woord"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+        <button class="speel" id="speel" aria-label="Luister naar het woord">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3.5 9.2v5.6h3.8l4.9 4.2V5L7.3 9.2z"/><path d="M15.6 8.6a4.8 4.8 0 0 1 0 6.8M18.4 5.8a8.8 8.8 0 0 1 0 12.4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <button class="pijl" id="naar-volgende" aria-label="Volgend woord"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+    </div>
+    <div class="paneel-achter" id="paneel" hidden><div class="paneel" role="dialog" aria-modal="true" aria-labelledby="x-meer2">
+      <div class="paneel-kop"><h2 id="x-meer2">Meer opties</h2><button class="terug" id="paneel-dicht">Klaar</button></div>
+      <button class="knop moeilijk" id="meld" aria-pressed="false" hidden>Uitspraak klopt niet</button>
+      <div class="meld-blok" id="meld-blok" hidden><textarea id="meld-tekst" rows="2"></textarea><div class="oordeel"><button class="knop hoofd" id="meld-bewaar">Mail melding</button><button class="knop" id="meld-weg">Verwijder melding</button></div></div>
     <div class="balk">
       <div class="schakel" role="group" aria-label="Oefenvorm" id="vormgroep">
         <button id="v-gehoor" aria-pressed="true">Op gehoor</button>
@@ -280,25 +320,22 @@ label.keus select{font-size:var(--t-tekst);height:44px;border:6px solid transpar
       <label class="keus" hidden for="niveau"><span id="x-niveau">Niveau</span> <select id="niveau"><option value="basis">basisbegrippen</option><option value="gevorderd">gevorderde begrippen</option><option value="jaar">feestdagen en maanden</option></select></label>
       <label class="keus" for="selectie"><span id="x-oefen">Oefen</span> <select id="selectie"><option value="open">wat ik nog niet goed had</option><option value="fout">alleen wat ik fout had</option><option value="moeilijk">mijn moeilijke woorden</option></select></label>
     </div>
-    <div class="tellers" aria-live="polite">
-      <span id="x-tel2">Goed gehad: <b id="t-gekend">0</b> van <b id="t-totaal">0</b> <span id="t-niveau"></span></span>
-      <span id="x-tel3">Nog fout: <b id="t-fout-open">0</b></span>
-    </div>
-    <details class="meer"><summary id="x-meer">Meer opties</summary>
       <div class="schakel" role="group" aria-label="Manier van antwoorden" id="modusgroep">
         <button id="m-zelf" aria-pressed="false">Zelf beoordelen</button>
         <button id="m-keuze" aria-pressed="true">Meerkeuze</button>
       </div>
+    <div class="tellers" aria-live="polite">
+      <span id="x-tel2">Goed gehad: <b id="t-gekend">0</b> van <b id="t-totaal">0</b> <span id="t-niveau"></span></span>
+      <span id="x-tel3">Nog fout: <b id="t-fout-open">0</b></span>
+    </div>
       <div class="tellers">
         <span id="x-tel1">Deze ronde: <b id="t-goed">0</b> goed, <b id="t-fout">0</b> fout</span>
         <span id="x-tel4">Nog niet gehad: <b id="t-nieuw">0</b></span>
         <span id="x-tel5">Moeilijk: <b id="t-moeilijk">0</b></span>
         <span id="opslag" hidden>Voortgang: op dit apparaat</span>
       </div>
-      <button class="knop" id="wis-niveau">Wis de voortgang van dit niveau</button>
-      <button class="knop moeilijk" id="meld" aria-pressed="false" hidden>Uitspraak klopt niet</button>
-      <div class="meld-blok" id="meld-blok" hidden><textarea id="meld-tekst" rows="2"></textarea><div class="oordeel"><button class="knop hoofd" id="meld-bewaar">Mail melding</button><button class="knop" id="meld-weg">Verwijder melding</button></div></div>
-    </details>
+      <button class="knop gevaar" id="wis-niveau">Wis de voortgang van dit niveau</button>
+    </div></div>
   </section>
   <div class="feest" id="feest" hidden role="dialog" aria-modal="true" aria-labelledby="feest-kop">
     <div class="feest-kaart">
@@ -314,7 +351,7 @@ label.keus select{font-size:var(--t-tekst);height:44px;border:6px solid transpar
 
 <script>window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); window.instVraag = e; });</script>
 <script>
-const TEKST = [["x-naam", "Hebreeuws op gehoor", "Hebrew by ear"], ["naar-thuis", "‹ Begin", "‹ Home"], ["x-kies", "Kies wat u wilt oefenen", "Choose what to practise"], ["inst-knop-ios", "Zet Shema op uw beginscherm", "Add Shema to your home screen"], ["inst-knop-android", "Installeer Shema als app", "Install Shema as an app"], ["inst-ios", "Tik op de deelknop (een vierkantje met een pijl omhoog; staat die er niet, tik dan eerst op de drie puntjes) en kies ‘Zet op beginscherm’.", "Tap the Share button (a square with an arrow pointing up; if you cannot see it, tap the three dots first) and choose ‘Add to Home Screen’."], ["inst-android", "Open het menu van uw browser (de drie puntjes) en kies ‘App installeren’ of ‘Toevoegen aan startscherm’.", "Open your browser’s menu (the three dots) and choose ‘Install app’ or ‘Add to Home screen’."], ["x-hoe", "Zo werkt het", "How it works"], ["feest-thuis", "Naar het begin", "Home"], ["feest-verder", "Blijf oefenen", "Keep practising"], ["x-meer", "Meer opties", "More options"], ["laad-opnieuw", "Opnieuw proberen", "Try again"], ["x-deel", "Deel de app:", "Share the app:"], ["x-url", "Of kopieer de link:", "Or copy the link:"], ["feest-deel", "Deel dit", "Share this"], ["bewaar-kopie", "Voortgang bewaren", "Save progress"], ["zet-terug", "Voortgang terugzetten", "Restore progress"], ["meld-bewaar", "Mail melding", "Email report"], ["meld-weg", "Verwijder melding", "Remove report"], ["d-mail", "E-mail", "Email"], ["x-copy", "© Edwin Giltay (Joodse naam: <span style='-webkit-hyphens:none;hyphens:none'>Elijahu<\/span>, <span lang=\"he\" class=\"hebr-klein\">אֵלִיָּהוּ<\/span>)<br>Den Haag, 28 oktober 2026 · versie 0.9", "© Edwin Giltay (Jewish name: <span style='-webkit-hyphens:none;hyphens:none'>Eliyahu<\/span>, <span lang=\"he\" class=\"hebr-klein\">אֵלִיָּהוּ<\/span>)<br>The Hague, 28 October 2026 · version 0.9"], ["x-uitleg", "Leer 1000 Joodse begrippen en de feestdagen en maanden van het Joodse jaar: op gehoor, op schrift of van betekenis.", "Learn 1,000 Jewish terms and the festivals and months of the Jewish year: by ear, in writing or from meaning."], ["v-gehoor", "Op gehoor", "By ear"], ["v-schrift", "Op schrift", "In writing"], ["v-betekenis", "Van betekenis", "From meaning"], ["m-zelf", "Zelf beoordelen", "Self-assessment"], ["m-keuze", "Meerkeuze", "Multiple choice"], ["x-niveau", "Niveau", "Level"], ["x-oefen", "Oefen", "Practise"], ["x-tel1", "Deze ronde: <b id=\"t-goed\">0<\/b> goed, <b id=\"t-fout\">0<\/b> fout", "This round: <b id=\"t-goed\">0<\/b> right, <b id=\"t-fout\">0<\/b> wrong"], ["x-tel2", "Goed gehad: <b id=\"t-gekend\">0<\/b> van <b id=\"t-totaal\">0<\/b> <span id=\"t-niveau\"><\/span>", "Got right: <b id=\"t-gekend\">0<\/b> of <b id=\"t-totaal\">0<\/b> <span id=\"t-niveau\"><\/span>"], ["x-tel3", "Nog fout: <b id=\"t-fout-open\">0<\/b>", "Still wrong: <b id=\"t-fout-open\">0<\/b>"], ["x-tel4", "Nog niet gehad: <b id=\"t-nieuw\">0<\/b>", "Not yet seen: <b id=\"t-nieuw\">0<\/b>"], ["x-tel5", "Moeilijk: <b id=\"t-moeilijk\">0<\/b>", "Difficult: <b id=\"t-moeilijk\">0<\/b>"], ["wis-niveau", "Wis de voortgang van dit niveau", "Clear your progress on this level"], ["toon", "Toon antwoord", "Show answer"], ["wist-niet", "Wist ik niet", "Didn’t know it"], ["wist-wel", "Wist ik", "Knew it"], ["volgende", "Volgende", "Next"], ["x-voet0", "<b>Waarom deze app:<\/b> Het Jodendom is een intellectuele godsdienst. Naast gebed en goede daden draait het om leren. Zo is de Joodse wijsheid beter toegankelijk voor wie de Hebreeuwse uitdrukkingen en denkbeelden begrijpt. Dat betekent simpelweg ook: de begrippen uit het hoofd leren. Voor mijn gioer, mijn halachische overgang tot het Jodendom, maakte ik een uitputtende lijst van 1000 begrippen met hun betekenissen. Mezelf van papier overhoren bleek onhandig, en de woorden bleven niet altijd hangen. Zo ontstond het idee voor deze app.", "<b>Why this app:<\/b> Judaism is an intellectual religion. Besides prayer and good deeds, it is about learning. Jewish wisdom thus opens up more readily to those who understand Hebrew expressions and ideas. That also simply means committing the terms to memory. For my giyur, my halachic conversion to Judaism, I made an exhaustive list of 1,000 terms with their meanings. Testing myself on paper proved awkward, and the words did not always stick. That gave rise to the idea for this app."], ["x-voet8", "Nu de app online staat, kan iedereen ermee lernen. Het Sjema draagt dit ook op: „prent ze in” (<span lang=\"he\" class=\"hebr-klein\">וְשִׁנַּנְתָּם<\/span>) in Devariem 6:7. Naar ik hoop, proeft wie leert ook iets van de spirituele diepgang achter de woorden.", "Now that the app is online, anyone can learn with it. The Shema commands this too: ‘teach them diligently’ (<span lang=\"he\" class=\"hebr-klein\">וְשִׁנַּנְתָּם<\/span>) in Devarim 6:7. I hope that those who learn will also taste something of the spiritual depth behind the words."], ["x-voet1", "<b>Uitspraak:<\/b> De woorden in deze app zijn ingesproken door een computerstem van ElevenLabs. Hoort u een fout, dan kunt u onder ‘Meer opties’ op ‘Uitspraak klopt niet’ tikken, opschrijven wat er niet klopt en uw melding mailen. Een streepje boven een letter, zoals in <span lang=\"he\" class=\"hebr-klein\">מֶ֫לֶךְ<\/span>, betekent dat de klemtoon op die lettergreep valt en niet op de laatste.", "<b>Pronunciation:<\/b> The words in this app are spoken by a computer voice from ElevenLabs. If you hear a mistake, you can tap ‘Pronunciation is wrong’ under ‘More options’, write down what is wrong and email your report. A small stroke above a letter, as in <span lang=\"he\" class=\"hebr-klein\">מֶ֫לֶךְ<\/span>, means that the stress falls on that syllable and not on the last one."], ["x-voet2", "<b>Voortgang:<\/b> Wat u fout had, komt terug tot u het goed heeft. Wilt u een woord later nog eens oefenen, ook als u het goed had, zet het dan op uw lijst met moeilijke woorden. Die vindt u onder ‘mijn moeilijke woorden’ in het menu onderaan de oefenpagina. Op gehoor, op schrift en van betekenis houden elk hun eigen voortgang bij. Uw voortgang wordt op uw telefoon of computer bewaard, zodat u later verder kunt gaan waar u gebleven was. U kunt ook een reservekopie van uw voortgang bewaren en die op een ander apparaat terugzetten:", "<b>Progress:<\/b> What you got wrong comes back until you get it right. If you want to practise a word again later, even if you got it right, put it on your list of difficult words. You will find it under ‘my difficult words’ in the menu at the bottom of the practice page. By ear, in writing and from meaning each keep track of their own progress. Your progress is saved on your phone or computer, so you can later carry on where you left off. You can also save a backup of your progress and restore it on another device:"], ["x-voet3", "<b>Niveaus:<\/b> Basisbegrippen zijn zo’n 400 woorden (sjabbat, gebeden, levenscyclus etc.). Gevorderde begrippen zijn de overige. ‘Feestdagen en maanden’ overhoort de data van de feestdagen en wat erbij hoort, de volgorde van de maanden en in welke maanden van de gregoriaanse kalender ze vallen.", "<b>Levels:<\/b> Basic terms are some 400 words (Shabbat, prayers, life cycle etc.). Advanced terms are all the others. ‘Festivals and months’ tests the dates of the festivals and what goes with them, the order of the months and in which months of the Gregorian calendar they fall."], ["x-voet7", "<b>Contact:<\/b> Wilt u contact met mij opnemen, mail mij dan via <a href=\"mailto:edwingiltay@gmail.com\">edwingiltay@gmail.com<\/a>.", "<b>Contact:<\/b> If you would like to contact me, please email me at <a href=\"mailto:edwingiltay@gmail.com\">edwingiltay@gmail.com<\/a>."], ["x-voet5", "<b>Toetsen:<\/b> pijl rechts = volgend woord, pijl links = vorig woord, spatie = luisteren, enter = antwoord tonen of volgende, 1–4 = keuze. Op een telefoon kunt u over de kaart swipen: naar links voor de volgende, naar rechts voor de vorige.", "<b>Keys:<\/b> right arrow = next word, left arrow = previous word, space = listen, enter = show answer or next, 1–4 = choice. On a phone, you can swipe the card: left for the next one, right for the previous one."], ["x-voet6", "<b>Swipen:<\/b> U kunt over de kaart swipen: naar links voor de volgende, naar rechts voor de vorige.", "<b>Swiping:<\/b> You can swipe the card: left for the next one, right for the previous one."]], OPTIES = [["niveau", "basis", "basisbegrippen", "basic terms"], ["niveau", "gevorderd", "gevorderde begrippen", "advanced terms"], ["niveau", "jaar", "feestdagen en maanden", "festivals and months"], ["selectie", "open", "wat ik nog niet goed had", "what I have not got right yet"], ["selectie", "fout", "alleen wat ik fout had", "only what I got wrong"], ["selectie", "moeilijk", "mijn moeilijke woorden", "my difficult words"]], ARIA = [["#vormgroep", "Oefenvorm", "Practice mode"], ["#modusgroep", "Manier van antwoorden", "Way of answering"], [".kaart", "Oefenkaart", "Practice card"], ["#speel", "Luister naar het woord", "Listen to the word"], ["#naar-vorige", "Vorig woord", "Previous word"], ["#naar-volgende", "Volgend woord", "Next word"], ["#schriftrij .schakel", "Schrift", "Script"], ["#inst-weg", "Sluiten", "Close"], ["#s-fon", "Fonetisch Hebreeuws", "Phonetic Hebrew"], ["#s-he", "Hebreeuws", "Hebrew"]];
+const TEKST = [["x-naam", "Hebreeuws op gehoor", "Hebrew by ear"], ["naar-thuis", "‹ Begin", "‹ Home"], ["x-kies", "Kies wat u wilt oefenen", "Choose what to practise"], ["inst-knop-ios", "Zet Shema op uw beginscherm", "Add Shema to your home screen"], ["inst-knop-android", "Installeer Shema als app", "Install Shema as an app"], ["inst-ios", "Tik op de deelknop (een vierkantje met een pijl omhoog; staat die er niet, tik dan eerst op de drie puntjes) en kies ‘Zet op beginscherm’.", "Tap the Share button (a square with an arrow pointing up; if you cannot see it, tap the three dots first) and choose ‘Add to Home Screen’."], ["inst-android", "Open het menu van uw browser (de drie puntjes) en kies ‘App installeren’ of ‘Toevoegen aan startscherm’.", "Open your browser’s menu (the three dots) and choose ‘Install app’ or ‘Add to Home screen’."], ["x-hoe", "Zo werkt het", "How it works"], ["feest-thuis", "Naar het begin", "Home"], ["feest-verder", "Blijf oefenen", "Keep practising"], ["x-meer", "Meer opties", "More options"], ["x-meer2", "Meer opties", "More options"], ["paneel-dicht", "Klaar", "Done"], ["x-k1", "Niveaus", "Levels"], ["x-k2", "Voortgang", "Progress"], ["x-k3", "Uitspraak", "Pronunciation"], ["x-k4", "Bediening", "Controls"], ["x-k5", "Waarom deze app", "Why this app"], ["laad-opnieuw", "Opnieuw proberen", "Try again"], ["x-deel", "Deel de app:", "Share the app:"], ["x-url", "Of kopieer de link:", "Or copy the link:"], ["feest-deel", "Deel dit", "Share this"], ["bewaar-kopie", "Voortgang bewaren", "Save progress"], ["zet-terug", "Voortgang terugzetten", "Restore progress"], ["meld-bewaar", "Mail melding", "Email report"], ["meld-weg", "Verwijder melding", "Remove report"], ["d-mail", "E-mail", "Email"], ["x-copy", "© Edwin Giltay (Joodse naam: <span style='-webkit-hyphens:none;hyphens:none'>Elijahu<\/span>, <span lang=\"he\" class=\"hebr-klein\">אֵלִיָּהוּ<\/span>)<br>Den Haag, 28 oktober 2026 · versie 0.9", "© Edwin Giltay (Jewish name: <span style='-webkit-hyphens:none;hyphens:none'>Eliyahu<\/span>, <span lang=\"he\" class=\"hebr-klein\">אֵלִיָּהוּ<\/span>)<br>The Hague, 28 October 2026 · version 0.9"], ["x-uitleg", "Leer 1000 Joodse begrippen en de feestdagen en maanden van het Joodse jaar: op gehoor, op schrift of van betekenis.", "Learn 1,000 Jewish terms and the festivals and months of the Jewish year: by ear, in writing or from meaning."], ["v-gehoor", "Op gehoor", "By ear"], ["v-schrift", "Op schrift", "In writing"], ["v-betekenis", "Van betekenis", "From meaning"], ["m-zelf", "Zelf beoordelen", "Self-assessment"], ["m-keuze", "Meerkeuze", "Multiple choice"], ["x-niveau", "Niveau", "Level"], ["x-oefen", "Oefen", "Practise"], ["x-tel1", "Deze ronde: <b id=\"t-goed\">0<\/b> goed, <b id=\"t-fout\">0<\/b> fout", "This round: <b id=\"t-goed\">0<\/b> right, <b id=\"t-fout\">0<\/b> wrong"], ["x-tel2", "Goed gehad: <b id=\"t-gekend\">0<\/b> van <b id=\"t-totaal\">0<\/b> <span id=\"t-niveau\"><\/span>", "Got right: <b id=\"t-gekend\">0<\/b> of <b id=\"t-totaal\">0<\/b> <span id=\"t-niveau\"><\/span>"], ["x-tel3", "Nog fout: <b id=\"t-fout-open\">0<\/b>", "Still wrong: <b id=\"t-fout-open\">0<\/b>"], ["x-tel4", "Nog niet gehad: <b id=\"t-nieuw\">0<\/b>", "Not yet seen: <b id=\"t-nieuw\">0<\/b>"], ["x-tel5", "Moeilijk: <b id=\"t-moeilijk\">0<\/b>", "Difficult: <b id=\"t-moeilijk\">0<\/b>"], ["wis-niveau", "Wis de voortgang van dit niveau", "Clear your progress on this level"], ["toon", "Toon antwoord", "Show answer"], ["wist-niet", "Wist ik niet", "Didn’t know it"], ["wist-wel", "Wist ik", "Knew it"], ["volgende", "Volgende", "Next"], ["x-voet0", "Het Jodendom is een intellectuele godsdienst. Naast gebed en goede daden draait het om leren. Zo is de Joodse wijsheid beter toegankelijk voor wie de Hebreeuwse uitdrukkingen en denkbeelden begrijpt. Dat betekent simpelweg ook: de begrippen uit het hoofd leren. Voor mijn gioer, mijn halachische overgang tot het Jodendom, maakte ik een uitputtende lijst van 1000 begrippen met hun betekenissen. Mezelf van papier overhoren bleek onhandig, en de woorden bleven niet altijd hangen. Zo ontstond het idee voor deze app.", "Judaism is an intellectual religion. Besides prayer and good deeds, it is about learning. Jewish wisdom thus opens up more readily to those who understand Hebrew expressions and ideas. That also simply means committing the terms to memory. For my giyur, my halachic conversion to Judaism, I made an exhaustive list of 1,000 terms with their meanings. Testing myself on paper proved awkward, and the words did not always stick. That gave rise to the idea for this app."], ["x-voet8", "Nu de app online staat, kan iedereen ermee lernen. Het Sjema draagt dit ook op: „prent ze in” (<span lang=\"he\" class=\"hebr-klein\">וְשִׁנַּנְתָּם<\/span>) in Devariem 6:7. Naar ik hoop, proeft wie leert ook iets van de spirituele diepgang achter de woorden.", "Now that the app is online, anyone can learn with it. The Shema commands this too: ‘teach them diligently’ (<span lang=\"he\" class=\"hebr-klein\">וְשִׁנַּנְתָּם<\/span>) in Devarim 6:7. I hope that those who learn will also taste something of the spiritual depth behind the words."], ["x-voet1", "De woorden in deze app zijn ingesproken door een computerstem van ElevenLabs. Hoort u een fout, dan kunt u onder ‘Meer opties’ op ‘Uitspraak klopt niet’ tikken, opschrijven wat er niet klopt en uw melding mailen. Een streepje boven een letter, zoals in <span lang=\"he\" class=\"hebr-klein\">מֶ֫לֶךְ<\/span>, betekent dat de klemtoon op die lettergreep valt en niet op de laatste.", "The words in this app are spoken by a computer voice from ElevenLabs. If you hear a mistake, you can tap ‘Pronunciation is wrong’ under ‘More options’, write down what is wrong and email your report. A small stroke above a letter, as in <span lang=\"he\" class=\"hebr-klein\">מֶ֫לֶךְ<\/span>, means that the stress falls on that syllable and not on the last one."], ["x-voet2", "Wat u fout had, komt terug tot u het goed heeft. Wilt u een woord later nog eens oefenen, ook als u het goed had, zet het dan op uw lijst met moeilijke woorden. Die vindt u onder ‘mijn moeilijke woorden’ bij ‘Meer opties’ onderaan de oefenpagina. Op gehoor, op schrift en van betekenis houden elk hun eigen voortgang bij. Uw voortgang wordt op uw telefoon of computer bewaard, zodat u later verder kunt gaan waar u gebleven was. U kunt ook een reservekopie van uw voortgang bewaren en die op een ander apparaat terugzetten:", "What you got wrong comes back until you get it right. If you want to practise a word again later, even if you got it right, put it on your list of difficult words. You will find it under ‘my difficult words’ in ‘More options’ at the bottom of the practice page. By ear, in writing and from meaning each keep track of their own progress. Your progress is saved on your phone or computer, so you can later carry on where you left off. You can also save a backup of your progress and restore it on another device:"], ["x-voet3", "Basisbegrippen zijn zo’n 400 woorden (sjabbat, gebeden, levenscyclus etc.). Gevorderde begrippen zijn de overige. ‘Feestdagen en maanden’ overhoort de data van de feestdagen en wat erbij hoort, de volgorde van de maanden en in welke maanden van de gregoriaanse kalender ze vallen.", "Basic terms are some 400 words (Shabbat, prayers, life cycle etc.). Advanced terms are all the others. ‘Festivals and months’ tests the dates of the festivals and what goes with them, the order of the months and in which months of the Gregorian calendar they fall."], ["x-voet7", "<b>Contact:<\/b> Wilt u contact met mij opnemen, mail mij dan via <a href=\"mailto:edwingiltay@gmail.com\">edwingiltay@gmail.com<\/a>.", "<b>Contact:<\/b> If you would like to contact me, please email me at <a href=\"mailto:edwingiltay@gmail.com\">edwingiltay@gmail.com<\/a>."], ["x-voet5", "<b>Toetsen:<\/b> pijl rechts = volgend woord, pijl links = vorig woord, spatie = luisteren, enter = antwoord tonen of volgende, 1–4 = keuze. Op een telefoon kunt u over de kaart swipen: naar links voor de volgende, naar rechts voor de vorige.", "<b>Keys:<\/b> right arrow = next word, left arrow = previous word, space = listen, enter = show answer or next, 1–4 = choice. On a phone, you can swipe the card: left for the next one, right for the previous one."], ["x-voet6", "<b>Swipen:<\/b> U kunt over de kaart swipen: naar links voor de volgende, naar rechts voor de vorige.", "<b>Swiping:<\/b> You can swipe the card: left for the next one, right for the previous one."]], OPTIES = [["niveau", "basis", "basisbegrippen", "basic terms"], ["niveau", "gevorderd", "gevorderde begrippen", "advanced terms"], ["niveau", "jaar", "feestdagen en maanden", "festivals and months"], ["selectie", "open", "wat ik nog niet goed had", "what I have not got right yet"], ["selectie", "fout", "alleen wat ik fout had", "only what I got wrong"], ["selectie", "moeilijk", "mijn moeilijke woorden", "my difficult words"]], ARIA = [["#vormgroep", "Oefenvorm", "Practice mode"], ["#modusgroep", "Manier van antwoorden", "Way of answering"], [".kaart", "Oefenkaart", "Practice card"], ["#speel", "Luister naar het woord", "Listen to the word"], ["#naar-vorige", "Vorig woord", "Previous word"], ["#naar-volgende", "Volgend woord", "Next word"], ["#schriftrij .schakel", "Schrift", "Script"], ["#inst-weg", "Sluiten", "Close"], ["#s-fon", "Fonetisch Hebreeuws", "Phonetic Hebrew"], ["#s-he", "Hebreeuws", "Hebrew"]];
 function zetTeksten(t) {
   TEKST.forEach(([id, nl, en]) => { const el = document.getElementById(id); if (el) el.innerHTML = t === 'en' ? en : nl; });
   OPTIES.forEach(([sel, v, nl, en]) => { const o = document.querySelector('#' + sel + ' option[value="' + v + '"]'); if (o) o.textContent = t === 'en' ? en : nl; });
@@ -451,6 +488,10 @@ function buffer(w) {
 }
 const speler = new Audio(); speler.preload = 'auto';
 let bron = null, afspeelMelding = false;   // alleen een afspeelfout wist speel() zelf weer
+// speelstand: de luidspreker toont dat het woord klinkt (stap 3 ontwerprapport, 3 nov 2026)
+const speelStand = aan => $('speel').classList.toggle('speelt', aan);
+speler.addEventListener('playing', () => speelStand(true));
+['ended', 'pause', 'error'].forEach(t => speler.addEventListener(t, () => speelStand(false)));
 function melding(t) { $('laden').hidden = !t; $('laden').textContent = t || ''; }
 function viaAudio(w, snelheid) {
   speler.src = adres(w); speler.playbackRate = snelheid; if ('preservesPitch' in speler) speler.preservesPitch = true;
@@ -458,8 +499,8 @@ function viaAudio(w, snelheid) {
 }
 function viaWebAudio(w, snelheid) {
   const c = context();
-  return buffer(w).then(buf => { if (bron) try { bron.stop(); } catch (e) {}
-    bron = c.createBufferSource(); bron.buffer = buf; bron.playbackRate.value = snelheid; bron.connect(c.destination); bron.start(0); });
+  return buffer(w).then(buf => { if (bron) try { bron.onended = null; bron.stop(); } catch (e) {}
+    bron = c.createBufferSource(); bron.buffer = buf; bron.playbackRate.value = snelheid; bron.connect(c.destination); bron.onended = () => speelStand(false); speelStand(true); bron.start(0); });
 }
 const TEMPO = 0.75;   // altijd langzaam (Edwin, 25 okt 2026; 0,6 bij de ElevenLabs-stem, op zijn verzoek 0,75 sinds 1 nov 2026); knop "Snel tempo" weg (26 okt)
 function speel(snelheid) {
@@ -480,6 +521,7 @@ function nieuweKaart() {
   if (geschiedenis.length > 100) geschiedenis.shift();
   positie = geschiedenis.length - 1;
   bouwKaart(w, false);
+  const os = opdrachtSleutel(); opdrachtTal[os] = (opdrachtTal[os] || 0) + 1; try { localStorage.setItem('shema-opdracht', JSON.stringify(opdrachtTal)); } catch (e) {}
 }
 function terugblik(item) {
   const w = PER_ID[item.id]; bouwKaart(w, true);
@@ -500,17 +542,24 @@ function veeg(r) {
   const k = document.querySelector('.kaart'); k.classList.remove('veeg-l', 'veeg-r'); void k.offsetWidth; k.classList.add('veeg-' + r);
 }
 let doorTimer = null;   // meerkeuze: na een goed antwoord na 3 seconden vanzelf door (Edwin, 27 okt 2026)
-// opdracht boven op de kaart: wat je hier moet doen (Edwin, 30 okt 2026)
+// opdracht boven op de kaart: wat je hier moet doen (Edwin, 30 okt 2026); alleen op de eerste tien kaarten per manier van oefenen (stap 3 ontwerprapport, 3 nov 2026)
+let opdrachtTal = {};
+try { opdrachtTal = JSON.parse(localStorage.getItem('shema-opdracht') || '{}'); } catch (e) {}
+const opdrachtSleutel = () => (huidig && huidig.jaar ? 'jaar' : vorm) + '-' + modus;
 function opdracht() {
   const zelf = modus === 'zelf';
   $('opdracht').textContent = huidig && huidig.jaar ? (zelf ? LT('Bedenk het antwoord.', 'Think of the answer.') : LT('Kies het juiste antwoord.', 'Choose the right answer.'))
     : vorm === 'gehoor' ? (zelf ? LT('Tik op de luidspreker, luister en bedenk wat het woord betekent.', 'Tap the speaker, listen and think of what the word means.') : LT('Tik op de luidspreker, luister en kies wat het woord betekent.', 'Tap the speaker, listen and choose what the word means.'))
     : vorm === 'schrift' ? (zelf ? LT('Lees het woord en bedenk wat het betekent.', 'Read the word and think of what it means.') : LT('Lees het woord en kies wat het betekent.', 'Read the word and choose what it means.'))
     : (zelf ? LT('Lees de betekenis en bedenk het Hebreeuwse woord.', 'Read the meaning and think of the Hebrew word.') : LT('Lees de betekenis en kies het Hebreeuwse woord.', 'Read the meaning and choose the Hebrew word.'));
+  $('opdracht').hidden = (opdrachtTal[opdrachtSleutel()] || 0) >= 10;
+  const s = $('selectie').selectedOptions[0].textContent;
+  $('regel-keuze').textContent = huidig && huidig.jaar ? s : $('v-' + vorm).textContent + ' · ' + s;
 }
 function bouwKaart(w, terug) {
   clearTimeout(doorTimer); doorTimer = null;
   $('keuzes').classList.remove('af');
+  window.scrollTo(0, 0);   // de volgende-knop staat onderaan, de kaart begint weer bovenaan
   huidig = w; opdracht(); meldKnop(); $('naar-volgende').classList.remove('klaar');
   gespeeld = false;
   $('antwoord').hidden = true; $('melding').hidden = true; $('volgende').hidden = true; $('oordeel').hidden = false;
@@ -544,7 +593,6 @@ function bouwKaart(w, terug) {
   $('vraag').hidden = !schrift; if (schrift) $('vraag').textContent = zonderBijnaam(huidig, 'heb');
   $('vraag-nl').hidden = !betekenis; if (betekenis) $('vraag-nl').textContent = huidig.leeg ? naamVraag(huidig) : huidig.vraag;
   // op schrift en van betekenis komt de afspeelknop pas bij het antwoord: dan onder de keuzes, zodat die niet verspringen (Edwin, 28 okt 2026)
-  if (stil) $('keuzes').after($('luister')); else $('vraag-nl').after($('luister'));
   $('speel').style.visibility = stil ? 'hidden' : '';   // pijlen blijven staan; luidspreker pas bij het antwoord (28 okt 2026)
   schrijf();
   if (kaartGetikt && !stil && !terug) speel();
@@ -595,12 +643,15 @@ function oordeel(goed) {
   if (geschiedenis[positie]) geschiedenis[positie].af = true;
   if (goed && !allesVoor && Wn().every(klaar)) setTimeout(feest, 1200);   // eerst het woord nog horen
 }
-// ballon bij een keuze na het antwoord: van betekenis de betekenis, op gehoor en op schrift het woord, bij het jaar de naam
+// een keuze klapt na het antwoord open (stap 3 ontwerprapport, 3 nov 2026; was een ballon): van betekenis de betekenis, op gehoor en op schrift het woord, bij het jaar de naam als die iets toevoegt
+function sluitRegel() { const o = $('keuzes').querySelector('.open'); if (!o) return; o.classList.remove('open'); const t = o.querySelector('.tip'); if (t) t.remove(); }
 function tip(b) {
-  const oud = $('keuzes').querySelector('.tip'), zelfde = oud && oud.parentNode === b;
-  if (oud) oud.remove();
+  const zelfde = b.classList.contains('open');
+  sluitRegel();
   if (zelfde) return;
+  b.classList.add('open');
   const o = PER_ID[b.dataset.id], t = document.createElement('span');
+  if (huidig.jaar && o.naam.toLowerCase() === o.antwoord.toLowerCase()) return;
   t.className = 'tip';
   // eerst het woord in het andere schrift dan de kaart toont: bij עברית de transliteratie, bij fonetisch het Hebreeuws (Edwin, 28 okt 2026)
   const h = document.createElement('span'); h.className = 'hebr-klein'; h.lang = 'he'; h.textContent = o.heb;
@@ -611,12 +662,12 @@ function tip(b) {
   else t.append(eerst, ' · ', dan);
   b.appendChild(t);
 }
-// een tik buiten de keuzes sluit de ballon
-document.addEventListener('click', e => { const t = $('keuzes').querySelector('.tip'); if (t && !e.target.closest('#keuzes button')) t.remove(); });
+// een tik buiten de keuzes klapt de regel weer dicht
+document.addEventListener('click', e => { if (!e.target.closest('#keuzes button')) sluitRegel(); });
 function beantwoord(b) {
   if ($('keuzes').classList.contains('af')) { tip(b); return; }
   const goed = b.dataset.id === String(huidig.id);
-  $('keuzes').classList.add('af');   // niet meer uitgeschakeld: een tik toont nu de ballon (28 okt 2026)
+  $('keuzes').classList.add('af');   // niet meer uitgeschakeld: een tik klapt de regel open
   [...$('keuzes').children].forEach(x => { if (x.dataset.id === String(huidig.id)) x.classList.add('goed'); });
   if (!goed) b.classList.add('fout');
   oordeel(goed); toonAntwoord();
@@ -897,9 +948,21 @@ $('url').addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === '
 $('feest-deel').addEventListener('click', () => deel(LT('Ik heb alle %1 %2 goed in Shema, een gratis app om Hebreeuws te oefenen.', 'I got all %1 %2 right in Shema, a free app for practising Hebrew.').replace('%1', $('t-totaal').textContent).replace('%2', $('t-niveau').textContent), $('feest-deel')));
 $('feest-verder').addEventListener('click', () => { $('feest').hidden = true; });
 $('naar-thuis').addEventListener('click', () => { if (history.state && history.state.shema === 'oefen') history.back(); else toonScherm('thuis'); });
-window.addEventListener('popstate', () => { if (!$('oefen').hidden) toonScherm('thuis'); });
+// één paneel voor alle instellingen (stap 3 ontwerprapport, 3 nov 2026); de terugknop van de telefoon sluit het
+let paneelInGeschiedenis = false;
+function paneelOpen() {
+  $('paneel').hidden = false;
+  try { history.pushState({shema: 'paneel'}, ''); paneelInGeschiedenis = true; } catch (e) { paneelInGeschiedenis = false; }
+  $('paneel-dicht').focus({preventScroll: true});
+}
+function paneelDicht() { if (paneelInGeschiedenis) { paneelInGeschiedenis = false; history.back(); } else $('paneel').hidden = true; }
+$('oefen-regel').addEventListener('click', paneelOpen);
+$('paneel-dicht').addEventListener('click', paneelDicht);
+$('paneel').addEventListener('click', e => { if (e.target === $('paneel')) paneelDicht(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && !$('paneel').hidden) paneelDicht(); });
+window.addEventListener('popstate', () => { if (!$('paneel').hidden) { $('paneel').hidden = true; paneelInGeschiedenis = false; return; } if (!$('oefen').hidden) toonScherm('thuis'); });
 document.addEventListener('keydown', e => {
-  if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || $('oefen').hidden || !$('feest').hidden) return;
+  if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || $('oefen').hidden || !$('feest').hidden || !$('paneel').hidden) return;
   if (e.key === 'ArrowRight') { e.preventDefault(); vooruit(); return; }
   if (e.key === 'ArrowLeft') { e.preventDefault(); achteruit(); return; }
   if (e.key === ' ') { e.preventDefault(); if ((vorm === 'gehoor' && !huidig.jaar) || !$('antwoord').hidden) speel(); }
