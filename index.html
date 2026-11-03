@@ -265,6 +265,7 @@ label.keus select{font-size:var(--t-tekst);height:44px;border:6px solid transpar
 .tegel-wiel .tegel-naam{grid-column:1;grid-row:1}.tegel-wiel .tegel-tal{grid-column:1;grid-row:2}
 .tegel-wiel .wiel{grid-column:2;grid-row:1/3;width:40px;margin-block:-2.1px}   /* kleiner (Edwin, 3 nov 2026; was 52px) */
 .wiel.midden{width:min(520px,100%);margin:4px auto 6px}   /* groter op de oefenpagina (Edwin, 3 nov 2026; was 250 px, toen 360) */
+@media (max-width:600px){.wiel.midden{width:calc(100% + 8px);margin-left:-4px;margin-right:-4px}.wiel.midden .maand-he{font-size:12px}}   /* op mobiel: Hebreeuwse maandnamen iets groter, 12 in plaats van 11 eenheden (Edwin, 3 nov 2026) */   /* op mobiel een paar pixels breder, 4 px aan elke kant in de kantlijn (Edwin, 3 nov 2026) */
 .wiel.groot{width:min(520px,100%);margin:-8px auto 0}   /* dichter op de tekst erboven (Edwin, 3 nov 2026) */
 .wiel-vandaag{margin:2px 0 0;text-align:center;font-size:var(--t-klein);font-weight:600;color:var(--techelet)}
 .wiel-uitleg{text-align:center;font-size:var(--t-klein);color:var(--zacht);margin:2px 0 8px}
@@ -1003,7 +1004,7 @@ function tekenWiel(doel, opt) {
     const p = el('path', {d: boog(56, 84, a1 + .8, a2 - .8), fill: groenM.has(i) ? 'var(--goed-licht)' : aan ? 'var(--techelet-licht)' : 'var(--bg)', stroke: i === hm && !opt.dag ? 'var(--goed)' : 'var(--lijn)', 'stroke-width': i === hm && !opt.dag ? 1.4 : .8, class: 'seg'}   /* het antwoord groen zoals de goede keuze: lichtgroen vlak, bij een maandvraag een groene rand, bij een feestdag (groene stip) geen rand (Edwin, 3 nov 2026) */, svg);
     const fon = schr === 'fon', [x, y] = xy(70, (a1 + a2) / 2), t = el('text', {x: x, y: y + (fon ? 3 : 3.6), 'text-anchor': 'middle', 'font-size': fon ? 8.6 : groot ? 10.5 : 11, fill: 'var(--fg)', 'pointer-events': 'none'}, svg);
     if (fon) { t.textContent = maandNaam(i); const l = t.getComputedTextLength ? t.getComputedTextLength() : 0; if (l > 33) t.setAttribute('font-size', 8.6 * 33 / l); }   // fonetisch schrift: de maandnaam past in het vak; dezelfde naam als in de vragen en antwoorden (Edwin, 3 nov 2026; was de transliteratie)
-    else { t.textContent = nik(m[0]); t.setAttribute('class', 'wh'); }
+    else { t.textContent = nik(m[0]); t.setAttribute('class', 'wh maand-he'); }
     segEls[i] = p;
     p.addEventListener('click', () => { antwoordWeg(); kies(p, {fill: 'var(--techelet-licht)'}); toon(m[0], maandNaam(i), gregMaanden(i)); speelWoord(PER_ID[m[2]]); });   // ook op de oefenpagina aan te tikken (Edwin, 3 nov 2026)
   });
