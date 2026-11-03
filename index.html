@@ -282,6 +282,7 @@ label.keus select{font-size:var(--t-tekst);height:44px;border:6px solid transpar
 .wiel .stip{transform-box:fill-box;transform-origin:center;transition:transform .6s ease}.wiel .stip.gekozen,.wiel .stip.antwoord{transform:scale(1.3)}   /* gekozen stip langzaam 30 % groter (Edwin, 4 nov 2026) */
 .keuzes button.goed,.keuzes button.fout{transition:background-color .6s ease,border-color .6s ease}   /* lichtgroen en lichtrood komen langzaam op (Edwin, 4 nov 2026) */
 .wiel path.seg{transition:fill .6s ease}@keyframes opkomen{from{fill:var(--bg)}}.wiel path.opkomen{animation:opkomen .6s ease}   /* ook de maanden in het jaarrad */
+#oefen{position:relative;overflow-x:clip}.veeg-kloon{position:absolute;margin:0;pointer-events:none;z-index:1;box-sizing:border-box}   /* de wegschuivende kopie van de kaart (Edwin, 4 nov 2026) */
 #s-he{line-height:1.45}   /* overal regelafstand 1,35 in plaats van 1,45, behalve bij אב (Edwin, 3 nov 2026); de knoppen hierboven blijven 35,2 px */
 #meld,#wis-niveau{padding-top:calc((35.2px - 2px - 1.35em) / 2);padding-bottom:calc((35.2px - 2px - 1.35em) / 2)}   /* 35,2 px hoog (Edwin, 3 nov 2026); het aanraakvlak blijft 44 px */</style>
 </head>
@@ -603,15 +604,33 @@ function terugblik(item) {
   }
 }
 function vooruit() {
-  if (positie < geschiedenis.length - 1) { positie++; terugblik(geschiedenis[positie]); veeg('l'); }
-  else { nieuweKaart(); veeg('l'); }
+  const oud = momentopname();
+  if (positie < geschiedenis.length - 1) { positie++; terugblik(geschiedenis[positie]); veeg('l', oud); }
+  else { nieuweKaart(); veeg('l', oud); }
 }
 function achteruit() {
-  if (positie > 0) { positie--; terugblik(geschiedenis[positie]); veeg('r'); }
+  if (positie > 0) { const oud = momentopname(); positie--; terugblik(geschiedenis[positie]); veeg('r', oud); }
   else melding(LT('Dit is de eerste kaart van deze ronde.', 'This is the first card of this round.'));
 }
-function veeg(r) {
-  const k = document.querySelector('.kaart'); k.classList.remove('veeg-l', 'veeg-r'); void k.offsetWidth; k.classList.add('veeg-' + r);
+// een echte veeg bij ‹ en › en bij vegen over de kaart (Edwin, 4 nov 2026): een kopie van de oude kaart schuift weg, de nieuwe schuift erachteraan
+// in beeld; zonder Web Animations of bij ‘minder beweging’ de oude kleine verschuiving
+const minderBeweging = () => window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+function momentopname() {
+  const k = document.querySelector('.kaart');
+  if (!k || !k.animate || minderBeweging() || $('oefen').hidden) return null;
+  document.querySelectorAll('.veeg-kloon').forEach(c => c.remove());
+  const c = k.cloneNode(true);
+  c.removeAttribute('aria-label'); c.setAttribute('aria-hidden', 'true'); c.querySelectorAll('[id]').forEach(e => e.removeAttribute('id'));
+  c.classList.add('veeg-kloon'); c.style.top = k.offsetTop + 'px'; c.style.left = k.offsetLeft + 'px'; c.style.width = k.offsetWidth + 'px'; c.style.height = k.offsetHeight + 'px';
+  return c;
+}
+function veeg(r, oud) {
+  const k = document.querySelector('.kaart');
+  if (!oud) { k.classList.remove('veeg-l', 'veeg-r'); void k.offsetWidth; k.classList.add('veeg-' + r); return; }
+  k.parentNode.appendChild(oud);
+  const weg = r === 'l' ? '-100%' : '100%', in_ = r === 'l' ? '100%' : '-100%', tijd = {duration: 340, easing: 'cubic-bezier(.25,.7,.25,1)'};
+  oud.animate([{transform: 'none', opacity: 1}, {transform: 'translateX(' + weg + ')', opacity: .4}], tijd).onfinish = () => oud.remove(); setTimeout(() => oud.remove(), 700);   // ook weg als de animatie niet afloopt (tabblad op de achtergrond)
+  k.animate([{transform: 'translateX(' + in_ + ')'}, {transform: 'none'}], tijd);
 }
 let doorTimer = null;   // meerkeuze: na een goed antwoord na 3 seconden vanzelf door (Edwin, 27 okt 2026)
 // opdracht boven op de kaart: wat je hier moet doen (Edwin, 30 okt 2026); alleen op de eerste tien kaarten per manier van oefenen (stap 3 ontwerprapport, 3 nov 2026)
@@ -1105,6 +1124,9 @@ function toonScherm(s, start) {
   if (!oefen) tekenThuis();
   else if (!start) { try { history.pushState({shema: 'oefen'}, ''); } catch (e) {} }
   window.scrollTo(0, 0);
+  // zachte overgang tussen beginscherm en oefenscherm (Edwin, 4 nov 2026): het nieuwe scherm schuift een stukje in en komt op
+  const nu = $(oefen ? 'oefen' : 'thuis');
+  if (!start && nu.animate && !minderBeweging()) nu.animate([{opacity: 0, transform: 'translateX(' + (oefen ? 28 : -28) + 'px)'}, {opacity: 1, transform: 'none'}], {duration: 300, easing: 'cubic-bezier(.25,.7,.25,1)'});
 }
 // opnames per niveau (Edwin, 30 okt 2026): op GitHub staan ze in klank/<deel>.json (maak_site.py --github) en komen ze pas
 // binnen als je een niveau kiest, met een laadmeter op de kaart; zonder KLANK_DELEN (claude.ai) zitten ze in de pagina zelf
