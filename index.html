@@ -263,6 +263,7 @@ label.keus select{font-size:var(--t-tekst);height:44px;border:6px solid transpar
 .tegel-wiel .wiel{grid-column:2;grid-row:1/3;width:52px}
 .wiel.midden{width:min(520px,100%);margin:4px auto 6px}   /* groter op de oefenpagina (Edwin, 3 nov 2026; was 250 px, toen 360) */
 .wiel.groot{width:min(520px,100%);margin:-8px auto 0}   /* dichter op de tekst erboven (Edwin, 3 nov 2026) */
+.wiel .knip{animation:knip .8s ease-in-out 3}@keyframes knip{50%{opacity:.15}}@media (prefers-reduced-motion:reduce){.wiel .knip{animation:none}}
 .wiel-vandaag{margin:2px 0 0;text-align:center;font-size:var(--t-klein);font-weight:600;color:var(--techelet)}
 .wiel-uitleg{text-align:center;font-size:var(--t-klein);color:var(--zacht);margin:2px 0 8px}</style>
 </head>
@@ -942,8 +943,9 @@ function tekenWiel(doel, opt) {
   WIEL_FEESTEN.forEach(id => { const f = PER_ID['jf-' + id]; if (!f) return; const [m, dag] = datumVan(nlVan(f, 'antwoord')); if (m >= 0) stippen.push({f: f, m: m, dag: dag, a: dagHoek(m, dag)}); });
   stippen.sort((p, q) => p.a - q.a);
   let vorige = -99, binnen = false;
-  stippen.forEach(p => { binnen = p.a - vorige < 12 ? !binnen : false; vorige = p.a; p.r = binnen ? 40 : 49; [p.x, p.y] = xy(p.r, p.a); el('circle', {cx: p.x, cy: p.y, r: groot ? 3.4 : 2.6, fill: 'var(--techelet)'}, svg); });
-  if (hm >= 0 && opt.dag) { const z = stippen.find(p => p.m === hm && p.dag === opt.dag), [x, y] = xy(z ? z.r : 49, dagHoek(hm, opt.dag)); el('circle', {cx: x, cy: y, r: 7, fill: 'none', stroke: 'var(--goed)', 'stroke-width': 2}, svg); el('circle', {cx: x, cy: y, r: 3.6, fill: 'var(--goed)'}, svg); }
+  stippen.forEach(p => { binnen = p.a - vorige < 12 ? !binnen : false; vorige = p.a; p.r = binnen ? 40 : 49; [p.x, p.y] = xy(p.r, p.a); p.el = el('circle', {cx: p.x, cy: p.y, r: groot ? 3.4 : 2.6, fill: 'var(--techelet)'}, svg); });
+  // de dag van het antwoord: een groene stip, even groot als de blauwe, die drie keer zacht knippert (Edwin, 3 nov 2026; was een grote groene ring); is het een feestdagstip, dan wordt die groen
+  if (hm >= 0 && opt.dag) { const z = stippen.find(p => p.m === hm && p.dag === opt.dag), [x, y] = xy(z ? z.r : 49, dagHoek(hm, opt.dag)); const g = z ? z.el : el('circle', {cx: x, cy: y, r: groot ? 3.4 : 2.6}, svg); g.setAttribute('fill', 'var(--goed)'); g.setAttribute('class', 'knip'); }
   {   // één tikvlak binnen de maandring: een tik kiest de dichtstbijzijnde stip (grote wiel en oefenpagina)
     const ring = el('circle', {r: 6.5, fill: 'none', stroke: 'var(--techelet)', 'stroke-width': 1.6, visibility: 'hidden', 'pointer-events': 'none'}, svg);
     el('circle', {cx: 0, cy: 0, r: 55, fill: 'transparent', class: 'seg'}, svg).addEventListener('click', e => {
