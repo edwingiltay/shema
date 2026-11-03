@@ -90,6 +90,7 @@ label.keus select{-webkit-appearance:none;appearance:none;box-sizing:border-box;
 .voet p{margin:0 0 .7em;max-width:68ch}.voet b{color:var(--fg);font-weight:600}   /* voettekst in alinea's (Edwin, 27 okt 2026) */
 .vraag-nl{font-size:var(--t-groot);line-height:1.45;margin:0;padding:4px 2px;color:var(--techelet)}   /* donkerblauw, zonder linkerstreep (Edwin, 28 okt 2026) */
 .hebr-klein{font-family:var(--hebr);font-size:1.15em;direction:rtl;unicode-bidi:isolate}
+.voet .hebr-klein,.copyright .hebr-klein{line-height:0}   /* Hebreeuws in lopende tekst maakt de regel niet hoger (Edwin, 3 nov 2026) */
 .keuzes button .hebr-optie{font-family:var(--hebr);font-size:var(--h-klein);direction:rtl;flex:1;text-align:right}
 .hint{margin:-8px 0 0;text-align:center;color:var(--zacht);font-size:var(--t-klein)}
 .kaart{touch-action:pan-y}
@@ -206,8 +207,8 @@ label.keus select{font-size:var(--t-tekst);height:44px;border:6px solid transpar
 @media (pointer:coarse){.keuzes button .nr{color:transparent}.alleen-toetsen{display:none}.alleen-aanraak{display:block}}
 
 /* stap 3 ontwerprapport (Edwin, 3 nov 2026): vaste balk onderaan, compacte keuzes na het antwoord, één paneel, uitklapregels, speelstand */
-#oefen{padding-bottom:calc(41px + env(safe-area-inset-bottom,0px))}
-.luister{position:fixed;left:0;right:0;bottom:0;z-index:4;background:var(--bg);border-top:1px solid var(--lijn);justify-content:space-between;padding:8px max(24px,env(safe-area-inset-right,0px)) calc(8px + env(safe-area-inset-bottom,0px)) max(24px,env(safe-area-inset-left,0px))}
+#oefen{padding-bottom:calc(46px + env(safe-area-inset-bottom,0px))}
+.luister{position:fixed;left:0;right:0;bottom:0;z-index:4;background:var(--bg);border-top:1px solid var(--lijn);justify-content:space-between;padding:12px max(24px,env(safe-area-inset-right,0px)) calc(12px + env(safe-area-inset-bottom,0px)) max(24px,env(safe-area-inset-left,0px))}
 @media (min-width:660px){.luister{padding-left:calc(50% - 276px);padding-right:calc(50% - 276px)}}
 .speel{width:60px;height:60px;box-shadow:none}.speel svg{width:30px;height:30px}.pijl{width:52px;height:52px}
 .speel.speelt{background:var(--techelet-licht);animation:speelt 1.2s ease-out infinite}
@@ -303,8 +304,6 @@ label.keus select{font-size:var(--t-tekst);height:44px;border:6px solid transpar
     </div>
     <div class="paneel-achter" id="paneel" hidden><div class="paneel" role="dialog" aria-modal="true" aria-labelledby="x-meer2">
       <div class="paneel-kop"><h2 id="x-meer2">Meer opties</h2><button class="terug" id="paneel-dicht">Klaar</button></div>
-      <button class="knop moeilijk" id="meld" aria-pressed="false" hidden>Uitspraak klopt niet</button>
-      <div class="meld-blok" id="meld-blok" hidden><textarea id="meld-tekst" rows="2"></textarea><div class="oordeel"><button class="knop hoofd" id="meld-bewaar">Mail melding</button><button class="knop" id="meld-weg">Verwijder melding</button></div></div>
     <div class="balk">
       <div class="schakel" role="group" aria-label="Oefenvorm" id="vormgroep">
         <button id="v-gehoor" aria-pressed="true">Op gehoor</button>
@@ -328,6 +327,8 @@ label.keus select{font-size:var(--t-tekst);height:44px;border:6px solid transpar
         <span id="x-tel5">Moeilijk: <b id="t-moeilijk">0</b></span>
         <span id="opslag" hidden>Voortgang: op dit apparaat</span>
       </div>
+      <button class="knop moeilijk" id="meld" aria-pressed="false" hidden>Uitspraak klopt niet</button>
+      <div class="meld-blok" id="meld-blok" hidden><textarea id="meld-tekst" rows="2"></textarea><div class="oordeel"><button class="knop hoofd" id="meld-bewaar">Mail melding</button><button class="knop" id="meld-weg">Verwijder melding</button></div></div>
       <button class="knop gevaar" id="wis-niveau">Wis de voortgang van dit niveau</button>
     </div></div>
   </section>
