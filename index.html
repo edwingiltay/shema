@@ -279,6 +279,9 @@ label.keus select{font-size:var(--t-tekst);height:44px;border:6px solid transpar
 .melding:not([hidden]) + #a-hebr:not([hidden]){margin-top:-6px}   /* minder ruimte tussen de melding en het Hebreeuwse antwoord (Edwin, 3 nov 2026) */
 .zonder-nikoed #a-hebr:not([hidden]) + .translit{margin-top:-5px}   /* zonder nikoed staat er niets onder de letters: minder ruimte tot de transliteratie (Edwin, 3 nov 2026); 5 px, want ק, ן, ך, ף en ץ steken onder de lijn uit */
 #wist-niet,#wist-wel{padding-top:calc((18.9px + 14px - 1.35em) / 2);padding-bottom:calc((18.9px + 14px - 1.35em) / 2)}   /* even hoog als ‘Zet op mijn lijst met moeilijke woorden’ (34,9 px; Edwin, 3 nov 2026) */
+.wiel .stip{transform-box:fill-box;transform-origin:center;transition:transform .6s ease}.wiel .stip.gekozen,.wiel .stip.antwoord{transform:scale(1.3)}   /* gekozen stip langzaam 30 % groter (Edwin, 4 nov 2026) */
+.keuzes button.goed,.keuzes button.fout{transition:background-color .6s ease,border-color .6s ease}   /* lichtgroen en lichtrood komen langzaam op (Edwin, 4 nov 2026) */
+.wiel path.seg{transition:fill .6s ease}@keyframes opkomen{from{fill:var(--bg)}}.wiel path.opkomen{animation:opkomen .6s ease}   /* ook de maanden in het jaarrad */
 #s-he{line-height:1.45}   /* overal regelafstand 1,35 in plaats van 1,45, behalve bij אב (Edwin, 3 nov 2026); de knoppen hierboven blijven 35,2 px */
 #meld,#wis-niveau{padding-top:calc((35.2px - 2px - 1.35em) / 2);padding-bottom:calc((35.2px - 2px - 1.35em) / 2)}   /* 35,2 px hoog (Edwin, 3 nov 2026); het aanraakvlak blijft 44 px */</style>
 </head>
@@ -967,6 +970,8 @@ function joodseDatum(d) {   // [maand, dag, ' I' of ' II' bij adar in een schrik
     return i < 0 ? null : [i, +p.find(x => x.type === 'day').value, /Adar II/.test(mn) ? ' II' : /Adar I\b/.test(mn) ? ' I' : '', jr ? jr.value : ''];
   } catch (e) { return null; }
 }
+// de groene antwoordstip is 30 % groter tot er ergens wordt getikt (Edwin, 4 nov 2026); de tik die het antwoord gaf telt niet mee
+document.addEventListener('click', e => { if (e.target.closest && e.target.closest('.wiel')) return; document.querySelectorAll('.wiel circle.stip.antwoord').forEach(c => { if (e.timeStamp > +(c.ownerSVGElement.parentNode.dataset.getekend || 0)) c.classList.remove('antwoord'); }); });
 let wielKeuze = null;   // wist wat er in een wiel is aangetikt; een tik buiten het wiel wist het ook (Edwin, 3 nov 2026)
 document.addEventListener('click', e => { if (wielKeuze && !(e.target.closest && e.target.closest('.wiel'))) { wielKeuze(); wielKeuze = null; } });
 function tekenWiel(doel, opt) {
@@ -979,6 +984,7 @@ function tekenWiel(doel, opt) {
   const kies = (e2, nieuw, meer = []) => { if (wielKeuze) wielKeuze(); wis(); gekozen = [[e2, nieuw]].concat(meer).map(([e3, n]) => { const oud = {}; for (const k in n) { oud[k] = e3.getAttribute(k); e3.setAttribute(k, n[k]); } return [e3, oud]; }); wielKeuze = wis; };   // maand lichtblauw, stip met zwarte rand; meer: andere elementen die mee kleuren
   const klein = opt.soort === 'klein', groot = opt.soort === 'groot', hm = opt.maand === undefined ? -1 : opt.maand;
   const svg = el('svg', {viewBox: klein ? '-50 -50 100 100' : '-110 -110 220 220'}, doel);
+  doel.dataset.getekend = performance.now();
   if (klein) {
     // voortgang als cirkel (Edwin, 3 nov 2026): elk twaalfde deel van de vragen goed kleurt één vak blauw, met de klok mee vanaf tisjrei
     const vol = Math.floor(12 * J.filter(klaar).length / J.length);
@@ -995,7 +1001,7 @@ function tekenWiel(doel, opt) {
   // vandaag op de buitenrand: een driehoekje met de datum in beide kalenders (Edwin, 3 nov 2026); de Joodse datum rekent de browser uit
   const nu = new Date(), dj = Math.round((Date.UTC(nu.getFullYear(), nu.getMonth(), nu.getDate()) - Date.UTC(nu.getFullYear(), 0, 1)) / 864e5), av = (dj - 258) / 365 * 360;
   const op = opt.soort === 'midden', [tx, ty] = xy(101.5, av), [b1x, b1y] = xy(op ? 106 : 108.5, av - (op ? 1.8 : 2.6)), [b2x, b2y] = xy(op ? 106 : 108.5, av + (op ? 1.8 : 2.6));   // op de oefenpagina kleiner (Edwin, 3 nov 2026)
-  const drie = el('path', {d: 'M' + tx + ' ' + ty + 'L' + b1x + ' ' + b1y + 'L' + b2x + ' ' + b2y + 'Z', fill: 'var(--techelet)'}, svg);
+  const drie = el('path', {d: 'M' + tx + ' ' + ty + 'L' + b1x + ' ' + b1y + 'L' + b2x + ' ' + b2y + 'Z', fill: 'var(--techelet)', stroke: 'var(--fg)', 'stroke-width': .5, 'stroke-linejoin': 'round', 'vector-effect': 'non-scaling-stroke', class: 'stip'}, svg);   // rand van 0,5 px (Edwin, 4 nov 2026)
   const metJaar = opt.soort === 'groot';   // op de uitlegpagina met jaartallen (Edwin, 3 nov 2026)
   const zon = zonsondergang(nu), regels = [new Intl.DateTimeFormat(taal, metJaar ? {day: 'numeric', month: 'short', year: 'numeric'} : {day: 'numeric', month: 'short'}).format(nu)], jd = joodseDatum(zon && nu >= zon ? new Date(nu.getFullYear(), nu.getMonth(), nu.getDate() + 1, 12) : nu);
   if (jd) regels.push(jd[1] + ' ' + maandNaam(jd[0]) + jd[2] + (metJaar && jd[3] ? ' ' + jd[3] : ''));
@@ -1013,7 +1019,7 @@ function tekenWiel(doel, opt) {
   const segEls = [], groene = []; let antwoordWeg = () => {};   // op de oefenpagina: de eerste tik in het wiel haalt de antwoordkleuren weg (zie onder)
   MAANDEN.forEach((m, i) => {
     const a1 = dagHoek(i, 1), a2 = a1 + m[1] / 354 * 360, aan = i === hm;   // geen voortgangskleur in het grote wiel: die leek de huidige maand aan te wijzen (Edwin, 3 nov 2026); de voortgang staat in het kleine wiel op de tegel
-    const p = el('path', {d: boog(56, 84, a1 + .8, a2 - .8), fill: groenM.has(i) ? 'var(--goed-licht)' : aan ? 'var(--techelet-licht)' : 'var(--bg)', stroke: i === hm && !opt.dag ? 'var(--goed)' : 'var(--lijn)', 'stroke-width': i === hm && !opt.dag ? 1.4 : .8, class: 'seg'}   /* het antwoord groen zoals de goede keuze: lichtgroen vlak, bij een maandvraag een groene rand, bij een feestdag (groene stip) geen rand (Edwin, 3 nov 2026) */, svg);
+    const p = el('path', {d: boog(56, 84, a1 + .8, a2 - .8), fill: groenM.has(i) ? 'var(--goed-licht)' : aan ? 'var(--techelet-licht)' : 'var(--bg)', stroke: i === hm && !opt.dag ? 'var(--goed)' : 'var(--lijn)', 'stroke-width': i === hm && !opt.dag ? 1.4 : .8, class: groenM.has(i) ? 'seg opkomen' : 'seg'}   /* het antwoord groen zoals de goede keuze: lichtgroen vlak, bij een maandvraag een groene rand, bij een feestdag (groene stip) geen rand (Edwin, 3 nov 2026) */, svg);
     const fon = schr === 'fon', [x, y] = xy(70, (a1 + a2) / 2), t = el('text', {x: x, y: y + (fon ? 3 : 3.6), 'text-anchor': 'middle', 'font-size': fon ? 8.6 : groot ? 10.5 : 11, fill: 'var(--fg)', 'pointer-events': 'none'}, svg);
     if (fon) { t.textContent = maandNaam(i); const l = t.getComputedTextLength ? t.getComputedTextLength() : 0; if (l > 33) t.setAttribute('font-size', 8.6 * 33 / l); }   // fonetisch schrift: de maandnaam past in het vak; dezelfde naam als in de vragen en antwoorden (Edwin, 3 nov 2026; was de transliteratie)
     else { t.textContent = nik(m[0]); t.setAttribute('class', 'wh maand-he'); }
@@ -1025,7 +1031,7 @@ function tekenWiel(doel, opt) {
   WIEL_FEESTEN.forEach(id => { const f = PER_ID['jf-' + id]; if (!f) return; const [m, dag] = datumVan(nlVan(f, 'antwoord')); if (m >= 0) stippen.push({f: f, m: m, dag: dag, a: dagHoek(m, dag)}); });
   stippen.sort((p, q) => p.a - q.a);
   let vorige = -99, binnen = false;
-  stippen.forEach(p => { binnen = p.a - vorige < 12 ? !binnen : false; vorige = p.a; p.r = binnen ? 40 : 49; [p.x, p.y] = xy(p.r, p.a); p.el = el('circle', {cx: p.x, cy: p.y, r: groot ? 3.4 : 2.6, fill: 'var(--techelet)'}, svg); });
+  stippen.forEach(p => { binnen = p.a - vorige < 12 ? !binnen : false; vorige = p.a; p.r = binnen ? 40 : 49; [p.x, p.y] = xy(p.r, p.a); p.el = el('circle', {cx: p.x, cy: p.y, r: groot ? 3.4 : 2.6, fill: 'var(--techelet)', stroke: 'var(--fg)', 'stroke-width': .5, 'vector-effect': 'non-scaling-stroke', class: 'stip'}, svg); });   // zwarte rand van 0,5 px (Edwin, 4 nov 2026)
   // de dag van het antwoord: een groene stip met een zwarte rand, even groot als de blauwe (Edwin, 3 nov 2026; was een grote groene ring, knipperen weer weg); is het een feestdagstip, dan wordt die groen
   if (hm >= 0 && opt.dag) {
     // groene stippen (Edwin, 3 nov 2026): niet over een blauwe stip heen; raakt er een, dan schuiven ze een ring naar binnen. Valt de dag op een blauwe stip, dan wordt die groen
@@ -1035,7 +1041,7 @@ function tekenWiel(doel, opt) {
     const z0 = stippen.find(p => p.m === hm && p.dag === opt.dag); let R = z0 ? z0.r : 49;
     for (let k = 0; k < 3 && raakt(R); k++) R -= 9;
     const groen = q => { const [x, y] = xy(R, dagHoek(q[0], q[1])), z = stippen.find(p => zelfde(p, q, R)), g = z ? z.el : el('circle', {cx: x, cy: y, r: sr}, svg); if (!z && opt.feest) stippen.push({f: opt.feest, m: q[0], dag: q[1], r: R, x: x, y: y, el: g});   // ook een groene stip zonder eigen feestdagstip is aan te tikken (Edwin, 3 nov 2026)
-      g.setAttribute('fill', 'var(--goed)'); g.setAttribute('stroke', 'var(--fg)'); g.setAttribute('stroke-width', groot ? 1 : 1.6); groene.push(g); };
+      g.setAttribute('fill', 'var(--goed)'); g.setAttribute('stroke', 'var(--fg)'); g.setAttribute('stroke-width', .5); g.setAttribute('vector-effect', 'non-scaling-stroke'); g.setAttribute('class', opt.soort === 'midden' ? 'stip antwoord' : 'stip'); groene.push(g); };   // ook de groene stip een rand van 0,5 px, geen dikke rand meer (Edwin, 4 nov 2026)
     if (opt.tot) {   // meerdaags: groene stip op begin- en einddag, een dikke donkergroene boog ertussen, onder de blauwe stippen
       const a1 = dagHoek(hm, opt.dag), a2 = dagHoek(opt.tot[0], opt.tot[1]), [x1, y1] = xy(R, a1), [x2, y2] = xy(R, a2);
       svg.insertBefore(el('path', {d: 'M' + x1 + ' ' + y1 + 'A' + R + ' ' + R + ' 0 ' + ((a2 - a1 + 360) % 360 > 180 ? 1 : 0) + ' 1 ' + x2 + ' ' + y2, fill: 'none', stroke: '#145c34', 'stroke-width': 3.2, 'stroke-linecap': 'round', 'pointer-events': 'none'}), stippen.length ? stippen[0].el : null);
@@ -1045,7 +1051,7 @@ function tekenWiel(doel, opt) {
   if (opt.soort === 'midden' && hm >= 0) {   // tik je ergens in het wiel, dan verdwijnen de zwarte rand om de groene stip en de groene maandkleur (Edwin, 3 nov 2026)
     let aan = true;
     antwoordWeg = () => { if (!aan) return; aan = false;
-      groene.forEach(g => { g.removeAttribute('stroke'); g.removeAttribute('stroke-width'); });
+      groene.forEach(g => { g.setAttribute('stroke-width', .5); g.classList.remove('antwoord'); });   // gewone rand en weer de gewone grootte
       groenM.forEach(i => { segEls[i].setAttribute('fill', 'var(--bg)'); segEls[i].setAttribute('stroke', 'var(--lijn)'); segEls[i].setAttribute('stroke-width', .8); });
     };
   }
@@ -1054,7 +1060,7 @@ function tekenWiel(doel, opt) {
       antwoordWeg(); const q = svg.createSVGPoint(); q.x = e.clientX; q.y = e.clientY; const v = q.matrixTransform(svg.getScreenCTM().inverse());
       let best = null, bd = 18 * 18; stippen.forEach(p => { const d = (p.x - v.x) ** 2 + (p.y - v.y) ** 2; if (d < bd) { bd = d; best = p; } });
       if (!best) { wis(); wielKeuze = null; return; }
-      kies(best.el, {stroke: 'var(--fg)', 'stroke-width': 1.6}, [[segEls[best.m], {fill: groene.includes(best.el) ? 'var(--goed-licht)' : 'var(--techelet-licht)'}]]);   // dikkere zwarte rand en de maand lichtblauw, in beide wielen; bij een groene stip lichtgroen (Edwin, 3 nov 2026)
+      kies(best.el, {class: 'stip gekozen'}, [[segEls[best.m], {fill: groene.includes(best.el) ? 'var(--goed-licht)' : 'var(--techelet-licht)'}]]);   // de stip wordt langzaam 30 % groter (Edwin, 4 nov 2026; was een dikkere zwarte rand) en de maand lichtblauw; bij een groene stip lichtgroen (3 nov 2026)
       toon(best.f.heb, best.f.naam, best.f.antwoord); speelWoord(best.f);
     });
   }
@@ -1064,8 +1070,8 @@ function tekenWiel(doel, opt) {
   toon.apply(null, opt.tekst || ['', '', '']);
   const bk = svg.getBBox ? svg.getBBox() : null; if (bk && bk.width) svg.setAttribute('viewBox', [bk.x - 2, bk.y - 2, bk.width + 4, bk.height + 4].join(' '));   // strak om wat er getekend is: geen lege rand boven en onder
   // het driehoekje is aan te tikken: dan staat vandaag in beide kalenders in het midden (Edwin, 3 nov 2026); na het bijsnijden, zodat het tikvlak het wiel niet kleiner maakt
-  { const [hx, hy] = xy(105, av); el('circle', {cx: hx, cy: hy, r: 9, fill: 'transparent', class: 'seg'}, svg).addEventListener('click', () => { antwoordWeg(); kies(drie, {stroke: 'var(--fg)', 'stroke-width': 1.6, 'stroke-linejoin': 'round'}); toon.apply(null, vandaag); }); }   // zwarte rand om het driehoekje, in beide wielen (Edwin, 3 nov 2026)
-  if (groot) kies(drie, {stroke: 'var(--fg)', 'stroke-width': 1.6, 'stroke-linejoin': 'round'});   // bij het uitklappen van Zo werkt het staat het driehoekje al met een zwarte rand (Edwin, 3 nov 2026); een tik elders haalt hem weg
+  { const [hx, hy] = xy(105, av); el('circle', {cx: hx, cy: hy, r: 9, fill: 'transparent', class: 'seg'}, svg).addEventListener('click', () => { antwoordWeg(); kies(drie, {class: 'stip gekozen'}); toon.apply(null, vandaag); }); }   // het driehoekje groeit bij een tik 30 % (Edwin, 4 nov 2026; was een zwarte rand, 3 nov)
+  if (groot) kies(drie, {class: 'stip gekozen'});   // bij het uitklappen van Zo werkt het staat het driehoekje al met een zwarte rand (Edwin, 3 nov 2026); een tik elders haalt hem weg
 }
 function wielNaAntwoord(w) {
   const [m, dag] = maandVan(w); if (m < 0) { $('a-wiel').hidden = true; return; }
@@ -1237,7 +1243,7 @@ $('url').addEventListener('click', kopieerAdres);
 $('url').addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); kopieerAdres(); } });
 $('feest-deel').addEventListener('click', () => deel(LT('Ik heb alle %1 %2 goed in Shema, een gratis app om Hebreeuws te oefenen.', 'I got all %1 %2 right in Shema, a free app for practising Hebrew.').replace('%1', $('t-totaal').textContent).replace('%2', $('t-niveau').textContent), $('feest-deel')));
 $('feest-verder').addEventListener('click', () => { $('feest').hidden = true; });
-$('naar-thuis').addEventListener('click', () => { if (history.state && history.state.shema === 'oefen') history.back(); else toonScherm('thuis'); });
+$('naar-thuis').addEventListener('click', () => { if (history.state && history.state.shema === 'oefen') { history.back(); setTimeout(() => { if (!$('oefen').hidden) toonScherm('thuis'); }, 350); } else toonScherm('thuis'); });   // terugval: is er geen stap terug in de geschiedenis (app hersteld uit het geheugen), dan toch naar het begin (Edwin, 4 nov 2026: ‘Inicio werkt niet’)
 // één paneel voor alle instellingen (stap 3 ontwerprapport, 3 nov 2026); de terugknop van de telefoon sluit het
 let paneelInGeschiedenis = false;
 function paneelOpen() {
@@ -1245,7 +1251,7 @@ function paneelOpen() {
   try { history.pushState({shema: 'paneel'}, ''); paneelInGeschiedenis = true; } catch (e) { paneelInGeschiedenis = false; }
   $('paneel-dicht').focus({preventScroll: true});
 }
-function paneelDicht() { if (paneelInGeschiedenis) { paneelInGeschiedenis = false; history.back(); } else $('paneel').hidden = true; }
+function paneelDicht() { if (paneelInGeschiedenis) { paneelInGeschiedenis = false; history.back(); setTimeout(() => { $('paneel').hidden = true; }, 350); } else $('paneel').hidden = true; }   // dezelfde terugval
 $('oefen-regel').addEventListener('click', paneelOpen);
 $('paneel-dicht').addEventListener('click', paneelDicht);
 $('paneel').addEventListener('click', e => { if (e.target === $('paneel')) paneelDicht(); });
