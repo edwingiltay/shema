@@ -274,6 +274,8 @@ label.keus select{font-size:var(--t-tekst);height:44px;border:6px solid transpar
 .paneel h2,.paneel .schakel button,.paneel .knop,.paneel #wis-niveau,.paneel .tellers,.paneel label.keus,.paneel label.keus select,.paneel .terug,.paneel .meld-blok textarea{font-size:16.5px}
 #feest-deel,#feest-verder{font-size:16.5px}
 .melding:not([hidden]) + #a-hebr[hidden] + .translit{margin-top:-4px;margin-bottom:4px}   /* zonder Hebreeuws: evenveel ruimte boven en onder de transliteratie, gemeten van grondlijn tot letter en van grondlijn tot knop (Edwin, 3 nov 2026) */
+.melding:not([hidden]) + #a-hebr:not([hidden]){margin-top:-6px}   /* minder ruimte tussen de melding en het Hebreeuwse antwoord (Edwin, 3 nov 2026) */
+.zonder-nikoed #a-hebr:not([hidden]) + .translit{margin-top:-5px}   /* zonder nikoed staat er niets onder de letters: minder ruimte tot de transliteratie (Edwin, 3 nov 2026); 5 px, want ק, ן, ך, ף en ץ steken onder de lijn uit */
 #s-he{line-height:1.45}   /* overal regelafstand 1,35 in plaats van 1,45, behalve bij אב (Edwin, 3 nov 2026); de knoppen hierboven blijven 35,2 px */
 #meld,#wis-niveau,.voet button.knop{padding-top:calc((35.2px - 2px - 1.35em) / 2);padding-bottom:calc((35.2px - 2px - 1.35em) / 2)}   /* 35,2 px hoog, zoals de voortgangsknoppen (Edwin, 3 nov 2026); het aanraakvlak blijft 44 px */</style>
 </head>
@@ -696,12 +698,13 @@ function zetSchrift(s) {
 }
 function zetNikoed(aan) {
   nikoed = aan; try { localStorage.setItem('shema-nikoed', aan ? 'met' : 'zonder'); } catch (e) {}
+  document.documentElement.classList.toggle('zonder-nikoed', !aan);   // voor de ruimte onder het Hebreeuwse antwoord
   $('n-met').setAttribute('aria-pressed', aan); $('n-zonder').setAttribute('aria-pressed', !aan);
   sluitRegel(); schrijf();
   if (huidig && !$('antwoord').hidden) { zetHebr($('a-hebr'), huidig.heb); if (huidig.jaar) wielNaAntwoord(huidig); }
   if (document.querySelector('details.hoe').open) tekenGrootWiel();
 }
-$('n-met').setAttribute('aria-pressed', nikoed); $('n-zonder').setAttribute('aria-pressed', !nikoed);
+$('n-met').setAttribute('aria-pressed', nikoed); $('n-zonder').setAttribute('aria-pressed', !nikoed); document.documentElement.classList.toggle('zonder-nikoed', !nikoed);
 $('n-met').addEventListener('click', () => zetNikoed(true)); $('n-zonder').addEventListener('click', () => zetNikoed(false));
 function moeilijkKnop() {
   const aan = !!moeilijk(huidig);
