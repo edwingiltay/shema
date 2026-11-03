@@ -276,6 +276,7 @@ label.keus select{font-size:var(--t-tekst);height:44px;border:6px solid transpar
 .melding:not([hidden]) + #a-hebr[hidden] + .translit{margin-top:-4px;margin-bottom:4px}   /* zonder Hebreeuws: evenveel ruimte boven en onder de transliteratie, gemeten van grondlijn tot letter en van grondlijn tot knop (Edwin, 3 nov 2026) */
 .melding:not([hidden]) + #a-hebr:not([hidden]){margin-top:-6px}   /* minder ruimte tussen de melding en het Hebreeuwse antwoord (Edwin, 3 nov 2026) */
 .zonder-nikoed #a-hebr:not([hidden]) + .translit{margin-top:-5px}   /* zonder nikoed staat er niets onder de letters: minder ruimte tot de transliteratie (Edwin, 3 nov 2026); 5 px, want ק, ן, ך, ף en ץ steken onder de lijn uit */
+#wist-niet,#wist-wel{padding-top:calc((18.9px + 14px - 1.35em) / 2);padding-bottom:calc((18.9px + 14px - 1.35em) / 2)}   /* even hoog als ‘Zet op mijn lijst met moeilijke woorden’ (34,9 px; Edwin, 3 nov 2026) */
 #s-he{line-height:1.45}   /* overal regelafstand 1,35 in plaats van 1,45, behalve bij אב (Edwin, 3 nov 2026); de knoppen hierboven blijven 35,2 px */
 #meld,#wis-niveau,.voet button.knop{padding-top:calc((35.2px - 2px - 1.35em) / 2);padding-bottom:calc((35.2px - 2px - 1.35em) / 2)}   /* 35,2 px hoog, zoals de voortgangsknoppen (Edwin, 3 nov 2026); het aanraakvlak blijft 44 px */</style>
 </head>
@@ -656,7 +657,9 @@ let nikoed = true;
 try { nikoed = localStorage.getItem('shema-nikoed') !== 'zonder'; } catch (e) {}
 const TEKENS = /[\u0591-\u05BD\u05BF-\u05C2\u05C4\u05C5\u05C7]/g;
 const nik = t => nikoed ? t : t.replace(TEKENS, '');
-function zetHebr(el, t) { t = nik(t); el.textContent = t; el.dataset.k = t.replace(KLINKERS, ''); el.classList.add('nk'); }
+// de oe-punt (sjoeroek) is hetzelfde teken als de dagesj: een ו met punt en zonder ander klinkerteken is de klinker oe, dus ook blauw (Edwin, 3 nov 2026)
+const zonderKlinkers = t => t.replace(/\u05D5[\u0591-\u05C7]*/g, c => /[\u05B0-\u05BB\u05C7]/.test(c) ? c : c.replace('\u05BC', '')).replace(KLINKERS, '');
+function zetHebr(el, t) { t = nik(t); el.textContent = t; el.dataset.k = zonderKlinkers(t); el.classList.add('nk'); }
 // zet de kaart in het gekozen schrift; ook bij wisselen midden op een kaart, zonder hem opnieuw op te bouwen
 function schrijf() {
   $('feest-he').hidden = schr === 'fon';
