@@ -277,7 +277,13 @@ body:has(#oefen:not([hidden])) .terug.huis{margin-left:-12px}body:has(#oefen:not
 #moeilijk{margin-bottom:6px}
 #s-he{line-height:1.45}
 #meld,#wis-niveau{padding-top:calc((35.2px - 2px - 1.35em) / 2);padding-bottom:calc((35.2px - 2px - 1.35em) / 2)}
-.paneel #meld,.paneel #wis-niveau{padding-top:calc((32.3px - 2px - 1.35em) / 2);padding-bottom:calc((32.3px - 2px - 1.35em) / 2)}</style>
+.paneel #meld,.paneel #wis-niveau{padding-top:calc((32.3px - 2px - 1.35em) / 2);padding-bottom:calc((32.3px - 2px - 1.35em) / 2)}
+.vraag-nl{color:var(--fg)}
+@media (min-width:601px) and (hover:hover) and (pointer:fine){
+html:has(#oefen:not([hidden])),body:has(#oefen:not([hidden])){background:var(--vlak)}
+#oefen .kaart{border-color:transparent;box-shadow:0 1px 3px rgba(16,24,40,.07),0 18px 30px -18px rgba(29,79,145,.28)}
+.keuzes button:not(.goed):not(.fout):not(:disabled):hover,.keuzes.af button:not(.goed):not(.fout):hover{border-color:#b9cbe6;background:#f7faff}
+}</style>
 </head>
 <body>
 <div class="kolom">
@@ -961,7 +967,7 @@ function tekenWiel(doel, opt) {
   doel.dataset.getekend = performance.now();
   if (klein) {
     const vol = Math.floor(12 * J.filter(klaar).length / J.length);
-    MAANDEN.forEach((m, i) => { const a1 = dagHoek(i, 1), a2 = a1 + m[1] / 354 * 360, k = i < vol; el('path', {d: boog(30, 47, a1 + 1.2, a2 - 1.2), fill: k ? 'var(--techelet)' : 'var(--vlak)', stroke: k ? 'none' : 'var(--lijn)', 'stroke-width': .8}, svg); });
+    MAANDEN.forEach((m, i) => { const a1 = dagHoek(i, 1), a2 = a1 + m[1] / 354 * 360, k = i < vol, eerste = vol === 0 && i === 0; el('path', Object.assign({d: boog(30, 47, a1 + 1.2, a2 - 1.2), fill: k ? 'var(--techelet)' : 'var(--vlak)', stroke: k ? 'none' : eerste ? 'var(--techelet)' : 'var(--lijn)', 'stroke-width': eerste ? 1 : .8}, eerste ? {'vector-effect': 'non-scaling-stroke'} : {}), svg); });
     return;
   }
   let d = 0; [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31].forEach((n, i) => {
