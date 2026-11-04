@@ -260,7 +260,7 @@ html[data-vorm="schrift"][data-schrift="he"] .melding:not([hidden]) + #a-hebr[hi
 html[data-vorm="betekenis"] .melding:not([hidden]) + #a-hebr[hidden] + .translit{margin-top:-6px}
 html[data-vorm="gehoor"][data-schrift="he"] .melding:not([hidden]) + #a-hebr:not([hidden]){margin-top:-8px}
 html[data-vorm="gehoor"] #keuzes{margin-top:4px}
-body:has(#thuis:not([hidden])){padding-top:max(18px,env(safe-area-inset-top,0px));padding-bottom:max(4px,env(safe-area-inset-bottom,0px))}#thuis{margin-top:-4px}
+body:has(#thuis:not([hidden])){padding-top:max(18px,env(safe-area-inset-top,0px));padding-bottom:max(10px,env(safe-area-inset-bottom,0px))}#thuis{margin-top:-4px}
 .terug.huis{display:flex;align-items:center;justify-content:center;width:44px;height:44px;padding:0;margin-left:-9px}
 @media (hover:none),(pointer:coarse){
 body:has(#oefen:not([hidden])){padding-top:calc(99px + env(safe-area-inset-top,0px))}
@@ -274,13 +274,14 @@ body:has(#oefen:not([hidden])) .terug.huis{margin-left:-12px}body:has(#oefen:not
 #blok-uitspraak{display:none!important}   .paneel label.keus[for="selectie"]{display:flex;padding-left:0;gap:0}.paneel label.keus[for="selectie"] select{flex:none;width:calc(100% + 12px);max-width:none;margin-left:-6px;margin-right:-6px}.paneel #x-oefen{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
 .paneel #meld,.paneel #wis-niveau{color:var(--fg);border-color:var(--lijn)}
 #s-fon{width:35px;padding-left:4px}#s-he{padding-left:8px}
+#moeilijk{margin-bottom:6px}
 #s-he{line-height:1.45}
 #meld,#wis-niveau{padding-top:calc((35.2px - 2px - 1.35em) / 2);padding-bottom:calc((35.2px - 2px - 1.35em) / 2)}
 .paneel #meld,.paneel #wis-niveau{padding-top:calc((32.3px - 2px - 1.35em) / 2);padding-bottom:calc((32.3px - 2px - 1.35em) / 2)}</style>
 </head>
 <body>
 <div class="kolom">
-  <div class="bovenbalk"><button class="terug huis" id="naar-thuis" aria-label="Menu" aria-haspopup="dialog" hidden><svg viewBox="0 0 24 24" width="29" height="29" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button><span class="niveau-kop"><span class="niveau-naam" id="niveau-naam"></span><span class="niveau-tal" id="niveau-tal" hidden></span></span><div class="taalrij"><div class="schakel" role="group" aria-label="Language / Taal"><button id="taal-en" lang="en" aria-label="English" aria-pressed="false">en</button><button id="taal-ru" lang="ru" aria-label="Русский" aria-pressed="false">ru</button><button id="taal-de" lang="de" aria-label="Deutsch" aria-pressed="false">de</button><button id="taal-fr" lang="fr" aria-label="Français" aria-pressed="false">fr</button><button id="taal-it" lang="it" aria-label="Italiano" aria-pressed="false">it</button><button id="taal-es" lang="es" aria-label="Español" aria-pressed="false">es</button><button id="taal-nl" lang="nl" aria-label="Nederlands" aria-pressed="true">nl</button></div></div><div class="schriftrij" id="schriftrij" hidden><div class="schakel" role="group" aria-label="Schrift"><button id="s-fon" aria-pressed="false" aria-label="Fonetisch Hebreeuws">Aa</button><button id="s-he" lang="he" aria-pressed="true" aria-label="Hebreeuws">אב</button></div></div></div>
+  <div class="bovenbalk"><button class="terug huis" id="naar-thuis" aria-label="Menu" aria-haspopup="dialog" hidden><svg viewBox="0 0 24 24" width="32" height="32" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button><span class="niveau-kop"><span class="niveau-naam" id="niveau-naam"></span><span class="niveau-tal" id="niveau-tal" hidden></span></span><div class="taalrij"><div class="schakel" role="group" aria-label="Language / Taal"><button id="taal-en" lang="en" aria-label="English" aria-pressed="false">en</button><button id="taal-ru" lang="ru" aria-label="Русский" aria-pressed="false">ru</button><button id="taal-de" lang="de" aria-label="Deutsch" aria-pressed="false">de</button><button id="taal-fr" lang="fr" aria-label="Français" aria-pressed="false">fr</button><button id="taal-it" lang="it" aria-label="Italiano" aria-pressed="false">it</button><button id="taal-es" lang="es" aria-label="Español" aria-pressed="false">es</button><button id="taal-nl" lang="nl" aria-label="Nederlands" aria-pressed="true">nl</button></div></div><div class="schriftrij" id="schriftrij" hidden><div class="schakel" role="group" aria-label="Schrift"><button id="s-fon" aria-pressed="false" aria-label="Fonetisch Hebreeuws">Aa</button><button id="s-he" lang="he" aria-pressed="true" aria-label="Hebreeuws">אב</button></div></div></div>
   <section class="scherm" id="thuis">
     <header>
       <h1><span class="logo" lang="he">שְׁמַע</span><span class="naam" id="x-naam">Hebreeuws op gehoor</span></h1>
@@ -555,7 +556,7 @@ function speelWoord(w) {
 }
 const TEMPO = 0.75;
 function speel(snelheid) {
-  if (!huidig || !heeftKlank(huidig) || stilOpbouwen || $('oefen').hidden) return;
+  if (!huidig || !heeftKlank(huidig) || stilOpbouwen || $('oefen').hidden || !$('paneel').hidden) return;
   snelheid = snelheid || TEMPO; const w = huidig; if (afspeelMelding) { melding(''); afspeelMelding = false; }
   const eerst = snelheid === 1 ? viaWebAudio : viaAudio, dan = snelheid === 1 ? viaAudio : viaWebAudio;
   let fout1 = '';
