@@ -190,7 +190,7 @@ label.keus select{font-size:var(--t-tekst);height:44px;border:6px solid transpar
 .alleen-aanraak{display:none}
 @media (pointer:coarse){.keuzes button .nr{color:transparent}.alleen-toetsen{display:none}.alleen-aanraak{display:block}}
 #oefen{padding-bottom:calc(46px + env(safe-area-inset-bottom,0px))}
-.luister{position:fixed;left:0;right:0;bottom:0;z-index:4;background:var(--bg);border-top:1px solid var(--lijn);justify-content:space-between;padding:10px max(24px,env(safe-area-inset-right,0px)) calc(10px + env(safe-area-inset-bottom,0px)) max(24px,env(safe-area-inset-left,0px))}
+.luister{position:fixed;left:0;right:0;bottom:0;z-index:4;background:var(--bg);border-top:1px solid var(--lijn);justify-content:space-between;padding:9px max(24px,env(safe-area-inset-right,0px)) calc(9px + env(safe-area-inset-bottom,0px)) max(24px,env(safe-area-inset-left,0px))}
 @media (min-width:660px){.luister{padding-left:calc(50% - 276px);padding-right:calc(50% - 276px)}}
 .speel{width:60px;height:60px;box-shadow:none}.speel svg{width:30px;height:30px}.pijl{width:52px;height:52px}
 .speel.speelt{background:var(--techelet-licht);animation:speelt 1.2s ease-out infinite}
@@ -263,12 +263,12 @@ html[data-vorm="gehoor"] #keuzes{margin-top:4px}
 body:has(#thuis:not([hidden])){padding-top:max(18px,env(safe-area-inset-top,0px));padding-bottom:max(10px,env(safe-area-inset-bottom,0px))}#thuis{margin-top:-4px}
 .terug.huis{display:flex;align-items:center;justify-content:center;width:44px;height:44px;padding:0;margin-left:-9px}
 @media (hover:none),(pointer:coarse){
-body:has(#oefen:not([hidden])){padding-top:calc(99px + env(safe-area-inset-top,0px))}
-body:has(#oefen:not([hidden])) .bovenbalk{position:fixed;top:0;left:0;right:0;z-index:4;box-sizing:border-box;height:calc(85px + env(safe-area-inset-top,0px));padding:calc(12px + env(safe-area-inset-top,0px)) max(24px,env(safe-area-inset-right,0px)) 24px max(24px,env(safe-area-inset-left,0px));background:var(--techelet-licht);border-bottom:1px solid rgba(29,79,145,.55)}
+body:has(#oefen:not([hidden])){padding-top:calc(103px + env(safe-area-inset-top,0px))}
+body:has(#oefen:not([hidden])) .bovenbalk{position:fixed;top:0;left:0;right:0;z-index:4;box-sizing:border-box;height:calc(89px + env(safe-area-inset-top,0px));padding:calc(14px + env(safe-area-inset-top,0px)) max(24px,env(safe-area-inset-right,0px)) 26px max(24px,env(safe-area-inset-left,0px));background:var(--techelet-licht);border-bottom:1px solid rgba(29,79,145,.55)}
 body:has(#oefen:not([hidden])) .terug.huis{margin-left:-12px}body:has(#oefen:not([hidden])) .schriftrij{margin-right:-3px}
-#oefen .vord{position:fixed;z-index:5;top:calc(67px + env(safe-area-inset-top,0px));left:calc(max(24px,env(safe-area-inset-left,0px)) - 3px);right:calc(max(24px,env(safe-area-inset-right,0px)) - 3px);margin:0}
+#oefen .vord{position:fixed;z-index:5;top:calc(71px + env(safe-area-inset-top,0px));left:calc(max(24px,env(safe-area-inset-left,0px)) - 3px);right:calc(max(24px,env(safe-area-inset-right,0px)) - 3px);margin:0}
 }
-@media (max-width:600px) and (hover:none),(max-width:600px) and (pointer:coarse){#oefen{min-height:calc(100vh - 139px - env(safe-area-inset-top,0px));min-height:calc(100svh - 139px - env(safe-area-inset-top,0px))}}
+@media (max-width:600px) and (hover:none),(max-width:600px) and (pointer:coarse){#oefen{min-height:calc(100vh - 143px - env(safe-area-inset-top,0px));min-height:calc(100svh - 143px - env(safe-area-inset-top,0px))}}
 .paneel .paneel-thuis{align-self:flex-start;margin:-8px 0 -2px;padding-left:0}
 .paneel-blok{display:flex;flex-direction:column;gap:10px;border-top:1px solid var(--lijn);padding-top:12px}.paneel-kopje{margin:0;font-size:var(--t-klein);font-weight:600;color:var(--zacht);line-height:1.35}
 #blok-uitspraak{display:none!important}   .paneel label.keus[for="selectie"]{display:flex;padding-left:0;gap:0}.paneel label.keus[for="selectie"] select{flex:none;width:calc(100% + 12px);max-width:none;margin-left:-6px;margin-right:-6px}.paneel #x-oefen{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
@@ -644,7 +644,7 @@ function bouwKaart(w, terug) {
       const B = huidig.tora ? T : huidig.n ? W_BASIS : W_GEVORDERD, w = B[Math.floor(Math.random() * B.length)];
       if (!opties.some(o => o.id === w.id || o.kort === w.kort || o.heb === w.heb || o.tr === w.tr)) opties.push(w);
     }
-    opties.sort(() => Math.random() - .5);
+    for (let i = opties.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [opties[i], opties[j]] = [opties[j], opties[i]]; }
     $('keuzes').innerHTML = '';
     opties.forEach((o, i) => {
       const b = document.createElement('button');
