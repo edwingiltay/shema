@@ -761,6 +761,7 @@ function tip(b) {
     if (!tekst) { b.classList.remove('open'); return; }
     t.textContent = tekst;
   }
+  else if (schr === 'fon') { if (vorm === 'betekenis') t.append(o.kort); else t.append(i); }
   else if (vorm === 'betekenis') t.append(eerst, document.createElement('br'), o.kort);
   else t.append(eerst, ' · ', dan);
   b.appendChild(t);
