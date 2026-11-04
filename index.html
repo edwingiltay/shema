@@ -285,6 +285,11 @@ html:not(.zonder-nikoed) #a-hebr:not([hidden]) + .translit{margin-top:-9px}@medi
 .wiel path.seg{transition:fill .6s ease}@keyframes opkomen{from{fill:var(--bg)}}.wiel path.opkomen{animation:opkomen .6s ease}   /* ook de maanden in het jaarrad */
 #oefen{position:relative;overflow-x:clip}.veeg-kloon{position:absolute;margin:0;pointer-events:none;z-index:1;box-sizing:border-box}   /* de wegschuivende kopie van de kaart (Edwin, 4 nov 2026) */
 #a-translit{font-size:25px}@media (max-width:600px){#a-translit{font-size:21px}}   /* de transliteratie onder het antwoord groter: 21 px op de telefoon (was 17), 25 px breed (was 19) (Edwin, 4 nov 2026) */
+/* het antwoord 2 px hoger, per oefenvorm en schrift (Edwin, 4 nov 2026) */
+html[data-vorm="gehoor"][data-schrift="fon"] .melding:not([hidden]) + #a-hebr[hidden] + .translit,
+html[data-vorm="schrift"][data-schrift="he"] .melding:not([hidden]) + #a-hebr[hidden] + .translit,
+html[data-vorm="betekenis"] .melding:not([hidden]) + #a-hebr[hidden] + .translit{margin-top:-6px}
+html[data-vorm="gehoor"][data-schrift="he"] .melding:not([hidden]) + #a-hebr:not([hidden]){margin-top:-8px}
 #s-he{line-height:1.45}   /* overal regelafstand 1,35 in plaats van 1,45, behalve bij אב (Edwin, 3 nov 2026); de knoppen hierboven blijven 35,2 px */
 #meld,#wis-niveau{padding-top:calc((35.2px - 2px - 1.35em) / 2);padding-bottom:calc((35.2px - 2px - 1.35em) / 2)}   /* 35,2 px hoog (Edwin, 3 nov 2026); het aanraakvlak blijft 44 px */</style>
 </head>
@@ -706,6 +711,7 @@ function zetHebr(el, t) { t = nik(t); el.textContent = t; el.dataset.k = zonderK
 function schrijf() {
   $('feest-he').hidden = schr === 'fon';
   if (!huidig) return;
+  document.documentElement.dataset.vorm = huidig.jaar ? 'jaar' : vorm; document.documentElement.dataset.schrift = schr;   // voor de afstemming van het antwoordvak per oefenvorm en schrift (Edwin, 4 nov 2026)
   // feestdagen en maanden: geen schriftknoppen, het Hebreeuws staat altijd bij het antwoord (Edwin, 29 okt 2026)
   const fon = schr === 'fon';
   const jaar = !!huidig.jaar, schrift = !jaar && vorm === 'schrift';
