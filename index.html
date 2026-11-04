@@ -287,11 +287,18 @@ html:has(#oefen:not([hidden])),body:has(#oefen:not([hidden])){background:var(--v
 .taalrij .schakel{border-color:transparent;background:none}.taalrij .schakel button{background:none;color:var(--zacht)}.taalrij .schakel button+button::before{display:none}
 .taalrij .schakel button[aria-pressed="true"]{background:var(--techelet-licht);color:var(--techelet);font-weight:600;border-radius:999px}
 .tegel{border-color:#cfdbee}.tegel-balk::before{background:#fff;height:3px;top:2px;border-radius:2px}
-.deelrij a{font-weight:400}.deelrij,.copyright{font-size:15px;color:var(--zacht)}.copyright .hebr-klein{font-size:16px}
+.deelrij a{font-weight:400}.deelrij,.copyright{font-size:16px;color:var(--zacht)}.copyright .hebr-klein{font-size:17px}
+.hoe summary,.hoe .voet,.hoe .voet p,.hoe .voet button,.hoe .voet a{font-size:16px}
 #moeilijk{align-self:center;max-width:100%;box-sizing:border-box;padding:6.3px 18px;font-size:15px;border-color:#c9d6ea;display:inline-flex;align-items:center;justify-content:center;gap:7px;text-align:center;text-wrap:balance}
 #moeilijk::before{content:"";flex:none;width:12px;height:15px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 15'%3E%3Cpath d='M1 1h10v13l-5-3.5L1 14z' fill='none' stroke='%231d4f91' stroke-width='1.6' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat center}
 #moeilijk[aria-pressed="true"]::before{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 15'%3E%3Cpath d='M1 1h10v13l-5-3.5L1 14z' fill='%231d4f91' stroke='%231d4f91' stroke-width='1.6' stroke-linejoin='round'/%3E%3C/svg%3E")}
-.keuzes button{border-color:#e3e7ee;box-shadow:0 1px 2px rgba(16,24,40,.07)}.keuzes button.goed,.keuzes button.fout{box-shadow:none}</style>
+.keuzes button{border-color:#e3e7ee;box-shadow:0 1px 2px rgba(16,24,40,.07)}.keuzes button.goed,.keuzes button.fout{box-shadow:none}
+@media (hover:hover) and (pointer:fine){
+.paneel-achter{align-items:center;padding:24px 16px;box-sizing:border-box}
+.paneel{max-width:560px;max-height:calc(100vh - 48px);max-height:calc(100dvh - 48px);border-radius:var(--r-groot);padding:16px 20px 20px;box-shadow:0 20px 50px rgba(17,20,24,.22);animation:vensterin .2s ease-out}
+@keyframes vensterin{from{transform:translateY(8px) scale(.98);opacity:0}to{transform:none;opacity:1}}
+}
+.inst-weg{display:grid;place-items:center}.inst-weg svg{display:block}</style>
 </head>
 <body>
 <div class="kolom">
@@ -304,7 +311,7 @@ html:has(#oefen:not([hidden])),body:has(#oefen:not([hidden])){background:var(--v
     <h2 class="kopje" id="x-kies">Kies wat u wilt oefenen</h2>
     <div class="tegels" id="tegels"></div>
     <div id="installeer" hidden>
-      <div class="inst-rij"><button class="knop deel" id="inst-knop"><span id="inst-knop-ios">Zet Shema op uw beginscherm</span><span id="inst-knop-android" hidden>Installeer Shema als app</span></button><button class="inst-weg" id="inst-weg" aria-label="Sluiten">×</button></div>
+      <div class="inst-rij"><button class="knop deel" id="inst-knop"><span id="inst-knop-ios">Zet Shema op uw beginscherm</span><span id="inst-knop-android" hidden>Installeer Shema als app</span></button><button class="inst-weg" id="inst-weg" aria-label="Sluiten"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
       <p class="inst-uitleg" id="inst-ios" hidden>Tik op de deelknop (een vierkantje met een pijl omhoog; staat die er niet, tik dan eerst op de drie puntjes) en kies ‘Zet op beginscherm’.</p>
       <p class="inst-uitleg" id="inst-android" hidden>Open het menu van uw browser (de drie puntjes) en kies ‘App installeren’ of ‘Toevoegen aan startscherm’.</p>
     </div>
