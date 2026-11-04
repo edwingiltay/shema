@@ -283,7 +283,15 @@ body:has(#oefen:not([hidden])) .terug.huis{margin-left:-12px}body:has(#oefen:not
 html:has(#oefen:not([hidden])),body:has(#oefen:not([hidden])){background:var(--vlak)}
 #oefen .kaart{border-color:transparent;box-shadow:0 1px 3px rgba(16,24,40,.07),0 18px 30px -18px rgba(29,79,145,.28)}
 .keuzes button:not(.goed):not(.fout):not(:disabled):hover,.keuzes.af button:not(.goed):not(.fout):hover{border-color:#b9cbe6;background:#f7faff}
-}</style>
+}
+.taalrij .schakel{border-color:transparent;background:none}.taalrij .schakel button{background:none;color:var(--zacht)}.taalrij .schakel button+button::before{display:none}
+.taalrij .schakel button[aria-pressed="true"]{background:var(--techelet-licht);color:var(--techelet);font-weight:600;border-radius:999px}
+.tegel{border-color:#cfdbee}.tegel-balk::before{background:#fff;height:3px;top:2px;border-radius:2px}
+.deelrij a{font-weight:400}.deelrij,.copyright{font-size:15px;color:var(--zacht)}.copyright .hebr-klein{font-size:16px}
+#moeilijk{align-self:center;max-width:100%;box-sizing:border-box;padding:6.3px 18px;font-size:15px;border-color:#c9d6ea;display:inline-flex;align-items:center;justify-content:center;gap:7px;text-align:center;text-wrap:balance}
+#moeilijk::before{content:"";flex:none;width:12px;height:15px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 15'%3E%3Cpath d='M1 1h10v13l-5-3.5L1 14z' fill='none' stroke='%231d4f91' stroke-width='1.6' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat center}
+#moeilijk[aria-pressed="true"]::before{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 15'%3E%3Cpath d='M1 1h10v13l-5-3.5L1 14z' fill='%231d4f91' stroke='%231d4f91' stroke-width='1.6' stroke-linejoin='round'/%3E%3C/svg%3E")}
+.keuzes button{border-color:#e3e7ee;box-shadow:0 1px 2px rgba(16,24,40,.07)}.keuzes button.goed,.keuzes button.fout{box-shadow:none}</style>
 </head>
 <body>
 <div class="kolom">
@@ -1004,7 +1012,7 @@ function tekenWiel(doel, opt) {
   const segEls = [], groene = []; let antwoordWeg = () => {};
   MAANDEN.forEach((m, i) => {
     const a1 = dagHoek(i, 1), a2 = a1 + m[1] / 354 * 360, aan = i === hm;
-    const p = el('path', {d: boog(56, 84, a1 + .8, a2 - .8), fill: groenM.has(i) ? 'var(--goed-licht)' : aan ? 'var(--techelet-licht)' : 'var(--bg)', stroke: i === hm && !opt.dag ? 'var(--goed)' : 'var(--lijn)', 'stroke-width': i === hm && !opt.dag ? 1.4 : .8, class: groenM.has(i) ? 'seg opkomen' : 'seg'}, svg);
+    const p = el('path', {d: boog(56, 84, a1 + .8, a2 - .8), fill: groenM.has(i) ? 'var(--goed-licht)' : aan ? 'var(--techelet-licht)' : 'var(--bg)', stroke: i === hm && !opt.dag ? 'var(--goed)' : 'var(--lijn)', 'stroke-width': .8, class: groenM.has(i) ? 'seg opkomen' : 'seg'}, svg);
     const fon = schr === 'fon', [x, y] = xy(70, (a1 + a2) / 2), t = el('text', {x: x, y: y + (fon ? 3 : 3.6), 'text-anchor': 'middle', 'font-size': fon ? 8.6 : 11, fill: 'var(--fg)', 'pointer-events': 'none'}, svg);
     if (fon) { t.textContent = maandNaam(i); const l = t.getComputedTextLength ? t.getComputedTextLength() : 0; if (l > 33) t.setAttribute('font-size', 8.6 * 33 / l); }
     else { t.textContent = nik(m[0]); t.setAttribute('class', 'wh maand-he'); }
