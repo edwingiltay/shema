@@ -810,6 +810,7 @@ function uitlegInKeuze() {
   const b = $('keuzes').querySelector('.goed'), lang = huidig.jaar ? huidig.uitleg : huidig.bet;
   $('a-betekenis').hidden = true;
   if (!b || !lang) return;
+  if (!huidig.jaar && vorm === 'betekenis') return;   // van betekenis: de betekenis staat al als vraag bovenaan, dus niet nog eens onder de groene keuze (Edwin, 4 nov 2026)
   if (!huidig.jaar && vorm !== 'betekenis') { b.children[1].textContent = lang; return; }
   const d = document.createElement('span'); d.className = 'def'; d.textContent = lang; b.classList.add('heeft-def'); b.appendChild(d);
 }
