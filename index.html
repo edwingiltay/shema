@@ -195,7 +195,7 @@ label.keus select{font-size:var(--t-tekst);height:44px;border:6px solid transpar
 .speel{width:60px;height:60px;box-shadow:none}.speel svg{width:30px;height:30px}.pijl{width:52px;height:52px}
 .speel.speelt{background:var(--techelet-licht);animation:speelt 1.2s ease-out infinite}
 @keyframes speelt{from{box-shadow:0 0 0 0 rgba(29,79,145,.35)}to{box-shadow:0 0 0 12px rgba(29,79,145,0)}}
-.kaart.laadt~.luister,.kaart.laadt~.oefen-regel{display:none}
+.kaart.laadt~.luister,.kaart.laadt~.oefen-regel{display:none}.kaart.wissel>*,.kaart.wissel~.luister,.kaart.wissel~.oefen-regel{visibility:hidden}
 @media (hover:hover) and (pointer:fine){.luister{position:static;border-top:0;background:none;padding:0;justify-content:center;gap:22px}#oefen{padding-bottom:0}}
 @media (hover:none),(pointer:coarse){.luister{background:var(--techelet-licht)}}
 .antwoord:not([hidden]){animation:antwoordin .18s ease-out}
@@ -1280,24 +1280,26 @@ function meter(f) { $('laad-tekst').textContent = LT('Opnames laden:', 'Loading 
 let laadBeurt = 0;
 function metKlank(v, dan, wachten) {
   const beurt = ++laadBeurt, kaart = document.querySelector('.kaart');
-  if (!KD || KD.niveaus[v].every(d => delen[d] === true)) { kaart.classList.remove('laadt'); return dan(); }
+  const klaar = () => { kaart.classList.remove('laadt'); dan(); kaart.classList.remove('wissel'); };
+  if (!KD || KD.niveaus[v].every(d => delen[d] === true)) return klaar();
   if (!wachten && v === 'basis' && huidig && huidig.id === 1033 && !Object.keys(stand).length && heeftKlank(huidig)) {
-    kaart.classList.remove('laadt'); laadKlank(v, () => {}).catch(() => {}); return dan();
+    laadKlank(v, () => {}).catch(() => {}); return klaar();
   }
   $('laad-opnieuw').hidden = true; meter(0);
-  const toon = setTimeout(() => { if (beurt === laadBeurt) kaart.classList.add('laadt'); }, 1000);
+  const toon = setTimeout(() => { if (beurt === laadBeurt) { kaart.classList.add('laadt'); kaart.classList.remove('wissel'); } }, 1000);
   laadKlank(v, f => { if (beurt === laadBeurt) meter(f); }).then(() => {
     clearTimeout(toon); if (beurt !== laadBeurt) return;
-    kaart.classList.remove('laadt'); dan();
+    klaar();
   }, () => {
     clearTimeout(toon); if (beurt !== laadBeurt) return;
-    kaart.classList.add('laadt');
+    kaart.classList.add('laadt'); kaart.classList.remove('wissel');
     $('laad-tekst').textContent = LT('De opnames konden niet worden geladen. Is er verbinding?', 'The recordings could not be loaded. Are you online?');
     $('laad-opnieuw').hidden = false; $('laad-opnieuw').onclick = () => metKlank(v, dan, wachten);
   });
 }
 function kiesNiveau(v) {
   const anders = $('niveau').value !== v;
+  if (anders) document.querySelector('.kaart').classList.add('wissel');
   $('niveau').value = v; toonScherm('oefen'); niveauWeergave(); tellers();
   metKlank(v, () => {
     if (anders) $('niveau').dispatchEvent(new Event('change'));
