@@ -198,7 +198,7 @@ label.keus select{font-size:var(--t-tekst);height:44px;border:6px solid transpar
 .kaart.laadt~.luister,.kaart.laadt~.oefen-regel{display:none}.kaart.wissel>*,.kaart.wissel~.luister,.kaart.wissel~.oefen-regel{visibility:hidden}
 @media (hover:hover) and (pointer:fine){.luister{position:static;border-top:0;background:none;padding:0;justify-content:center;gap:22px}#oefen{padding-bottom:0}}
 @media (hover:none),(pointer:coarse){.luister{background:var(--techelet-licht)}}
-.antwoord:not([hidden]){animation:antwoordin .18s ease-out}
+.antwoord:not([hidden]){animation:antwoordin .18s ease-out}.antwoord.bovenaan{border-top:0;padding-top:0}
 @keyframes antwoordin{from{opacity:.6;transform:translateY(4px)}to{opacity:1;transform:none}}
 .keuzes{grid-template-columns:minmax(0,1fr)}.keuzes button{min-width:0}
 .keuzes button>span:nth-of-type(2){flex:1 1 0;min-width:0}
@@ -964,7 +964,9 @@ $('speel').addEventListener('click', () => { if (huidig && huidig.jaar && !$('an
 $('naar-vorige').addEventListener('click', achteruit);
 $('naar-volgende').addEventListener('click', vooruit);
 const muis = matchMedia('(hover: hover) and (pointer: fine)');
-function plaatsLuister() { if (muis.matches) $('zelf-blok').after($('luister')); else $('oefen-regel').after($('luister')); }
+function antwoordRand() { const a = $('antwoord'); let e = a.previousElementSibling, iets = false; while (e) { if (e.offsetHeight > 0) { iets = true; break; } e = e.previousElementSibling; } a.classList.toggle('bovenaan', !iets); }
+new MutationObserver(antwoordRand).observe(document.querySelector('.kaart'), {subtree: true, childList: true, attributes: true, attributeFilter: ['hidden', 'class', 'style']});
+function plaatsLuister() { if (muis.matches) $('antwoord').after($('luister')); else $('oefen-regel').after($('luister')); }
 plaatsLuister(); if (muis.addEventListener) muis.addEventListener('change', plaatsLuister);
 $('toon').addEventListener('click', toonAntwoord);
 $('wist-wel').addEventListener('click', () => { oordeel(true); vooruit(); });
