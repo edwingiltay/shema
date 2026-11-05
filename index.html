@@ -317,7 +317,7 @@ body:has(#oefen:not([hidden])) .terug.huis{position:relative;top:1px}
 .speel{width:42px;height:42px;position:relative}.speel svg{width:23px;height:23px}.luister .speel::after{content:"";position:absolute;inset:-3px;border-radius:50%}.luister .pijl{width:42px;height:42px;position:relative}.luister .pijl svg{width:22px;height:22px}.luister .pijl::after{content:"";position:absolute;inset:-1px;border-radius:50%}.golf{width:124px}.luister{padding-top:14px;padding-bottom:calc(14px + env(safe-area-inset-bottom,0px))}
 .luister #naar-menu svg{width:25px;height:25px}.luister .pijl,.luister .speel{border:1px solid var(--techelet)}
 }
-@media (hover:hover) and (pointer:fine){.speel{width:42px;height:42px}.speel svg{width:23px;height:23px}.luister .pijl{width:42px;height:42px}.luister .pijl svg{width:22px;height:22px}.luister #naar-menu svg{width:25px;height:25px}.luister .pijl,.luister .speel{border:1px solid var(--techelet)}.luister .speel-kolom{flex:1 1 auto;min-width:0}.luister .speel-kolom .golf{flex:1 1 auto;width:auto;min-width:0}.luister{gap:8px;margin-top:9px}}
+@media (hover:hover) and (pointer:fine){.speel{width:42px;height:42px}.speel svg{width:23px;height:23px}.luister .pijl{width:42px;height:42px}.luister .pijl svg{width:22px;height:22px}.luister #naar-menu svg{width:25px;height:25px}.luister .pijl,.luister .speel{border:1px solid var(--techelet)}.kaart:has(#a-wiel:not([hidden])) #luister{position:sticky;bottom:0;z-index:2;background:var(--bg);border-top:1px solid var(--lijn);margin-top:0;padding:14px 0 16px}   .luister .speel-kolom{flex:1 1 auto;min-width:0}.luister .speel-kolom .golf{flex:1 1 auto;width:auto;min-width:0}.luister{gap:8px;margin-top:9px}}
 body:has(#oefen:not([hidden])) .niveau-kop{margin-left:-16px}
 @media (max-width:659px) and (hover:none),(max-width:659px) and (pointer:coarse){.luister{padding-left:max(18px,env(safe-area-inset-left,0px));padding-right:max(18px,env(safe-area-inset-right,0px))}}
 @media (max-width:600px) and (hover:none),(max-width:600px) and (pointer:coarse){#oefen{min-height:calc(100vh - 147px - env(safe-area-inset-top,0px));min-height:calc(100svh - 147px - env(safe-area-inset-top,0px))}}
@@ -966,7 +966,7 @@ $('naar-volgende').addEventListener('click', vooruit);
 const muis = matchMedia('(hover: hover) and (pointer: fine)');
 function antwoordRand() { const a = $('antwoord'); let e = a.previousElementSibling, iets = false; while (e) { if (e.offsetHeight > 0) { iets = true; break; } e = e.previousElementSibling; } a.classList.toggle('bovenaan', !iets); }
 new MutationObserver(antwoordRand).observe(document.querySelector('.kaart'), {subtree: true, childList: true, attributes: true, attributeFilter: ['hidden', 'class', 'style']});
-function plaatsLuister() { if (muis.matches) { $('antwoord').after($('luister')); $('luister').after($('a-wiel')); } else { $('oefen-regel').after($('luister')); $('oordeel').before($('a-wiel')); } }
+function plaatsLuister() { if (muis.matches) { $('antwoord').after($('a-wiel')); $('a-wiel').after($('luister')); } else { $('oefen-regel').after($('luister')); $('oordeel').before($('a-wiel')); } }
 plaatsLuister(); if (muis.addEventListener) muis.addEventListener('change', plaatsLuister);
 $('toon').addEventListener('click', toonAntwoord);
 $('wist-wel').addEventListener('click', () => { oordeel(true); vooruit(); });
