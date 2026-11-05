@@ -1228,7 +1228,7 @@ function wielNaAntwoord(w) {
   const [m, dag] = maandVan(w); if (m < 0) { $('a-wiel').hidden = true; return; }
   const f = PER_ID['jf-' + w.id.slice(3)];
   const b = f && dag ? bereikVan(nlVan(f, 'antwoord')) : null;
-  tekenWiel($('a-wiel'), {soort: 'midden', maand: m, dag: dag, feest: dag ? f : null, tot: b && (b[2] !== b[0] || b[3] !== b[1]) ? [b[2], b[3]] : null, tekst: dag ? [MAANDEN[m][0], f.antwoord, ''] : [MAANDEN[m][0], maandNaam(m), gregMaanden(m)]});
+  tekenWiel($('a-wiel'), {soort: 'midden', maand: m, dag: dag, feest: dag ? f : null, tot: b && (b[2] !== b[0] || b[3] !== b[1]) ? [b[2], b[3]] : null, tekst: dag ? [f.heb, f.naam, f.antwoord] : [MAANDEN[m][0], maandNaam(m), gregMaanden(m)]});
 }
 function tekenThuis() {
   const t = $('tegels'); t.innerHTML = '';
