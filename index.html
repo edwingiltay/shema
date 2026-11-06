@@ -215,8 +215,8 @@ label.keus select{font-size:var(--t-tekst);height:44px;border:6px solid transpar
 @keyframes paneelin{from{transform:translateY(24px);opacity:.5}to{transform:none;opacity:1}}
 .paneel-kop{display:flex;justify-content:space-between;align-items:center;min-height:36px}
 #uitleg-inhoud{color:var(--fg)}#uitleg-inhoud p:last-child{margin-bottom:0}
-.luister .hulp-knop span{font-size:22px;font-weight:600;line-height:1}
-@media (hover:none),(pointer:coarse){#luister{gap:8px}.luister .speel-kolom{flex:1 1 auto;min-width:0}.luister .speel-kolom .golf{flex:1 1 auto;width:auto;min-width:0}}
+.hulp-knop span{font-size:22px;font-weight:600;line-height:1}#lijst-hulp{margin-left:-3px}
+@media (hover:none),(pointer:coarse){#luister{gap:7px}.luister .speel-kolom{flex:1 1 auto;min-width:0}.luister .speel-kolom .golf{flex:1 1 auto;width:auto;min-width:0}}
 .paneel h2{font-size:var(--t-groot);margin:0}.paneel .terug{font-weight:600;padding:4px 0 4px 8px}
 .paneel .schakel{align-self:stretch;display:flex}.paneel .schakel button{flex:1 1 auto}.paneel #modusgroep button,.paneel #nikoedgroep button{flex:1 1 0;min-width:0}.paneel #afspeelgroep button{flex:1 1 0;min-width:0;padding-left:6px;padding-right:6px}      .paneel .tellers{flex-direction:column}
 .paneel .tellers:not(:has(> :not([hidden]))){display:none}.paneel .balk{flex-direction:column;align-items:stretch;gap:10px}.paneel label.keus[for="selectie"]{padding-left:3px;margin-block:-6px}
@@ -321,7 +321,7 @@ body:has(#oefen:not([hidden])) .terug.huis{position:relative;top:1px}
 .speel{width:42px;height:42px;position:relative}.speel svg{width:23px;height:23px}.luister .speel::after{content:"";position:absolute;inset:-3px;border-radius:50%}.luister .pijl{width:42px;height:42px;position:relative}.luister .pijl svg{width:22px;height:22px}.luister .pijl::after{content:"";position:absolute;inset:-1px;border-radius:50%}.golf{width:124px}.luister{padding-top:14px;padding-bottom:calc(14px + env(safe-area-inset-bottom,0px))}
 .luister #naar-menu svg{width:25px;height:25px}.luister .pijl,.luister .speel{border:1px solid var(--techelet)}
 }
-@media (hover:hover) and (pointer:fine){.speel{width:42px;height:42px}.speel svg{width:23px;height:23px}.luister .pijl{width:42px;height:42px}.luister .pijl svg{width:22px;height:22px}.luister #naar-menu svg{width:25px;height:25px}.luister .pijl,.luister .speel{border:1px solid var(--techelet)}.kaart:has(#a-wiel:not([hidden])) #luister{position:sticky;bottom:0;z-index:2;background:var(--bg);border-top:1px solid var(--lijn);margin-top:0;padding:14px 0 16px}   .luister .speel-kolom{flex:1 1 auto;min-width:0}.luister .speel-kolom .golf{flex:1 1 auto;width:auto;min-width:0}.luister{gap:8px;margin-top:9px}}
+@media (hover:hover) and (pointer:fine){.speel{width:42px;height:42px}.speel svg{width:23px;height:23px}.luister .pijl{width:42px;height:42px}.luister .pijl svg{width:22px;height:22px}.luister #naar-menu svg{width:25px;height:25px}.luister .pijl,.luister .speel{border:1px solid var(--techelet)}.kaart:has(#a-wiel:not([hidden])) #luister{position:sticky;bottom:0;z-index:2;background:var(--bg);border-top:1px solid var(--lijn);margin-top:0;padding:14px 0 16px}   .luister .speel-kolom{flex:1 1 auto;min-width:0}.luister .speel-kolom .golf{flex:1 1 auto;width:auto;min-width:0}.luister{gap:7px;margin-top:9px}}
 body:has(#oefen:not([hidden])) .niveau-kop{margin-left:-16px}
 @media (max-width:659px) and (hover:none),(max-width:659px) and (pointer:coarse){.luister{padding-left:max(18px,env(safe-area-inset-left,0px));padding-right:max(18px,env(safe-area-inset-right,0px))}}
 @media (max-width:600px) and (hover:none),(max-width:600px) and (pointer:coarse){#oefen{min-height:calc(100vh - 147px - env(safe-area-inset-top,0px));min-height:calc(100svh - 147px - env(safe-area-inset-top,0px))}}
@@ -467,22 +467,22 @@ body:has(#lijst:not([hidden])){padding-top:0}body:has(#lijst:not([hidden])) .bov
       <button class="knop gevaar" id="wis-niveau">Wis de voortgang van dit niveau</button>
       </section>
     </div></div>
-    <div class="paneel-achter" id="uitlegvenster" hidden><div class="paneel uitleg-paneel" role="dialog" aria-modal="true" aria-labelledby="uitleg-kop">   <!-- de uitleg over het oefenscherm, zonder Waarom deze app (Edwin, 6 nov 2026) -->
-      <div class="paneel-kop"><h2 id="uitleg-kop">Zo werkt Shema</h2><button class="terug" id="uitleg-dicht">Klaar</button></div>
-      <div class="voet" id="uitleg-inhoud"></div>
-    </div></div>
   </section>
   <section class="scherm" id="lijst" hidden>   <!-- woordenlijst (Edwin, 4 nov 2026) -->
     <div class="lijst-kop"><div class="lijst-binnen">
       <div class="lijst-rij"><button class="terug huis lijst-menu" id="lijst-menu" aria-label="Woordenlijst sluiten"><svg viewBox="0 0 24 24" width="35" height="35" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button><div class="lijst-titel"><span id="x-lijst-titel">Woordenlijst</span><small id="lijst-tel"></small></div><div class="schakel lijst-sorteer" role="group" aria-label="Volgorde" id="lijstsort"><button id="ls-la" aria-pressed="true">A–Z</button><button id="ls-he" lang="he" aria-pressed="false">א–ת</button></div></div>
     </div></div>
     <div class="lijst-tal" id="lijst-tal"></div><div id="lijst-l"></div>
-    <div class="lijst-onder"><div class="lijst-binnen"><button class="pijl menu-knop" id="lijst-menuknop" aria-label="Menu van de woordenlijst" aria-haspopup="dialog"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M5 7h14M5 12h14M5 17h14"/></svg></button><label class="lijst-zoek"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5l5 5"/></svg><input id="lijst-q" type="search" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Zoek een begrip"><button class="lijst-wis lijst-mic" id="lijst-mic" aria-label="Spreek een begrip in" hidden><svg viewBox="0 0 24 24" width="19" height="19" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21"/></svg></button><button class="lijst-wis" id="lijst-wis" aria-label="Wis de zoekterm" hidden><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></label></div></div>   <!-- onderbalk met het menu en (sinds 5 nov 2026) het zoekveld, zoals in het oefenscherm (Edwin, 5 nov 2026) -->
+    <div class="lijst-onder"><div class="lijst-binnen"><button class="pijl menu-knop" id="lijst-menuknop" aria-label="Menu van de woordenlijst" aria-haspopup="dialog"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M5 7h14M5 12h14M5 17h14"/></svg></button><button class="pijl hulp-knop" id="lijst-hulp" aria-label="Uitleg" aria-haspopup="dialog"><span aria-hidden="true">?</span></button><label class="lijst-zoek"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5l5 5"/></svg><input id="lijst-q" type="search" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Zoek een begrip"><button class="lijst-wis lijst-mic" id="lijst-mic" aria-label="Spreek een begrip in" hidden><svg viewBox="0 0 24 24" width="19" height="19" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21"/></svg></button><button class="lijst-wis" id="lijst-wis" aria-label="Wis de zoekterm" hidden><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></label></div></div>   <!-- onderbalk met het menu en (sinds 5 nov 2026) het zoekveld, zoals in het oefenscherm (Edwin, 5 nov 2026) -->
     <div class="paneel-achter" id="lijstpaneel" hidden><div class="paneel" role="dialog" aria-modal="true" aria-labelledby="x-lp-kop">   <!-- menu van de woordenlijst (Edwin, 4 nov 2026) -->
       <div class="paneel-kop"><h2 id="x-lp-kop">Menu</h2><button class="terug" id="lp-dicht">Klaar</button></div>
       <section class="paneel-blok"><div class="schakel lijst-filter" role="group" aria-label="Niveau" id="lijstfilter"><button id="lf-alle" aria-pressed="true">Alle</button><button id="lf-basis" aria-pressed="false">Basis</button><button id="lf-gev" aria-pressed="false">Gevorderd</button></div><div class="schakel" role="group" aria-label="Moeilijke woorden in de woordenlijst" id="lijstmoeilijk"><button id="lm-alle" aria-pressed="true">Alle</button><button id="lm-moeilijk" aria-pressed="false">Mijn moeilijke woorden</button></div><div class="schakel" role="group" aria-label="Nikoed in de woordenlijst" id="lpnikoed"><button id="lpn-met" aria-pressed="true">Met nikoed</button><button id="lpn-zonder" aria-pressed="false">Zonder nikoed</button></div><div class="schakel" role="group" aria-label="Afspelen in de woordenlijst" id="lpafspeel"><button id="lp-vanzelf" aria-pressed="true">Met audio</button><button id="lp-tik" aria-pressed="false">Stille modus</button></div></section>
     </div></div>
   </section>
+  <div class="paneel-achter" id="uitlegvenster" hidden><div class="paneel uitleg-paneel" role="dialog" aria-modal="true" aria-labelledby="uitleg-kop">   <!-- de uitleg over het oefenscherm, zonder Waarom deze app (Edwin, 6 nov 2026) -->
+    <div class="paneel-kop"><h2 id="uitleg-kop">Zo werkt Shema</h2><button class="terug" id="uitleg-dicht">Klaar</button></div>
+    <div class="voet" id="uitleg-inhoud"></div>
+  </div></div>
   <div class="feest" id="feest" hidden role="dialog" aria-modal="true" aria-labelledby="feest-kop">
     <div class="feest-kaart">
       <div class="feest-he" id="feest-he" lang="he">מַזָּל טוֹב</div>
@@ -1432,7 +1432,7 @@ function uitlegOpen() {
 }
 function uitlegWeg() { uitlegPlek.forEach(([p, e]) => p.replaceWith(e)); uitlegPlek = []; $('uitlegvenster').hidden = true; }
 function uitlegDicht() { if (uitlegInGeschiedenis) { uitlegInGeschiedenis = false; history.back(); setTimeout(uitlegWeg, 350); } else uitlegWeg(); }
-$('naar-hulp').addEventListener('click', uitlegOpen);
+$('naar-hulp').addEventListener('click', uitlegOpen); $('lijst-hulp').addEventListener('click', uitlegOpen);
 $('uitleg-dicht').addEventListener('click', uitlegDicht);
 $('uitlegvenster').addEventListener('click', e => { if (e.target === $('uitlegvenster')) uitlegDicht(); });
 document.addEventListener('keydown', e => { if (e.key === 'Escape' && !$('uitlegvenster').hidden) { e.stopImmediatePropagation(); uitlegDicht(); } }, true);
