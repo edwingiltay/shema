@@ -1568,7 +1568,6 @@ function tekenLijst() {
     b.appendChild(knop);
     b.addEventListener('click', () => {
       const was = b.classList.contains('open');
-      if (was && alleenTik) { lijstSpeel(w, b); return; }
       if (lijstOpenRij && lijstOpenRij !== b) { lijstOpenRij.classList.remove('open'); lijstGolfWeg(lijstOpenRij); lijstOpenRij.querySelector('.lw-bet').textContent = lijstOpenRij._w.kort || lijstOpenRij._w.bet; }
       b.classList.toggle('open', !was); if (was) lijstGolfWeg(b); b.querySelector('.lw-bet').textContent = was ? (w.kort || w.bet) : w.bet; lijstOpenRij = was ? null : b;
       if (!alleenTik && !was) lijstSpeel(w, b);
