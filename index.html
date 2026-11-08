@@ -1603,6 +1603,20 @@ function beantwoordWiel(i) {
   $('melding').append(uitleg);
   $('oordeel').hidden = true; $('volgende').hidden = false; $('volgende').focus();
 }
+const draadStand = {};
+let opbouwStart = 0;
+function opbouwTegels() {
+  const t = performance.now() - opbouwStart; if (!opbouwStart || t > 1700 || minderBeweging() || $('thuis').hidden) return;
+  const tijd = (d, duur) => ({duration: duur, delay: d - t, easing: 'cubic-bezier(.25,.7,.25,1)', fill: 'backwards'});
+  [...$('tegels').children, $('lijst-open')].forEach((b, i) => { if (b.animate) b.animate([{opacity: 0, transform: 'translateY(8px)'}, {opacity: 1, transform: 'none'}], tijd(200 + i * 70, 380)); });
+  const w = $('tegels').querySelector('.tegel-wiel svg'); if (w && w.animate) w.animate([{transform: 'rotate(-150deg)'}, {transform: 'none'}], tijd(450, 1150));
+}
+function beginOpbouw() {
+  if ($('thuis').hidden || minderBeweging() || !document.body.animate) return;
+  opbouwStart = performance.now();
+  const logo = document.querySelector('#thuis h1 .logo'); if (logo) logo.animate([{opacity: 0, transform: 'translateY(6px)'}, {opacity: 1, transform: 'none'}], {duration: 450, easing: 'ease-out', fill: 'backwards'});
+  opbouwTegels();
+}
 function tekenThuis() {
   const t = $('tegels'); t.innerHTML = '';
   [...$('niveau').options].forEach(o => { if (o.value === 'feest') return;
@@ -1612,12 +1626,15 @@ function tekenThuis() {
     b.querySelector('.tegel-naam').textContent = o.textContent;
     b.querySelector('.tegel-tal').textContent = LT('%1 van %2 goed', '%1 of %2 right').replace('%1', k).replace('%2', lw.length);
     if (wiel) tekenWiel(b.querySelector('.wiel'), {soort: 'klein'});
-    else b.querySelector('.tegel-balk span').style.width = (lw.length ? 100 * k / lw.length : 0) + '%';
+    else {
+      const sp = b.querySelector('.tegel-balk span'), nieuw = lw.length ? 100 * k / lw.length : 0, oud = draadStand[o.value]; sp.style.width = nieuw + '%';
+      if (!$('thuis').hidden) { draadStand[o.value] = nieuw; if (oud !== undefined && Math.abs(oud - nieuw) > .01 && sp.animate && !minderBeweging()) sp.animate([{width: oud + '%'}, {width: nieuw + '%'}], {duration: 650, delay: 250, easing: 'cubic-bezier(.25,.7,.25,1)', fill: 'backwards'}); }
+    }
     b.addEventListener('click', () => kiesNiveau(o.value));
     t.appendChild(b);
   });
   $('lijst-tegel-tal').textContent = LT('%1 begrippen', '%1 terms').replace('%1', W.length);
-  toonVandaag();
+  toonVandaag(); opbouwTegels();
 }
 function themaOpties() { const t = $('thema'), v = t.value || 'alle'; t.innerHTML = $('lijstthema').innerHTML; t.value = v; }
 function kopNaam() { const n = $('niveau-naam'); n.style.fontSize = ''; if ($('oefen').hidden) { n.textContent = ''; return; }
@@ -1636,7 +1653,9 @@ function toonScherm(s, start) {
   window.scrollTo(0, 0);
   if (oefen) setTimeout(golfMaat, 0);
   const nu = $(oefen ? 'oefen' : 'thuis');
-  if (!start && nu.animate && !minderBeweging()) nu.animate([{opacity: 0, transform: 'translateX(' + (oefen ? 28 : -28) * (document.documentElement.dir === 'rtl' ? -1 : 1) + 'px)'}, {opacity: 1, transform: 'none'}], {duration: 300, easing: 'cubic-bezier(.25,.7,.25,1)'});
+  if (!start && nu.animate && !minderBeweging()) { const tijd = {duration: 300, easing: 'cubic-bezier(.25,.7,.25,1)'}, dx = (oefen ? 28 : -28) * (document.documentElement.dir === 'rtl' ? -1 : 1);
+    nu.animate([{opacity: 0}, {opacity: 1}], tijd);
+    [...nu.children].forEach(e => { if (getComputedStyle(e).position !== 'fixed') e.animate([{transform: 'translateX(' + dx + 'px)'}, {transform: 'none'}], tijd); }); }
 }
 const KD = typeof KLANK_DELEN === 'undefined' ? null : KLANK_DELEN;
 const delen = {};
@@ -2060,7 +2079,7 @@ $('m-zelf').setAttribute('aria-pressed', modus === 'zelf'); $('m-keuze').setAttr
 tellers();
 nieuweKaart();
 document.addEventListener('click', () => { kaartGetikt = true; }, {capture: true, once: true});
-toonScherm('thuis', true);
+toonScherm('thuis', true); beginOpbouw();
 try { if (navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(() => {}); } catch (e) {}
 let doc = null, bezig = false, nogEens = false, wachter = null;
 function samenvoegen(a, b) {
