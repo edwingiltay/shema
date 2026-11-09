@@ -1547,7 +1547,7 @@ function tekenWiel(doel, opt) {
     segEls[i] = p;
     if (vraag) {
       p.setAttribute('role', 'button'); if (!opt.zonderNamen) p.setAttribute('aria-label', maandNaam(i)); p.addEventListener('click', () => opt.kies(i));
-      const [nx, ny] = xy(49.5, (a1 + a2) / 2); el('text', {x: nx, y: ny + 2.1, 'text-anchor': 'middle', 'font-size': 6, fill: 'var(--zacht)', 'pointer-events': 'none', class: 'maandnr'}, svg).textContent = (i + 6) % 12 + 1;
+      const [nx, ny] = xy(49.5, (a1 + a2) / 2); el('text', {x: nx, y: ny + 1.75, 'text-anchor': 'middle', 'font-size': 5, fill: 'var(--zacht)', 'pointer-events': 'none', class: 'maandnr'}, svg).textContent = (i + 6) % 12 + 1;
       return;
     }
     p.addEventListener('click', () => { antwoordWeg(); kies(p, {fill: 'var(--techelet-licht)'}); toon(m[0], maandNaam(i), gregMaanden(i)); speelWoord(PER_ID[m[2]]); });
