@@ -628,6 +628,16 @@ function laadTaal(t) {
     .then(x => { Object.assign(talen()[t], x); }).catch(e => { delete taalLaden[t]; throw e; });
   return taalLaden[t];
 }
+const NADEN = {"nl": ["pijltjes|toetsen", "basis|begrippen", "klinker|tekens", "computer|stem", "levens|cyclus", "reserve|kopie", "woorden|lijst", "begin|letter", "begin|scherm", "denk|beelden", "letter|greep", "luid|spreker", "oefen|pagina", "rechter|kant", "rechts|boven", "terug|zetten", "feest|dagen", "jaar|cirkel", "keuze|lijst", "links|onder", "open|getikt"], "de": ["anfangs|buch|staben", "wieder|herstellen", "sicherungs|kopie", "start|bild|schirm", "computer|stimme", "grund|begriffen", "grund|begriffe", "jahr|tausenden", "kursiv|schrift", "auswahl|liste", "laut|sprecher", "lebens|zyklus", "vokal|zeichen", "übungs|seiten", "fort|schritt", "jahres|kreis", "mittel|punkt", "pfeil|tasten", "reihen|folge", "wörter|liste", "dazu|gehört", "übungs|form"], "it": ["alto|parlante", "auto|valutazione"], "es": ["auto|evaluación"], "pt": ["auto|avaliação"], "ru": ["само|оценка", "тысяче|летий"]};
+function zetNaden(t) {
+  const L = NADEN[t]; if (!L) return;
+  const m = new Map(L.map(w => [w.replace(/\|/g, ''), w])), re = /\p{L}{8,}/gu;
+  document.querySelectorAll('.hoe p, #uitleg-inhoud p').forEach(p => {
+    const tw = document.createTreeWalker(p, NodeFilter.SHOW_TEXT); let n;
+    while ((n = tw.nextNode())) { if (n.parentElement.closest('[lang=he]')) continue;
+      const d = n.data.replace(re, w => { const v = m.get(w.toLowerCase()); if (!v) return w; let i = 0; return v.split('|').map(s => { const x = w.slice(i, i + s.length); i += s.length; return x; }).join('\u00AD'); });
+      if (d !== n.data) n.data = d; } });
+}
 function zetTaal(t, start) {
   const wissel = t !== taal || start;
   taal = t;
@@ -641,7 +651,7 @@ function zetTaal(t, start) {
   zetTeksten(t);
   zetOpslag(opslagNl);
   if (!start) { melding(''); tellers(); stilOpbouwen = true; try { if (geschiedenis[positie]) terugblik(geschiedenis[positie]); } finally { stilOpbouwen = false; } }
-  schermTekst();
+  schermTekst(); zetNaden(t);
   if (!start) beginOpbouw();
 }
 document.querySelectorAll('.taalrij button').forEach(b => b.addEventListener('click', () => zetTaal(b.id.slice(5))));
