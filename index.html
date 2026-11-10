@@ -642,6 +642,7 @@ function zetTaal(t, start) {
   zetOpslag(opslagNl);
   if (!start) { melding(''); tellers(); stilOpbouwen = true; try { if (geschiedenis[positie]) terugblik(geschiedenis[positie]); } finally { stilOpbouwen = false; } }
   schermTekst();
+  if (!start) beginOpbouw();
 }
 document.querySelectorAll('.taalrij button').forEach(b => b.addEventListener('click', () => zetTaal(b.id.slice(5))));
 let kaartGetikt = false, modus = 'keuze', huidig = null, gespeeld = false, ronde = {goed: 0, fout: 0}, vorige = [];
@@ -1654,7 +1655,7 @@ let opbouwStart = 0;
 function opbouwTegels() {
   const t = performance.now() - opbouwStart; if (!opbouwStart || t > 1700 || minderBeweging() || $('thuis').hidden) return;
   const tijd = (d, duur) => ({duration: duur, delay: d - t, easing: 'cubic-bezier(.25,.7,.25,1)', fill: 'backwards'});
-  [...$('tegels').children, $('lijst-open')].forEach((b, i) => { if (b.animate) b.animate([{opacity: 0, transform: 'translateY(8px)'}, {opacity: 1, transform: 'none'}], tijd(200 + i * 70, 380)); });
+  [...$('tegels').children, $('lijst-open')].forEach((b, i) => { if (b.getAnimations) b.getAnimations().forEach(a => a.cancel()); if (b.animate) b.animate([{opacity: 0, transform: 'translateY(8px)'}, {opacity: 1, transform: 'none'}], tijd(200 + i * 70, 380)); });
   const w = $('tegels').querySelector('.tegel-wiel svg'); if (w && w.animate) w.animate([{transform: 'rotate(-150deg)'}, {transform: 'none'}], tijd(450, 1150));
 }
 function beginOpbouw() {
