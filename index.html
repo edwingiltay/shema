@@ -2115,7 +2115,7 @@ function keuzeKnop(sel, tal, zichtbaar) {
   knop.addEventListener('click', e => { e.preventDefault(); openKeuze(sel, knop, tal); });
 }
 keuzeKnop($('selectie'));
-keuzeKnop($('thema'), v => { const L = lijst($('niveau').value).filter(w => inThema(w, v)), k = $('selectie').value; return k === 'moeilijk' ? L.filter(moeilijk).length : k === 'fout' ? L.filter(foutOpen).length : L.length; });
+keuzeKnop($('thema'), v => { const L = lijst($('niveau').value).filter(w => inThema(w, v)), k = $('selectie').value; return k === 'moeilijk' ? L.filter(moeilijk).length : k === 'fout' ? L.filter(foutOpen).length : L.filter(w => !klaar(w)).length; });
 keuzeKnop($('lijstthema'), v => W.filter(w => (!lijstMoeilijk || moeilijk(w)) && inThema(w, v)).length, true);
 window.addEventListener('resize', () => sluitKeuze());
 $('paneel').addEventListener('click', e => { if (e.target === $('paneel')) paneelDicht(); });
