@@ -1748,8 +1748,8 @@ function deel(tekst, knop) {
 const deeltekst = () => LT('Ik oefen Hebreeuws met Shema, een gratis app met Joodse begrippen, feestdagen en maanden.', 'I practise Hebrew with Shema, a free app with Jewish terms, festivals and months.');
 function deelLinks() {
   const t = deeltekst(), e = encodeURIComponent, a = e(ADRES);
-  $('d-mail').href = 'mailto:?subject=' + e(LT('Shema: Luister en leer', 'Shema: Listen and learn')) + '&body=' + e(t + '\n\n' + ADRES);
-  $('d-wa').href = 'https://wa.me/?text=' + e(t + ' ' + ADRES);
+  $('d-mail').href = 'mailto:?subject=' + e(LT('Shema: Luister en leer', 'Shema: Listen and learn')) + '&body=' + e(t + '\n\nshema-app.com');
+  $('d-wa').href = 'https://wa.me/?text=' + e(t + ' shema-app.com');
   $('d-fb').href = 'https://www.facebook.com/sharer/sharer.php?u=' + a;
   $('d-x').href = 'https://x.com/intent/post?text=' + e(t) + '&url=' + a;
 }
