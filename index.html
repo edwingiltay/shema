@@ -11,10 +11,10 @@
 <meta name="apple-mobile-web-app-title" content="Shema">
 <meta name="description" content="Oefen ruim duizend Joodse begrippen op gehoor, op schrift of van betekenis. Practise over a thousand Jewish terms by ear, in writing or from meaning.">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://edwingiltay.github.io/shema/">
+<meta property="og:url" content="https://shema-app.com/">
 <meta property="og:title" content="Shema: Luister en leer / Listen and learn">
 <meta property="og:description" content="Oefen ruim duizend Joodse begrippen op gehoor, op schrift of van betekenis. Practise over a thousand Jewish terms by ear, in writing or from meaning.">
-<meta property="og:image" content="https://edwingiltay.github.io/shema/og.png">
+<meta property="og:image" content="https://shema-app.com/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Het woord Shema in Hebreeuwse letters, met de naam van de app">
@@ -426,7 +426,7 @@ body:has(#lijst:not([hidden])){padding-top:0}body:has(#lijst:not([hidden])) .bov
       <p id="x-voet7"><b>Contact:</b> Shema is gratis en met zorg gemaakt, maar fouten zijn niet uitgesloten, bijvoorbeeld in de uitspraak. Verbeteringen zijn welkom: mail naar <a href="mailto:edwingiltay@gmail.com">edwingiltay@gmail.com</a>.</p>
     </div>
     </details>
-    <p class="deelrij"><span id="x-deel">Deel de app:</span> <a id="d-mail" target="_blank" rel="noopener">E-mail</a> · <a id="d-wa" target="_blank" rel="noopener">WhatsApp</a> · <a id="d-fb" target="_blank" rel="noopener">Facebook</a>&nbsp;· <a id="d-x" target="_blank" rel="noopener">X</a><br><span id="x-url">Of kopieer:</span> <span class="url" id="url" role="button" tabindex="0">https://edwingiltay.github.io/shema/</span></p>
+    <p class="deelrij"><span id="x-deel">Deel de app:</span> <a id="d-mail" target="_blank" rel="noopener">E-mail</a> · <a id="d-wa" target="_blank" rel="noopener">WhatsApp</a> · <a id="d-fb" target="_blank" rel="noopener">Facebook</a>&nbsp;· <a id="d-x" target="_blank" rel="noopener">X</a><br><span id="x-url">Of kopieer:</span> <span class="url" id="url" role="button" tabindex="0">https://shema-app.com/</span></p>
     <p class="copyright" id="x-copy">© Edwin (‘Eli’) Giltay, Den Haag, 2026<br><span style='white-space:nowrap'>Shema <span lang="he" class="hebr-klein">שְׁמַע</span>, versie 0.93</span></p>
   </section>
   <section class="scherm" id="oefen" hidden>
@@ -1300,7 +1300,7 @@ function qrSvg(tekst) {
   let pad = ''; for (let y = 0; y < n; y++) for (let x = 0; x < n; x++) if (M[y][x]) pad += 'M' + (x + 4) + ' ' + (y + 4) + 'h1v1h-1z';
   return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' + (n + 8) + ' ' + (n + 8) + '" shape-rendering="crispEdges" role="img"><rect width="100%" height="100%" fill="#fff"/><path d="' + pad + '" fill="#000"/></svg>';
 }
-const meeAdres = () => (/(^|\.)github\.io$|^localhost$|^127\.0\.0\.1$/.test(location.hostname) ? location.href.split('#')[0] : 'https://edwingiltay.github.io/shema/');
+const meeAdres = () => (/(^|\.)github\.io$|^(www\.)?shema-app\.com$|^localhost$|^127\.0\.0\.1$/.test(location.hostname) ? location.href.split('#')[0] : 'https://shema-app.com/');
 let meeLink = '';
 async function meeOpen() {
   $('mee-deel').hidden = !(navigator.share && opAanraak());
@@ -1715,7 +1715,7 @@ function feest() {
   if (!stilAuto()) try { klezmer(); } catch (e) {}
 }
 $('feest-thuis').addEventListener('click', () => { $('feest').hidden = true; toonScherm('thuis'); });
-const ADRES = 'https://edwingiltay.github.io/shema/';
+const ADRES = 'https://shema-app.com/';
 function deel(tekst, knop) {
   if (navigator.share) { navigator.share({text: tekst, url: ADRES}).catch(() => {}); return; }
   const oud = knop.textContent, zeg = t => { knop.textContent = t; setTimeout(() => { knop.textContent = oud; }, 3000); };
