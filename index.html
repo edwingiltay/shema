@@ -1185,8 +1185,16 @@ $('inst-knop').addEventListener('click', async () => {
   const u = $(instIos() ? 'inst-ios' : 'inst-android'); u.hidden = !u.hidden;
 });
 $('inst-weg').addEventListener('click', () => { $('installeer').hidden = true; try { localStorage.setItem(INST_WEG, '1'); } catch (e) {} });
-window.addEventListener('appinstalled', () => { $('installeer').hidden = true; });
+window.addEventListener('appinstalled', () => { $('installeer').hidden = true; tel('i'); });
 toonInstalleer();
+const TELLER = 'https://www.dedoofpotgeneraal.nl/shema-tel/';
+function tel(soort) {
+  if (!/(^|\.)shema-app\.com$|(^|\.)github\.io$/.test(location.hostname)) return;
+  const u = TELLER + '?t=' + soort;
+  try { if (navigator.sendBeacon && navigator.sendBeacon(u)) return; } catch (e) {}
+  try { fetch(u, {mode: 'no-cors', cache: 'no-store', keepalive: true}).catch(() => {}); } catch (e) {}
+}
+if (matchMedia('(display-mode: standalone)').matches || navigator.standalone === true) tel('s');
 { const hoe = document.querySelector('details.hoe'), voet = hoe && hoe.querySelector('.voet');
   if (hoe && voet && voet.animate) hoe.querySelector('summary').addEventListener('click', e => {
     if (minderBeweging() || hoe.classList.contains('schuift')) return;
