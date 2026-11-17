@@ -3,7 +3,7 @@
 // Sinds 7 nov 2026 (verbeterideeën punt 4): bij een haperende verbinding niet blijven wachten. De pagina komt van het net als dat
 // binnen 3 seconden lukt, anders uit de cache (het net ververst de cache daarna alsnog). Opnames en vertaalde kaarten dragen een
 // versie in hun adres (?v=…, maak_site.py): die komen eerst uit de cache en worden alleen opgehaald als de versie nieuw is.
-// Lettertypen van Google uit de cache, op de achtergrond ververst.
+// De lettertypen zitten sinds 17 nov 2026 in de app zelf (webapp/fonts): uit de cache, nooit navragen.
 const CACHE = 'shema-3';
 const VAST = ['index.html', 'manifest.json', 'icon-192.png', 'icon-512.png', 'icon-180.png'];
 const BASIS = self.registration.scope;
@@ -27,14 +27,16 @@ function metVersie(e, r, u) {
 self.addEventListener('fetch', e => {
   const r = e.request; if (r.method !== 'GET') return;
   const u = new URL(r.url);
-  if (u.hostname === 'fonts.googleapis.com' || u.hostname === 'fonts.gstatic.com') {
-    e.respondWith(caches.open(CACHE).then(c => c.match(r).then(oud => {
-      const nieuw = fetch(r).then(a => { c.put(r, a.clone()); return a; }).catch(() => oud);
-      return oud || nieuw;
-    })));
+  if (!u.href.startsWith(BASIS)) return;
+  // eigen lettertypen (sinds 17 nov 2026 in de app zelf, want fonts.googleapis.com is in China geblokkeerd): hun naam
+  // staat vast, dus uit de cache en nooit navragen. De tak voor fonts.googleapis.com is hiermee vervallen.
+  if (/\/fonts\/[^/]+\.woff2$/.test(u.pathname)) {
+    e.respondWith(caches.open(CACHE).then(c => c.match(r).then(oud => oud || fetch(r).then(a => {
+      if (a.ok) { const k = a.clone(); e.waitUntil(c.put(r, k)); }
+      return a;
+    }))));
     return;
   }
-  if (!u.href.startsWith(BASIS)) return;
   if (u.searchParams.has('v') && /\/(klank|talen)\/[^/]+\.json$/.test(u.pathname)) return metVersie(e, r, u);
   // de pagina zelf heet 'index.html' in de cache, of ze nu als …/shema/ of als …/shema/index.html wordt opgevraagd
   const pagina = u.pathname.endsWith('/') || u.pathname.endsWith('/index.html');
