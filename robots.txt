@@ -1,0 +1,5 @@
+# Shema (shema-app.com). Alles mag gelezen worden; de app is één pagina.
+User-agent: *
+Allow: /
+
+Sitemap: https://shema-app.com/sitemap.xml
